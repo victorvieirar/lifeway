@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0aa416</color>
+    <color name="colorPrimaryDark">#07790f</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="textColorSecundary">#000000</color>
+    <color name="textColorThird">#444</color>
+    <color name="textAdvertmentColor">#777</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#c8e8ff</color>
+    <color name="colorBreakfast">#E8E32A</color>
+    <color name="colorLunch">#E84242</color>
+    <color name="colorDinner">#1F3BE5</color>
+</resources>

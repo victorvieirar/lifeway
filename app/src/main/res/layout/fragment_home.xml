@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#EEE"
+    android:scrollbars="vertical"
+    android:fadeScrollbars="true"
+    tools:context=".apresentacao.fragments.HomeFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
+        android:id="@+id/relativeLayoutButtonsMain"
+        android:background="#0e9c1c"
+        android:layout_alignParentBottom="true">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button_add_alimento"
+            android:id="@+id/btnAdicionarAlimento"
+            android:background="@null"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button_see_list"
+            android:id="@+id/btnVerListaCompleta"
+            android:layout_gravity="right|bottom"
+            android:background="@null"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:id="@+id/svHomeFragment"
+        android:background="#EEE">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:id="@+id/llSaudacao">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/ic_saudacao"
+                    android:src="@drawable/ic_goodmorning"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bom dia, Victor"
+                    android:textSize="35dp"
+                    android:textAlignment="center"
+                    android:layout_centerVertical="true"
+                    android:textColor="#777"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_toRightOf="@id/ic_saudacao"
+                    android:id="@+id/txtSaudacao" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/rlProgress"
+                android:layout_below="@id/llSaudacao">
+
+                <com.liulishuo.magicprogresswidget.MagicProgressCircle
+                    android:id="@+id/userProgress"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:mpc_percent="0.8"
+                    app:mpc_start_color="#09d41e"
+                    app:mpc_end_color="#07790f"
+                    app:mpc_stroke_width="15dp"
+                    app:mpc_default_color="@color/mpc_default_color"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_alignParentTop="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textSize="55dp"
+                    android:textColor="#222"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/txtPesoAtual"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kg"
+                    android:textAlignment="center"
+                    android:textSize="25dp"
+                    android:textColor="#777"
+                    android:layout_below="@id/userProgress"
+                    android:layout_marginTop="-60dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/textView" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/userProgress"
+                    android:layout_centerHorizontal="true">
+
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/ic_meta"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/ic_meta"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="meta de peso é: "
+                        android:textAlignment="center"
+                        android:textSize="20dp"
+                        android:textColor="#555"
+                        android:id="@+id/txtMetaDePeso"
+                        android:layout_marginLeft="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/ic_meta"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Você deve estar com fome..."
+                android:textColor="#444"
+                android:textSize="30dp"
+                android:textAlignment="center"
+                android:id="@+id/txtIncentivo"
+                android:layout_below="@id/rlProgress"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Que tal fazer uma refeição saudável?"
+                android:textColor="#777"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_below="@id/txtIncentivo"
+                android:layout_centerHorizontal="true"
+                />
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>
