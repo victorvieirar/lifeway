@@ -33,7 +33,7 @@ public class Consumo {
         ArrayList<Alimento> alimentosLastArray = getLastAlimentos();
         int k = alimentosLastArray.size()-1;
         int position = 0;
-        for(int i = alimentosConsumidos.size()-1; i >= 0; i++) {
+        for(int i = alimentosConsumidos.size()-1; i >= 0; i--) {
             if(alimentosConsumidos.get(i) == alimentosLastArray.get(k)) {
                 k--;
                 if(k<0) {
@@ -59,7 +59,7 @@ public class Consumo {
         ArrayList<Alimento> alimentosLastArray = getLastAlimentos();
         int k = alimentosLastArray.size()-1;
         int position = 0;
-        for(int i = alimentosConsumidos.size()-1; i >= 0; i++) {
+        for(int i = alimentosConsumidos.size()-1; i >= 0; i--) {
             if(alimentosConsumidos.get(i) == alimentosLastArray.get(k)) {
                 k--;
                 if(k<0) {
@@ -275,6 +275,8 @@ public class Consumo {
                     } else {
                         break;
                     }
+                } else {
+                    break;
                 }
             }
 

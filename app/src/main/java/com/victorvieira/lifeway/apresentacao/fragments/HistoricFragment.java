@@ -76,7 +76,7 @@ public class HistoricFragment extends MyFragment {
     @Override
     public void updateFragment() {
 
-        char color = 'n';
+        char color = 'b';
 
         if(MySingleton.getBancoDeDados().getUsuario() != null && MySingleton.getBancoDeDados().getUsuario().getConsumo() != null) {
 

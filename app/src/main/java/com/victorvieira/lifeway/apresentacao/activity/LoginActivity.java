@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //Do nothing
+        //do nothing
     }
 
     private void initViews() {
@@ -63,7 +63,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    editNome.setText("");
+                    if(editNome.getText().toString() != "" && editNome.getText().toString() != "nome completo") {
+                        editNome.setText("");
+                    }
                 } else {
                     if(editNome.getText().toString().equals("")) {
                         editNome.setText("nome completo");
@@ -76,9 +78,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
+                    if(editDataNascimento.getText().toString() != "" && editDataNascimento.getText().toString() != "data de nascimento") {
                         editDataNascimento.setText("");
+                        dataNascimentoMask = null;
+                        dataNascimentoMask = Mask.insert("##/##/####", editDataNascimento);
+                    }
                 } else {
                     if(editDataNascimento.getText().toString().equals("")) {
+                        dataNascimentoMask = null;
                         editDataNascimento.setText("data de nascimento");
                     }
                 }
@@ -89,7 +96,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
-                    editPeso.setText("");
+                    if(editPeso.getText().toString() != "" && editPeso.getText().toString() != "peso (em kg)") {
+                        editPeso.setText("");
+                    }
                 } else {
                     if(editPeso.getText().toString().equals("")) {
                         editPeso.setText("peso (em kg)");
@@ -102,9 +111,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
-                    editAltura.setText("");
+                    if(editAltura.getText().toString() != "" && editAltura.getText().toString() != "altura (em metros)") {
+                        editAltura.setText("");
+                        alturaMask = null;
+                        alturaMask = Mask.insert("#.##", editAltura);
+                    }
                 } else {
                     if(editAltura.getText().toString().equals("")) {
+                        alturaMask = null;
                         editAltura.setText("altura (em metros)");
                     }
                 }

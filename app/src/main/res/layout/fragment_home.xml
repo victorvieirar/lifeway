@@ -69,80 +69,103 @@
                 android:paddingRight="10dp"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
-                android:id="@+id/llSaudacao">
+                android:id="@+id/rlSaudacao">
 
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/ic_saudacao"
-                    android:src="@drawable/ic_goodmorning"/>
-
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bom dia, Victor"
-                    android:textSize="35dp"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="#777"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_toRightOf="@id/ic_saudacao"
-                    android:id="@+id/txtSaudacao" />
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/ic_saudacao"
+                        android:src="@drawable/ic_goodmorning"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bom dia, Victor"
+                        android:textSize="35dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#777"
+                        android:id="@+id/txtSaudacao" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="250dp"
+                android:layout_height="1dp"
+                android:background="#BBB"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                />
+
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:layout_centerInParent="true"
                 android:id="@+id/rlProgress"
-                android:layout_below="@id/llSaudacao">
-
-                <com.liulishuo.magicprogresswidget.MagicProgressCircle
-                    android:id="@+id/userProgress"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    app:mpc_percent="0.8"
-                    app:mpc_start_color="#09d41e"
-                    app:mpc_end_color="#07790f"
-                    app:mpc_stroke_width="15dp"
-                    app:mpc_default_color="@color/mpc_default_color"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_alignParentTop="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textSize="55dp"
-                    android:textColor="#222"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/txtPesoAtual"
-
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kg"
-                    android:textAlignment="center"
-                    android:textSize="25dp"
-                    android:textColor="#777"
-                    android:layout_below="@id/userProgress"
-                    android:layout_marginTop="-60dp"
-                    android:layout_centerHorizontal="true"
-                    android:id="@+id/textView" />
+                android:layout_below="@id/rlSaudacao">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@id/userProgress"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/rlPesoInfo">
+
+                    <com.liulishuo.magicprogresswidget.MagicProgressCircle
+                        android:id="@+id/userProgress"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        app:mpc_percent="0.8"
+                        app:mpc_start_color="#09d41e"
+                        app:mpc_end_color="#07790f"
+                        app:mpc_stroke_width="15dp"
+                        app:mpc_default_color="@color/mpc_default_color"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentTop="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="55dp"
+                        android:textColor="#222"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/txtPesoAtual"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kg"
+                        android:textAlignment="center"
+                        android:textSize="25dp"
+                        android:textColor="#777"
+                        android:layout_below="@id/userProgress"
+                        android:layout_marginTop="-60dp"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/textView" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@id/rlPesoInfo"
                     android:layout_centerHorizontal="true">
 
 
@@ -156,7 +179,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="meta de peso é: "
+                        android:text="meta de peso: "
                         android:textAlignment="center"
                         android:textSize="20dp"
                         android:textColor="#555"
@@ -169,6 +192,17 @@
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="250dp"
+                android:layout_height="1dp"
+                android:background="#BBB"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -180,7 +214,6 @@
                 android:id="@+id/txtIncentivo"
                 android:layout_below="@id/rlProgress"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 />

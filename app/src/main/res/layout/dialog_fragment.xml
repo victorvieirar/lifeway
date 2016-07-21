@@ -11,21 +11,36 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#EEE">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="25dp"
-            android:textColor="#111"
-            android:id="@+id/txtTipoRefeicao"
-            />
+            android:id="@+id/rlTitleDialog">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="25dp"
+                    android:textColor="#111"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/txtTipoRefeicao" />
 
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:src="@drawable/ic_close_darkgrey_30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/btnCloseDialog"/>
+
+        </RelativeLayout>
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:id="@+id/listAlimentos"
-            android:layout_below="@id/txtTipoRefeicao"
-            android:layout_marginTop="5dp"
+            android:layout_below="@id/rlTitleDialog"
+            android:layout_marginTop="10dp"
             android:divider="@null">
         </ListView>
 
