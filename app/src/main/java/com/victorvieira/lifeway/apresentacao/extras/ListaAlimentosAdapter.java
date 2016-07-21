@@ -36,24 +36,20 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
     public View getView(int position, View view, ViewGroup parent) {
         Alimento alimento = listAlimentos.get(position);
 
-        if(alimento == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_date_of_list, null);
-            setupViews(view, position);
-        } else {
-            if(view == null) {
-                switch (type) {
-                    case 'a':
-                        view = LayoutInflater.from(context).inflate(R.layout.item_list_alimentos, null);
-                        setupListener(view, alimento);
-                        break;
-                    case 'b':
-                        view = LayoutInflater.from(context).inflate(R.layout.item_list_historico, null);
-                        break;
-                }
+        if(view == null) {
+            switch (type) {
+                case 'a': //lista de alimentos
+                    view = LayoutInflater.from(context).inflate(R.layout.item_list_alimentos, null);
+                    setupListener(view, alimento);
+                    break;
+                case 'b': //lista de historico
+                    view = LayoutInflater.from(context).inflate(R.layout.item_list_historico, null);
+                    break;
             }
-
-            setupViews(view, alimento, position);
         }
+
+        setupViews(view, alimento, position);
+
 
         return view;
     }
@@ -64,7 +60,7 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
 
         if(type == 'b') {
             TextView txtHoraConsumo = (TextView)view.findViewById(R.id.txtHoraConsumo);
-            String horaConsumo = MySingleton.getBancoDeDados().getUsuario().getConsumo().getHorarioByOrder(position).toString().substring(11, 16);
+            String horaConsumo = listHorarios.get(position).toString().substring(11, 16);
 
             switch(color) {
                 case 'w':
@@ -76,7 +72,6 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
                     textViewNomeAlimento.setTextColor(getContext().getResources().getColor(R.color.textColorSecundary));
                     break;
             }
-
             txtHoraConsumo.setText(horaConsumo);
 
         } else {
@@ -92,13 +87,6 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
 
         textViewNomeAlimento.setText(alimento.getNome());
 
-    }
-
-    private void setupViews(View view, int position) {
-        TextView txtDate = (TextView) view.findViewById(R.id.txtDateOfList);
-
-        String sDate = MySingleton.getBancoDeDados().getUsuario().getConsumo().getStringOfHourByHorario(listHorarios.get(position));
-        txtDate.setText(sDate);
     }
 
     private void setupListener(View view, final Alimento alimento) {

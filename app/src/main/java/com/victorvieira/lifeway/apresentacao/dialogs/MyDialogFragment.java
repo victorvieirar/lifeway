@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.dominio.Alimento;
-import com.victorvieira.lifeway.apresentacao.extras.AdapterGroup;
 import com.victorvieira.lifeway.apresentacao.extras.ListaAlimentosAdapter;
 
 import java.util.Date;
@@ -25,23 +25,18 @@ public class MyDialogFragment extends DialogFragment {
     private List<Alimento> listAlimentos;
 
     private TextView txtTipoRefeicao;
+    private ImageButton btnCloseDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_fragment, container, false);
 
-
-
         txtTipoRefeicao = (TextView) view.findViewById(R.id.txtTipoRefeicao);
 
-        setupViews();
+        setupViews(view);
+        setupListeners();
 
-        final AdapterGroup adapterGroup = new AdapterGroup();
-
-        lvAlimentos = (ListView) view.findViewById(R.id.listAlimentos);
-        adapterGroup.addAdapter(new ListaAlimentosAdapter(getContext(), listAlimentos, null, 'a', 'b'));
-        lvAlimentos.setAdapter(adapterGroup.getAdapter(0));
 
         return view;
     }
@@ -53,7 +48,16 @@ public class MyDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    private void setupViews() {
+    private void setupListeners() {
+        btnCloseDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+    }
+
+    private void setupViews(View view) {
 
         Date tempoAtual = new Date();
 
@@ -70,6 +74,11 @@ public class MyDialogFragment extends DialogFragment {
                 txtTipoRefeicao.setText("Jantar");
             }
         }
+
+        btnCloseDialog = (ImageButton) view.findViewById(R.id.btnCloseDialog);
+        lvAlimentos = (ListView) view.findViewById(R.id.listAlimentos);
+        lvAlimentos.setAdapter(new ListaAlimentosAdapter(getContext(), listAlimentos, null, 'a', 'b'));
+
 
     }
 }

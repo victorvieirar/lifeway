@@ -1,12 +1,12 @@
 package com.victorvieira.lifeway.apresentacao.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +29,6 @@ public class HomeFragment extends MyFragment {
     private ImageView iconSaudacao;
     private TextView txtPesoAtual;
     private TextView txtMetaDePeso;
-    private ImageButton btnAddAlimentoFast;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -44,12 +43,8 @@ public class HomeFragment extends MyFragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initViews(view);
-        setupListeners();
 
         updateViews();
-
-
-        mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
 
         return view;
 
@@ -60,35 +55,8 @@ public class HomeFragment extends MyFragment {
         iconSaudacao = (ImageView) view.findViewById(R.id.ic_saudacao);
         txtPesoAtual = (TextView) view.findViewById(R.id.txtPesoAtual);
         txtMetaDePeso = (TextView) view.findViewById(R.id.txtMetaDePeso);
-        btnAddAlimentoFast = (ImageButton) view.findViewById(R.id.btnAdicionarAlimento);
         userProgress = (MagicProgressCircle) view.findViewById(R.id.userProgress);
         userProgress.setPercent((float) 0.5);
-    }
-
-    private void setupListeners() {
-
-        btnAddAlimentoFast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createDialogAlimento();
-            }
-        });
-
-    }
-    private void createDialogAlimento() {
-
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        MyDialogFragment dialogFragment = new MyDialogFragment();
-
-        if (mIsLargeLayout) {
-            dialogFragment.show(fragmentManager, "dialog");
-        } else {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.add(android.R.id.content, dialogFragment).addToBackStack(null).commit();
-        }
-
-
     }
 
     private void updateViews() {

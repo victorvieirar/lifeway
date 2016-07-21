@@ -45,11 +45,6 @@ public class Usuario extends Throwable {
         }
 
         Date horario = new Date();
-
-        if(isAfterLast(horario)) {
-            consumo.addRefeicao(null, horario);
-        }
-
         consumo.addRefeicao(alimento, horario);
     }
 
@@ -84,36 +79,6 @@ public class Usuario extends Throwable {
 
     public double getAltura() {
         return altura;
-    }
-
-    public boolean isAfterLast(Date horario) {
-        int diaDoMes = Integer.parseInt(horario.toString().substring(8,10));
-        int mes = MySingleton.getBancoDeDados().getApp().getIndexOfMonth(horario.toString().substring(4,7));
-        int ano = Integer.parseInt(horario.toString().substring(24));
-        int diaDoMesL;
-        int mesL;
-        int anoL;
-        try {
-            diaDoMesL = Integer.parseInt(consumo.getHorarios().get(consumo.getHorarios().size()-1).toString().substring(8,10));
-            mesL = MySingleton.getBancoDeDados().getApp().getIndexOfMonth(consumo.getHorarios().get(consumo.getHorarios().size()-1).toString().substring(4,7));
-            anoL = Integer.parseInt(consumo.getHorarios().get(consumo.getHorarios().size()-1).toString().substring(24));
-        } catch(Exception e) {
-            return false;
-        }
-
-        if(diaDoMes > diaDoMesL) {
-            return true;
-        } else {
-            if(mes > mesL) {
-                return true;
-            } else {
-                if(ano > anoL) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
     }
 
 }

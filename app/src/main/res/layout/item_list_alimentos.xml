@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnAddAlimento"
-        android:src="@drawable/ic_add_circle_outline_30dp"
+        android:src="@drawable/button_add_alimento_on_list"
         android:background="@null"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"

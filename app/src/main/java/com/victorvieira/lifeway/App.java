@@ -63,7 +63,7 @@ public class App {
         String[] semanaP = { "Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"};
 
         for (int i = 0; i < semanaI.length; i++) {
-            if(diaDaSemana == semanaI[i]) {
+            if(diaDaSemana.contains(semanaI[i])) {
                 diaDaSemana = semanaP[i];
                 break;
             }
@@ -77,7 +77,7 @@ public class App {
         String[] mesP = { "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro" };
 
         for(int i = 0; i < mesI.length; i++) {
-            if(mes == mesI[i]) {
+            if(mes.contains(mesI[i])) {
                 mes = mesP[i];
                 break;
             }
