@@ -8,9 +8,11 @@ import android.widget.ListView;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
+import com.victorvieira.lifeway.apresentacao.extras.EmptyHistoricAdapter;
 import com.victorvieira.lifeway.apresentacao.extras.ListaHistoricoAdapter;
 import com.victorvieira.lifeway.dominio.Refeicao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HistoricFragment extends MyFragment {
@@ -43,7 +45,6 @@ public class HistoricFragment extends MyFragment {
 
     private void initViews() {
         lvHistorico = (ListView) view.findViewById(R.id.lvHistoric);
-
     }
 
     @Override
@@ -62,7 +63,14 @@ public class HistoricFragment extends MyFragment {
 
         } else {
 
-        }
+            try {
+                ArrayList<Refeicao> emptyArray = new ArrayList<Refeicao>();
+                emptyArray.add(new Refeicao());
+                lvHistorico.setAdapter(new EmptyHistoricAdapter(getContext(), emptyArray));
+            } catch (Exception e) {
+                //do nothing
+            }
 
+        }
     }
 }
