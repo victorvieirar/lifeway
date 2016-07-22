@@ -49,8 +49,6 @@ public class HistoricFragment extends MyFragment {
     @Override
     public void updateFragment() {
 
-        char color = 'b';
-
         if(MySingleton.getBancoDeDados().getUsuario() != null && MySingleton.getBancoDeDados().getUsuario().getConsumo() != null) {
 
             listRefeicoes = MySingleton.getBancoDeDados().getUsuario().getConsumo().getRefeicoesInverse();
@@ -61,6 +59,8 @@ public class HistoricFragment extends MyFragment {
             } catch (Exception e) {
                 //do nothing
             }
+
+        } else {
 
         }
 

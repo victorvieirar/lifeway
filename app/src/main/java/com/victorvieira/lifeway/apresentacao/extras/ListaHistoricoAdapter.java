@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,8 +43,6 @@ public class ListaHistoricoAdapter extends ArrayAdapter<Refeicao> {
     public View getView(int position, View view, ViewGroup parent) {
         Refeicao refeicao = listRefeicoes.get(position);
         view = LayoutInflater.from(context).inflate(R.layout.item_list_refeicoes, null);
-
-        setupViews(view, refeicao, position);
 
         return view;
     }
@@ -91,10 +88,6 @@ public class ListaHistoricoAdapter extends ArrayAdapter<Refeicao> {
 
         String sData = refeicao.getStringOfHourByHorario(listHorarios.get(0));
         txtData.setText(sData);
-
-    }
-
-    private void setupListener(View view, final Alimento alimento) {
 
     }
 
