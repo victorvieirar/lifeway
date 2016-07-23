@@ -12,6 +12,8 @@ import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.dominio.Alimento;
 
+import org.w3c.dom.Text;
+
 import java.util.Date;
 import java.util.List;
 
@@ -75,14 +77,7 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
             txtHoraConsumo.setText(horaConsumo);
 
         } else {
-            switch(color) {
-                case 'w':
-                    textViewNomeAlimento.setTextColor(getContext().getResources().getColor(R.color.textColorPrimary));
-                    break;
-                case 'b':
-                    textViewNomeAlimento.setTextColor(getContext().getResources().getColor(R.color.textColorSecundary));
-                    break;
-            }
+
         }
 
         textViewNomeAlimento.setText(alimento.getNome());

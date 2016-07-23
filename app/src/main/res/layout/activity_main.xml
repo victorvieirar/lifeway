@@ -44,4 +44,13 @@
         app:backgroundTint="@color/colorPrimary"
         android:layout_margin="@dimen/fab_margin" />
 
+    <com.github.fabtransitionactivity.SheetLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        app:ft_container_gravity="center"
+        app:ft_color="@color/colorPrimary"
+        android:elevation="2dp"/>
+
 </RelativeLayout>

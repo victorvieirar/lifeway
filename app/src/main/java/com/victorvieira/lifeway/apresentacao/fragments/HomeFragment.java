@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.liulishuo.magicprogresswidget.MagicProgressCircle;
 
 import com.victorvieira.lifeway.MySingleton;
-import com.victorvieira.lifeway.apresentacao.dialogs.MyDialogFragment;
 import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.dominio.Usuario;
 

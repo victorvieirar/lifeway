@@ -27,6 +27,10 @@
             android:name=".apresentacao.activity.ConfigInicialActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".apresentacao.activity.AddAlimentoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"></activity>
     </application>
 
 </manifest>

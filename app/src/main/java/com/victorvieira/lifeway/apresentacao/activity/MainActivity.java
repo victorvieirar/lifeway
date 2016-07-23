@@ -8,27 +8,30 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.fabtransitionactivity.SheetLayout;
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
-import com.victorvieira.lifeway.apresentacao.dialogs.MyDialogFragment;
 import com.victorvieira.lifeway.apresentacao.fragments.HomeFragment;
 import com.victorvieira.lifeway.apresentacao.fragments.HistoricFragment;
 import com.victorvieira.lifeway.apresentacao.fragments.MyFragment;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnimationEndListener {
+
+    private SheetLayout mSheetLayout;
+    private FloatingActionButton mFab;
+
+    private static final int REQUEST_CODE = 1;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private FloatingActionButton fabAddAlimento;
 
     private boolean mIsLargeLayout;
 
@@ -70,34 +73,34 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons('i');
 
-        fabAddAlimento = (FloatingActionButton) findViewById(R.id.fabAddAlimentoFast);
-        fabAddAlimento.setRippleColor(getResources().getColor(R.color.colorPrimaryDark));
+        mSheetLayout = (SheetLayout) findViewById(R.id.bottom_sheet);
+        mFab = (FloatingActionButton) findViewById(R.id.fabAddAlimentoFast);
+
+        mSheetLayout.setFab(mFab);
+        mSheetLayout.setFabAnimationEndListener(this);
+    }
+
+    @Override
+    public void onFabAnimationEnd() {
+        Intent intent = new Intent(this, AddAlimentoActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE){
+            mSheetLayout.contractFab();
+        }
     }
 
     private void setupListeners() {
-        fabAddAlimento.setOnClickListener(new View.OnClickListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDialogAlimento();
+                mSheetLayout.expandFab();
             }
         });
-
-    }
-
-    private void createDialogAlimento() {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        MyDialogFragment dialogFragment = new MyDialogFragment();
-
-        if (mIsLargeLayout) {
-            dialogFragment.show(fragmentManager, "dialog");
-        } else {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.add(android.R.id.content, dialogFragment).addToBackStack(null).commit();
-        }
-
-
     }
 
     @Override

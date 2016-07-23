@@ -1,42 +1,59 @@
 package com.victorvieira.lifeway;
 
 import com.victorvieira.lifeway.dominio.Alimento;
+import com.victorvieira.lifeway.dominio.Refeicao;
+import com.victorvieira.lifeway.dominio.RefeicaoDisponivel;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class App {
 
-    private ArrayList<Alimento> alimentos = new ArrayList<Alimento>();
+    private ArrayList<RefeicaoDisponivel> refeicoesDisponiveis = new ArrayList<RefeicaoDisponivel>();
 
     public App() {
         super();
-        addAlimentos();
+        createRefeicoes();
     }
 
-    private void addAlimentos() {
-        for(int i=0; i<5; i++) {
-            String nome = "Banana " + i;
-            alimentos.add(new Alimento(nome,'c'));
-        }
-        for(int i=0; i<5; i++) {
-            String nome = "Feijão " + i;
-            alimentos.add(new Alimento(nome,'a'));
-        }
-        for(int i=0; i<5; i++) {
-            String nome = "Arroz " + i;
-            alimentos.add(new Alimento(nome,'j'));
-        }
-    }
-
-    public ArrayList<Alimento> getAlimentosByType(char tipo) {
-        ArrayList<Alimento> alimentosList = new ArrayList<Alimento>();
-        for (int i=0; i < alimentos.size(); i++) {
-            if(alimentos.get(i).getTipo() == tipo) {
-                alimentosList.add(alimentos.get(i));
+    private void createRefeicoes() {
+        String[] nome = { "Banana", "Feijão", "Arroz" };
+        String[] nomeRefeicao = {"Café da Manhã", "Almoço", "Jantar"};
+        char[] type = { 'c', 'a', 'j' };
+        for(int i=0; i < 3; i++) {
+            RefeicaoDisponivel refeicaoDisponivel = new RefeicaoDisponivel(type[i],nomeRefeicao[i]);
+            for(int j = 0; j < 5; j++) {
+                String sNome = nome[i] + " " + Integer.toString(j);
+                refeicaoDisponivel.addAlimento(new Alimento(sNome, type[i]));
             }
+            refeicoesDisponiveis.add(refeicaoDisponivel);
         }
-        return alimentosList;
+    }
+
+    public ArrayList<RefeicaoDisponivel> getRefeicoesDisponiveis() { return refeicoesDisponiveis; }
+
+    public ArrayList<RefeicaoDisponivel> getRefeicoesDisponiveisBySearch(String nomeAlimento) {
+
+        ArrayList<RefeicaoDisponivel> resultSearch = new ArrayList<RefeicaoDisponivel>();
+
+        for(int i = 0; i < refeicoesDisponiveis.size(); i++) {
+
+            RefeicaoDisponivel refeicaoAtual = new RefeicaoDisponivel(refeicoesDisponiveis.get(i).getType(), refeicoesDisponiveis.get(i).getNomeRefeicao());
+            ArrayList<Alimento> alimentosAtuais = refeicoesDisponiveis.get(i).getAlimentos();
+
+            for(int j = 0; j < alimentosAtuais.size(); j++) {
+                if(alimentosAtuais.get(j).getNome().toLowerCase().contains(nomeAlimento.toLowerCase())) {
+                    refeicaoAtual.addAlimento(alimentosAtuais.get(j));
+                }
+            }
+
+            if(!(refeicaoAtual.getAlimentos().size() <= 0)) {
+                resultSearch.add(refeicaoAtual);
+            }
+
+        }
+
+        return resultSearch;
     }
 
     public char getAtualRefeicao() {
