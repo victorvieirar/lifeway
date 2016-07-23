@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
@@ -25,7 +25,6 @@ public class AddAlimentoActivity extends BaseActivity {
     private ListaCardapioAdapter adapter;
     private List<RefeicaoDisponivel> refeicoesDisponiveis;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         enterFromBottomAnimation();
@@ -40,6 +39,24 @@ public class AddAlimentoActivity extends BaseActivity {
     protected void onPause() {
         exitToBottomAnimation();
         super.onPause();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                exitToBottomAnimation();
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        exitToBottomAnimation();
+        super.onBackPressed();
     }
 
     private void initViews() {

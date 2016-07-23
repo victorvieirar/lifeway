@@ -56,9 +56,6 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
         mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
 
         setupListeners();
-
-
-
     }
 
     private void initViews() {
@@ -92,6 +89,14 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
         if(requestCode == REQUEST_CODE){
             mSheetLayout.contractFab();
         }
+    }
+
+    public void showFloatingActionButton() {
+        mFab.show();
+    }
+
+    public void hideFloatingActionButton() {
+        mFab.hide();
     }
 
     private void setupListeners() {
@@ -136,9 +141,10 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 switch(position) {
-                    case 0: setupTabIcons('i'); setTitle("Início"); break;
+                    case 0: setupTabIcons('i'); setTitle("Início"); showFloatingActionButton(); break;
                     case 1:
                         setupTabIcons('h');
+                        hideFloatingActionButton();
                         if(MySingleton.getBancoDeDados().getUsuario().getConsumo() != null) {
                             ADAPTER.getItem(position).updateFragment();
                         }

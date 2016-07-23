@@ -4,16 +4,19 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.liulishuo.magicprogresswidget.MagicProgressCircle;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
+import com.victorvieira.lifeway.apresentacao.activity.MainActivity;
 import com.victorvieira.lifeway.dominio.Usuario;
 
 import java.util.Date;
@@ -21,13 +24,13 @@ import java.util.GregorianCalendar;
 
 public class HomeFragment extends MyFragment {
 
-    private boolean mIsLargeLayout;
-
     private MagicProgressCircle userProgress;
     private TextView txtSaudacao;
     private ImageView iconSaudacao;
     private TextView txtPesoAtual;
     private TextView txtMetaDePeso;
+
+    private NestedScrollView nsv;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -56,6 +59,18 @@ public class HomeFragment extends MyFragment {
         txtMetaDePeso = (TextView) view.findViewById(R.id.txtMetaDePeso);
         userProgress = (MagicProgressCircle) view.findViewById(R.id.userProgress);
         userProgress.setPercent((float) 0.5);
+
+        nsv = (NestedScrollView) view.findViewById(R.id.nsvHomeFragment);
+        nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (oldScrollY < scrollY){
+                    ((MainActivity) getActivity()).hideFloatingActionButton();
+                }  else {
+                    ((MainActivity) getActivity()).showFloatingActionButton();
+                }
+            }
+        });
     }
 
     private void updateViews() {

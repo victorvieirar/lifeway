@@ -11,10 +11,10 @@
     android:fadeScrollbars="true"
     tools:context=".apresentacao.fragments.HomeFragment">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/svHomeFragment"
+        android:id="@+id/nsvHomeFragment"
         android:background="#EEE">
 
         <LinearLayout
@@ -203,6 +203,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>
