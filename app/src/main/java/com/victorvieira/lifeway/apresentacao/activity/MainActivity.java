@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
                         setupTabIcons('h');
                         hideFloatingActionButton();
                         if(MySingleton.getBancoDeDados().getUsuario().getConsumo() != null) {
-                            ADAPTER.getItem(position).updateFragment();
+                            ADAPTER.getItem(position).updateFragment(true);
                         }
                         setTitle("Histórico"); break;
                 }

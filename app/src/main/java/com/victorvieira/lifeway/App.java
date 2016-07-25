@@ -6,6 +6,7 @@ import com.victorvieira.lifeway.dominio.RefeicaoDisponivel;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class App {
 
@@ -77,7 +78,7 @@ public class App {
 
         String[] semanaI = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
-        String[] semanaP = { "Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"};
+        String[] semanaP = { "domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"};
 
         for (int i = 0; i < semanaI.length; i++) {
             if(diaDaSemana.contains(semanaI[i])) {
@@ -116,4 +117,110 @@ public class App {
 
     }
 
+    public boolean hasBeforeDate(Date dataA, ArrayList<Date> datasExistentes) {
+
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        gregorianCalendar.setTime(dataA);
+        gregorianCalendar.add(gregorianCalendar.DAY_OF_MONTH, -1);
+
+        int diaGC = Integer.parseInt(gregorianCalendar.getTime().toString().substring(8,10));
+        int mesGC = getIndexOfMonth(gregorianCalendar.getTime().toString().substring(4,7));
+        int anoGC = Integer.parseInt(gregorianCalendar.getTime().toString().substring(24));
+
+        for(int i = 0; i < datasExistentes.size(); i++) {
+            int dia = Integer.parseInt(datasExistentes.get(i).toString().substring(8,10));
+            int mes = getIndexOfMonth(datasExistentes.get(i).toString().substring(4,7));
+            int ano = Integer.parseInt(datasExistentes.get(i).toString().substring(24));
+
+            if(diaGC == dia && mesGC == mes && anoGC == ano) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public boolean hasAfterDate(Date dataA, ArrayList<Date> datasExistentes) {
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        gregorianCalendar.setTime(dataA);
+        gregorianCalendar.add(gregorianCalendar.DAY_OF_MONTH, 1);
+
+        int diaGC = Integer.parseInt(gregorianCalendar.getTime().toString().substring(8,10));
+        int mesGC = getIndexOfMonth(gregorianCalendar.getTime().toString().substring(4,7));
+        int anoGC = Integer.parseInt(gregorianCalendar.getTime().toString().substring(24));
+
+        for(int i = 0; i < datasExistentes.size(); i++) {
+            int dia = Integer.parseInt(datasExistentes.get(i).toString().substring(8,10));
+            int mes = getIndexOfMonth(datasExistentes.get(i).toString().substring(4,7));
+            int ano = Integer.parseInt(datasExistentes.get(i).toString().substring(24));
+
+            if(diaGC == dia && mesGC == mes && anoGC == ano) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public boolean isSingleDay(Date data1, Date data2){
+        int dia1 = Integer.parseInt(data1.toString().substring(8,10));
+        int mes1 = getIndexOfMonth(data1.toString().substring(4,7));
+        int ano1 = Integer.parseInt(data1.toString().substring(24));
+
+        int dia2 = Integer.parseInt(data2.toString().substring(8,10));
+        int mes2 = getIndexOfMonth(data2.toString().substring(4,7));
+        int ano2 = Integer.parseInt(data2.toString().substring(24));
+
+        if(dia1 == dia2 && mes1 == mes2 && ano1 == ano2) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public String getStringOfHour(Date data1, Date data2) {
+
+        String sData = "";
+
+        int diaDoMes = Integer.parseInt(data2.toString().substring(8, 10));
+        int mes = MySingleton.getBancoDeDados().getApp().getIndexOfMonth(data2.toString().substring(4,7));
+        int ano = Integer.parseInt(data2.toString().substring(24));
+
+        int diaDoMesA = Integer.parseInt(data1.toString().substring(8, 10));
+        int mesA = MySingleton.getBancoDeDados().getApp().getIndexOfMonth(data1.toString().substring(4,7));
+        int anoA = Integer.parseInt(data1.toString().substring(24));
+
+        if(diaDoMes == diaDoMesA) {
+            if(mes == mesA && ano == anoA) {
+                sData = "hoje";
+            } else {
+                String diaDaSemana = data2.toString().substring(0,3);
+                String sMes = data2.toString().substring(4,7);
+                sMes = MySingleton.getBancoDeDados().getApp().transformMes(sMes);
+                sData = MySingleton.getBancoDeDados().getApp().transformDiaDaSemana(diaDaSemana) + ", " + diaDoMes + " de " + sMes + " de " + ano;
+            }
+
+        } else {
+            if(diaDoMes == (diaDoMesA-1)) {
+                if(mes == mesA && ano == anoA) {
+                    sData = "ontem";
+                } else {
+                    String diaDaSemana = data2.toString().substring(0,3);
+                    String sMes = data2.toString().substring(4,7);
+                    sMes = MySingleton.getBancoDeDados().getApp().transformMes(sMes);
+                    sData = MySingleton.getBancoDeDados().getApp().transformDiaDaSemana(diaDaSemana) + ", " + diaDoMes + " de " + sMes + " de " + ano;
+                }
+
+            } else {
+                String diaDaSemana = data2.toString().substring(0,3);
+                String sMes = data2.toString().substring(4,7);
+                sMes = MySingleton.getBancoDeDados().getApp().transformMes(sMes);
+                sData = MySingleton.getBancoDeDados().getApp().transformDiaDaSemana(diaDaSemana) + ", " + diaDoMes + " de " + sMes + " de " + ano;
+            }
+        }
+
+        return sData;
+
+    }
 }

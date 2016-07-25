@@ -3,22 +3,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="#EEE"
     android:orientation="vertical"
     android:id="@+id/rlHistoricFragment"
     tools:context=".apresentacao.fragments.HistoricFragment">
 
-    <ListView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lvHistoric"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:dividerHeight="30dp"
-        android:divider="@null"
-        >
+        android:id="@+id/nsvHistoricFragment">
 
-    </ListView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:background="@color/colorPrimaryDark">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:layout_centerHorizontal="true">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="5dp"
+                        android:id="@+id/btnDataAnterior"
+                        android:background="@null"
+                        android:src="@drawable/ic_navigate_before_24dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:text="selecione a data"
+                        android:textColor="#FFF"
+                        android:textSize="20dp"
+                        android:id="@+id/txtDataAtual"/>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/btnDataPosterior"
+                        android:background="@null"
+                        android:src="@drawable/ic_navigate_next_24dp" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:id="@+id/txtIntroHistoric"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <com.victorvieira.lifeway.apresentacao.extras.MyListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/lvHistoric"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="20dp"
+                android:dividerHeight="30dp"
+                android:clickable="false"
+                android:divider="@null" >
+
+            </com.victorvieira.lifeway.apresentacao.extras.MyListView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

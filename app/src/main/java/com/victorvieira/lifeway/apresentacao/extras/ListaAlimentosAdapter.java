@@ -12,8 +12,6 @@ import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.dominio.Alimento;
 
-import org.w3c.dom.Text;
-
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +43,7 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
                     setupListener(view, alimento);
                     break;
                 case 'b': //lista de historico
-                    view = LayoutInflater.from(context).inflate(R.layout.item_list_historico, null);
+                    view = LayoutInflater.from(context).inflate(R.layout.item_list_alimentos_on_historico, null);
                     break;
             }
         }
@@ -61,23 +59,14 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
         TextView textViewNomeAlimento = (TextView) view.findViewById(R.id.txtNomeAlimento);
 
         if(type == 'b') {
-            TextView txtHoraConsumo = (TextView)view.findViewById(R.id.txtHoraConsumo);
-            String horaConsumo = listHorarios.get(position).toString().substring(11, 16);
-
             switch(color) {
                 case 'w':
-                    txtHoraConsumo.setTextColor(getContext().getResources().getColor(R.color.textColorPrimary));
                     textViewNomeAlimento.setTextColor(getContext().getResources().getColor(R.color.textColorPrimary));
                     break;
                 case 'b':
-                    txtHoraConsumo.setTextColor(getContext().getResources().getColor(R.color.textColorSecundary));
                     textViewNomeAlimento.setTextColor(getContext().getResources().getColor(R.color.textColorSecundary));
                     break;
             }
-            txtHoraConsumo.setText(horaConsumo);
-
-        } else {
-
         }
 
         textViewNomeAlimento.setText(alimento.getNome());

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/gridLayout">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Banana"
+        android:id="@+id/txtNomeAlimento"
+        android:textColor="#444"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="left|center_vertical"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#555"
+        android:text="descrição descrição descrição descrição descrição descrição descrição descrição descrição descrição "
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="100dp"
+        android:id="@+id/txtDescricao"
+        android:layout_below="@id/txtNomeAlimento"
+        />
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical"
+        android:background="#777"
+        android:id="@+id/lineHistoric"
+        android:layout_below="@id/txtDescricao"></LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lineHistoric"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:text="520 kcal | 2 porções"
+        android:id="@+id/txtInfoAlimentoOnHistoric" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true" >
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_nota_ss_alimento"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:id="@+id/rlInfoAlimento">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="SS"
+                android:textSize="20dp"
+                android:textColor="#000"
+                android:alpha="0.7"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="75dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="80dp"
+        android:background="#777"></LinearLayout>
+
+
+</RelativeLayout>

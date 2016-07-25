@@ -27,6 +27,8 @@ public class Refeicao {
     public ArrayList<Alimento> getAlimentos() { return alimentosConsumidos; }
     public ArrayList<Date> getHorarios() { return horariosDeConsumo; }
 
+    public char getTipo() { return tipo; }
+
     public Date getHorarioByIndex(int index) { return horariosDeConsumo.get(index); }
 
     public Date getLastHorario() { return horariosDeConsumo.get(horariosDeConsumo.size()-1); }
@@ -126,7 +128,6 @@ public class Refeicao {
             }
         }
 
-        sData = "de " + sData;
         return sData;
     }
 

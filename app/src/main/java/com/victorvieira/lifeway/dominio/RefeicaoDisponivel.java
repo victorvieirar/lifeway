@@ -7,6 +7,7 @@ public class RefeicaoDisponivel {
     private ArrayList<Alimento> alimentos;
     private String nomeRefeicao;
     private char type;
+
     public RefeicaoDisponivel (char type, String nomeRefeicao) {
         alimentos = new ArrayList<Alimento>();
         this.nomeRefeicao = nomeRefeicao;

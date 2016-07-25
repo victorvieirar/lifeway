@@ -146,7 +146,7 @@ public class HomeFragment extends MyFragment {
     }
 
     @Override
-    public void updateFragment() {}
+    public void updateFragment(boolean mBoolean) {}
 
 
 
