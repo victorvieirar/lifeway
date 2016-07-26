@@ -31,6 +31,9 @@ public class HistoricFragment extends MyFragment {
     private MyListView lvHistorico;
     private List<Refeicao> listRefeicoes;
 
+    private int ref = -1;
+    private ArrayList<Date> horariosExistentes;
+
     private GregorianCalendar gcSelected = new GregorianCalendar();
     private GregorianCalendar gcReference = new GregorianCalendar();
 
@@ -84,24 +87,18 @@ public class HistoricFragment extends MyFragment {
         btnDataAnterior.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gcSelected.add(gcSelected.DAY_OF_MONTH, -1);
-                if(MySingleton.getBancoDeDados().getApp().isSingleDay(gcSelected.getTime(), gcReference.getTime())) {
-                    updateFragment(true);
-                } else {
-                    updateFragment(false);
-                }
+                --ref;
+                gcSelected.setTime(horariosExistentes.get(ref));
+                updateFragment(false);
             }
         });
 
         btnDataPosterior.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gcSelected.add(gcSelected.DAY_OF_MONTH, 1);
-                if(MySingleton.getBancoDeDados().getApp().isSingleDay(gcSelected.getTime(), gcReference.getTime())) {
-                    updateFragment(true);
-                } else {
-                    updateFragment(false);
-                }
+                ++ref;
+                gcSelected.setTime(horariosExistentes.get(ref));
+                updateFragment(false);
             }
         });
 
@@ -112,18 +109,21 @@ public class HistoricFragment extends MyFragment {
 
         if(MySingleton.getBancoDeDados().getUsuario() != null && MySingleton.getBancoDeDados().getUsuario().getConsumo() != null) {
 
+            horariosExistentes = MySingleton.getBancoDeDados().getUsuario().getConsumo().getHorarios();
+
             if(mBoolean) {
-                gcSelected.setTime(new Date());
+                ref = horariosExistentes.size()-1;
+                gcSelected.setTime(horariosExistentes.get(ref));
             }
 
             gcReference.setTime(new Date());
             verificarDisponibilidade();
-
             listRefeicoes = MySingleton.getBancoDeDados().getUsuario().getConsumo().getRefeicoesByDayInOrder(gcSelected.getTime());
+
             try {
                 listRefeicoes.get(0).getAlimentos(); //teste de existencia
 
-                txtDataAtual.setText(MySingleton.getBancoDeDados().getApp().getStringOfHour(gcReference.getTime(), gcSelected.getTime()));
+                txtDataAtual.setText(MySingleton.getBancoDeDados().getApp().getStringOfHour(gcReference, gcSelected));
                 txtIntroHistoric.setText("Histórico desse dia");
                 ListaHistoricoAdapter adapter = new ListaHistoricoAdapter(getContext(), listRefeicoes, 'b', txtDataAtual.getText().toString());
 
@@ -150,10 +150,8 @@ public class HistoricFragment extends MyFragment {
     public void verificarDisponibilidade() {
         if(MySingleton.getBancoDeDados().getUsuario().getConsumo().getHorarios().size() >= 1) {
 
-            ArrayList<Date> horariosExistentes = MySingleton.getBancoDeDados().getUsuario().getConsumo().getHorarios();
-
-            boolean before = MySingleton.getBancoDeDados().getApp().hasBeforeDate(gcSelected.getTime(), horariosExistentes);
-            boolean after = MySingleton.getBancoDeDados().getApp().hasAfterDate(gcSelected.getTime(), horariosExistentes);
+            boolean before = ref > 0;
+            boolean after = (ref >= 0 && ref < (horariosExistentes.size()-1));
 
             if(before) {
                 btnDataAnterior.setAlpha((float) 1);

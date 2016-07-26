@@ -61,23 +61,6 @@ public class App {
         return resultSearch;
     }
 
-    public char getAtualRefeicao() {
-
-        Date tempoAtual = new Date();
-
-        int horaAtual = Integer.parseInt(tempoAtual.toString().substring(11,13));
-        if((horaAtual >= 6) && (horaAtual <= 11)) {
-            return 'c';
-        } else {
-            if((horaAtual > 11) && (horaAtual <= 17)) {
-                return 'a';
-            } else {
-                return 'j';
-            }
-        }
-
-    }
-
     public String transformDiaDaSemana(String diaDaSemana) {
 
         String[] semanaI = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -121,109 +104,40 @@ public class App {
 
     }
 
-    public int getRefDateInArray(Date dataA, ArrayList<Date> datasExistentes) {
-        int ref = 0;
-
-        GregorianCalendar gcAtual = new GregorianCalendar();
-        GregorianCalendar gcReferente = new GregorianCalendar();
-
-        gcAtual.setTime(dataA);
-
-        int dia = gcAtual.get(gcAtual.DAY_OF_MONTH);
-        int mes = gcAtual.get(gcAtual.MONTH);
-        int ano = gcAtual.get(gcAtual.YEAR);
-
-        for(int i = 0; i < datasExistentes.size(); i++) {
-            gcReferente.setTime(datasExistentes.get(i));
-
-            int diaR = gcReferente.get(gcReferente.DAY_OF_MONTH);
-            int mesR = gcReferente.get(gcReferente.MONTH);
-            int anoR = gcReferente.get(gcReferente.YEAR);
-
-            if(dia == diaR && mes == mesR && ano == anoR) {
-                ref = i;
-            }
-        }
-
-        return ref;
-    }
-
-    public boolean hasBeforeDate(Date dataA, ArrayList<Date> datasExistentes) {
-        int ref = getRefDateInArray(dataA, datasExistentes);
-
-        if(ref > 0 && ref < datasExistentes.size()) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-    public boolean hasAfterDate(Date dataA, ArrayList<Date> datasExistentes) {
-        int ref = getRefDateInArray(dataA, datasExistentes);
-
-        if(ref >= 0 && ref < datasExistentes.size()-1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isSingleDay(Date data1, Date data2){
-        int dia1 = Integer.parseInt(data1.toString().substring(8,10));
-        int mes1 = getIndexOfMonth(data1.toString().substring(4,7));
-        int ano1 = Integer.parseInt(data1.toString().substring(24));
-
-        int dia2 = Integer.parseInt(data2.toString().substring(8,10));
-        int mes2 = getIndexOfMonth(data2.toString().substring(4,7));
-        int ano2 = Integer.parseInt(data2.toString().substring(24));
-
-        if(dia1 == dia2 && mes1 == mes2 && ano1 == ano2) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-    public String getStringOfHour(Date data1, Date data2) {
+    public String getStringOfHour(GregorianCalendar reference, GregorianCalendar selected) {
 
         String sData = "";
 
-        int diaDoMes = Integer.parseInt(data2.toString().substring(8, 10));
-        int mes = MySingleton.getBancoDeDados().getApp().getIndexOfMonth(data2.toString().substring(4, 7));
-        int ano = Integer.parseInt(data2.toString().substring(24));
+        int diaDoMesS = selected.get(selected.DAY_OF_MONTH);
+        int mesS = selected.get(selected.MONTH);
+        int anoS = selected.get(selected.YEAR);
 
-        int diaDoMesA = Integer.parseInt(data1.toString().substring(8, 10));
-        int mesA = MySingleton.getBancoDeDados().getApp().getIndexOfMonth(data1.toString().substring(4, 7));
-        int anoA = Integer.parseInt(data1.toString().substring(24));
+        int diaDoMesR = reference.get(reference.DAY_OF_MONTH);
+        int mesR = reference.get(reference.MONTH);
+        int anoR = reference.get(reference.YEAR);
 
-        if (diaDoMes == diaDoMesA) {
-            if (mes == mesA && ano == anoA) {
-                sData = "hoje";
-            } else {
-                String diaDaSemana = data2.toString().substring(0, 3);
-                String sMes = data2.toString().substring(4, 7);
-                sMes = MySingleton.getBancoDeDados().getApp().transformMes(sMes);
-                sData = MySingleton.getBancoDeDados().getApp().transformDiaDaSemana(diaDaSemana) + ", " + diaDoMes + " de " + sMes + " de " + ano;
-            }
-
+        if(diaDoMesS == diaDoMesR && mesS == mesR && anoS == anoR) {
+            sData = "hoje";
         } else {
-            if (diaDoMes == (diaDoMesA - 1)) {
-                if (mes == mesA && ano == anoA) {
-                    sData = "ontem";
-                } else {
-                    String diaDaSemana = data2.toString().substring(0, 3);
-                    String sMes = data2.toString().substring(4, 7);
-                    sMes = MySingleton.getBancoDeDados().getApp().transformMes(sMes);
-                    sData = MySingleton.getBancoDeDados().getApp().transformDiaDaSemana(diaDaSemana) + ", " + diaDoMes + " de " + sMes + " de " + ano;
-                }
+            reference.add(reference.DAY_OF_MONTH, -1);
 
+            diaDoMesR = reference.get(reference.DAY_OF_MONTH);
+            mesR = reference.get(reference.MONTH);
+            anoR = reference.get(reference.YEAR);
+
+            if(diaDoMesS == diaDoMesR && mesS == mesR && anoS == anoR) {
+                sData = "ontem";
             } else {
-                String diaDaSemana = data2.toString().substring(0, 3);
-                String sMes = data2.toString().substring(4, 7);
-                sMes = MySingleton.getBancoDeDados().getApp().transformMes(sMes);
-                sData = MySingleton.getBancoDeDados().getApp().transformDiaDaSemana(diaDaSemana) + ", " + diaDoMes + " de " + sMes + " de " + ano;
+                reference.add(reference.DAY_OF_MONTH, 1);
+
+                diaDoMesR = reference.get(reference.DAY_OF_MONTH);
+                mesR = reference.get(reference.MONTH);
+                anoR = reference.get(reference.YEAR);
+
+                sData = getStringOfDayByIndex(selected.get(selected.DAY_OF_WEEK)) + ", "
+                        + selected.get(selected.DAY_OF_MONTH) + " de "
+                        + getStringOfMonthByIndex(selected.get(selected.MONTH)) + " de "
+                        + selected.get(selected.YEAR);
             }
         }
 
@@ -231,4 +145,12 @@ public class App {
 
     }
 
+    public String getStringOfDayByIndex(int index) {
+        String[] semana = { "domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"};
+        return semana[index];
+    }
+    public String getStringOfMonthByIndex(int index) {
+        String[] mes = { "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro" };
+        return mes[index];
+    }
 }
