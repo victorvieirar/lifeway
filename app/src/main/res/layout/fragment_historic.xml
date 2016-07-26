@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEE"
+    android:background="#f9f9f9"
     android:orientation="vertical"
     android:id="@+id/rlHistoricFragment"
     tools:context=".apresentacao.fragments.HistoricFragment">
@@ -22,45 +22,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 android:background="@color/colorPrimaryDark">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
-                    android:layout_centerHorizontal="true">
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
                         android:layout_marginRight="5dp"
                         android:id="@+id/btnDataAnterior"
                         android:background="@null"
-                        android:src="@drawable/ic_navigate_before_24dp" />
+                        android:src="@drawable/ic_navigate_before_30dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
                         android:text="selecione a data"
                         android:textColor="#FFF"
                         android:textSize="20dp"
+                        android:textAlignment="center"
                         android:id="@+id/txtDataAtual"/>
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp"
                         android:layout_marginLeft="5dp"
                         android:id="@+id/btnDataPosterior"
                         android:background="@null"
-                        android:src="@drawable/ic_navigate_next_24dp" />
-
-                </LinearLayout>
+                        android:src="@drawable/ic_navigate_next_30dp" />
 
 
             </RelativeLayout>
@@ -85,9 +84,9 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="20dp"
-                android:dividerHeight="30dp"
                 android:clickable="false"
-                android:divider="@null" >
+                android:dividerHeight="1dp"
+                android:divider="#f3f3f3" >
 
             </com.victorvieira.lifeway.apresentacao.extras.MyListView>
 

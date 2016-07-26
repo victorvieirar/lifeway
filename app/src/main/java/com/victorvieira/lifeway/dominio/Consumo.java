@@ -3,7 +3,9 @@ package com.victorvieira.lifeway.dominio;
 import com.victorvieira.lifeway.MySingleton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Consumo {
@@ -146,5 +148,7 @@ public class Consumo {
         return refeicoesArray;
 
     }
+
+
 }
 

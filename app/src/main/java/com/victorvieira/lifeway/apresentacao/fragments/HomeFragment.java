@@ -123,7 +123,11 @@ public class HomeFragment extends MyFragment {
                                 } catch (Exception e) {
                                     sPeso = Double.toString(PESO);
                                 }
-                                userProgress.setPercent((float) PERCENT);
+                                if(PESO == METADEPESO) {
+                                    userProgress.setPercent((float) 1);
+                                } else {
+                                    userProgress.setPercent((float) PERCENT);
+                                }
                                 txtPesoAtual.setText(sPeso);
                                 String txtMeta = "meta de peso: " + Double.toString(METADEPESO) + " kg";
                                 txtMetaDePeso.setText(txtMeta);
