@@ -62,7 +62,7 @@ public class AddAlimentoActivity extends BaseActivity {
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbarAddAlimento);
         toolbar.setTitle("Adicionar alimento");
-        toolbar.setTitleTextColor(getResources().getColor(R.color.textColorPrimary));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDarkTwo));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

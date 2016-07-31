@@ -19,14 +19,12 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
 
     private Context context;
     private List<Alimento> listAlimentos = null;
-    private List<Date> listHorarios = null;
     private char type;
     private char color;
 
-    public ListaAlimentosAdapter(Context context,  List<Alimento> listAlimentos, List<Date> listHorarios, char type, char color) {
+    public ListaAlimentosAdapter(Context context,  List<Alimento> listAlimentos, char type, char color) {
         super(context, 0, listAlimentos);
         this.listAlimentos = listAlimentos;
-        this.listHorarios = listHorarios;
         this.context = context;
         this.type = type;
         this.color = color;
@@ -49,7 +47,6 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
         }
 
         setupViews(view, alimento, position);
-
 
         return view;
     }

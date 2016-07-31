@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 public class App {
 
     private final GregorianCalendar DATA_CRIACAO = new GregorianCalendar();
+    private int id_refeicao;
 
     private ArrayList<RefeicaoDisponivel> refeicoesDisponiveis = new ArrayList<RefeicaoDisponivel>();
 
@@ -153,4 +154,8 @@ public class App {
         String[] mes = { "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro" };
         return mes[index];
     }
+
+    public int getId_refeicao() { return id_refeicao; }
+    public void setId_refeicao(int id_refeicao) { this.id_refeicao = id_refeicao; }
+
 }

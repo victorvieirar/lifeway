@@ -48,15 +48,19 @@ public class Consumo {
     }
 
     public boolean mesmoDia(Date horario) {
-        int diaA = Integer.parseInt(horario.toString().substring(8,10));
-        int mesA = MySingleton.getBancoDeDados().getApp().getIndexOfMonth(horario.toString().substring(4,7));
-        int anoA = Integer.parseInt(horario.toString().substring(24));
+        GregorianCalendar gcA = new GregorianCalendar();
+        gcA.setTime(horario);
+        int diaA = gcA.get(gcA.DAY_OF_MONTH);
+        int mesA = gcA.get(gcA.MONTH);
+        int anoA = gcA.get(gcA.YEAR);
 
         Date horarioU = refeicoes.get(refeicoes.size()-1).getLastHorario();
+        GregorianCalendar gcU = new GregorianCalendar();
+        gcU.setTime(horarioU);
 
-        int dia = Integer.parseInt(horarioU.toString().substring(8,10));
-        int mes = MySingleton.getBancoDeDados().getApp().getIndexOfMonth(horarioU.toString().substring(4,7));
-        int ano = Integer.parseInt(horarioU.toString().substring(24));
+        int dia = gcU.get(gcU.DAY_OF_MONTH);
+        int mes = gcU.get(gcU.MONTH);
+        int ano = gcU.get(gcU.YEAR);
 
         if(diaA == dia && mesA == mes && anoA == ano) {
             return true;
@@ -148,6 +152,17 @@ public class Consumo {
         return refeicoesArray;
 
     }
+
+    public Refeicao getRefeicaoById(int id) {
+        for(Refeicao refeicao:refeicoes) {
+            if(refeicao.getId() == id) {
+                return refeicao;
+            }
+        }
+
+        return null;
+    }
+
 
 
 }

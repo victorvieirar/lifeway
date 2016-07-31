@@ -50,7 +50,7 @@ public class ListaCardapioAdapter extends ArrayAdapter<RefeicaoDisponivel> {
         txtNomeRefeicao.setText(refeicaoDisponivel.getNomeRefeicao());
 
         listAlimentos = refeicaoDisponivel.getAlimentos();
-        lvAlimentos.setAdapter(new ListaAlimentosAdapter(getContext(), listAlimentos, null, 'a', 'b'));
+        lvAlimentos.setAdapter(new ListaAlimentosAdapter(getContext(), listAlimentos, 'a', 'b'));
 
     }
 
