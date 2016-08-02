@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".apresentacao.activity.CreateAccountActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:animateLayoutChanges="true"
+    android:background="#000">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/exercising_woman"
+        android:alpha="0.7"
+        android:id="@+id/bgCreateAccount"
+        android:scaleType="centerCrop"
+        android:cropToPadding="true"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Olá, Fulano"
+                android:textSize="30dp"
+                android:textColor="#eee"
+                android:id="@+id/txtSaudacaoInicial"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vamos acertar algumas coisas primeiro"
+                android:textSize="20dp"
+                android:textColor="#eee"
+                android:textAlignment="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:inputType="numberDecimal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:text="peso (em kg)"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:textColor="#cceeeeee"
+                android:background="@drawable/bg_edit_text_create_account"
+                android:id="@+id/editPeso"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:inputType="numberDecimal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:text="altura (em metros)"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:textColor="#cceeeeee"
+                android:background="@drawable/bg_edit_text_create_account"
+                android:id="@+id/editAltura"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="20dp"
+                android:textColor="#eee"
+                android:text="data de nascimento"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:clickable="true"
+                android:background="@drawable/bg_edit_text_create_account"
+                android:id="@+id/rlTextDataNascimento">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="1 de janeiro de 1990"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:textColor="#cceeeeee"
+                    android:id="@+id/editDataNascimento" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:inputType="numberDecimal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:text="meta de peso (em kg)"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:textColor="#cceeeeee"
+                android:background="@drawable/bg_edit_text_create_account"
+                android:id="@+id/editMetaDePeso"
+                />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="partiu ser saudável"
+                android:textAllCaps="false"
+                android:id="@+id/btnCadatrar"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn_login"
+                android:textColor="#DDD"
+                android:textSize="20dp"
+                />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"
+        android:id="@+id/rlDatePicker"
+        android:background="#eee">
+
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@null"
+            android:calendarViewShown="false"
+            android:id="@+id/dpDataNascimento"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="ok"
+            android:textAllCaps="true"
+            android:textSize="15dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@null"
+            android:id="@+id/btnOkDatePicker"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cancelar"
+            android:textAllCaps="true"
+            android:textSize="15dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@null"
+            android:id="@+id/btnCancelDatePicker"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btnOkDatePicker"
+            android:layout_toStartOf="@+id/btnOkDatePicker" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

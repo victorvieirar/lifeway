@@ -1,15 +1,8 @@
 package com.victorvieira.lifeway.dominio;
 
-import android.widget.EditText;
-
-import com.victorvieira.lifeway.MySingleton;
-import com.victorvieira.lifeway.dominio.excecoes.AlturaException;
-import com.victorvieira.lifeway.dominio.excecoes.MetaDePesoException;
-import com.victorvieira.lifeway.dominio.excecoes.PesoException;
-
 import java.util.Date;
 
-public class Usuario extends Throwable {
+public class Usuario {
 
     private String nome;
     private Date dataNascimento;
@@ -18,24 +11,12 @@ public class Usuario extends Throwable {
     private double altura;
     private Consumo consumo;
 
-    public Usuario() { super(); }
-
-    public Usuario(String nome, Date dataNascimento, EditText editPeso, EditText editAltura) throws AlturaException, PesoException {
+    public Usuario(String nome, Date dataNascimento, double peso, double altura, double metaDePeso){
         this.nome = nome;
         this.dataNascimento = dataNascimento;
-
-        try {
-            this.peso = Double.parseDouble(editPeso.getText().toString());
-        } catch (Exception e) {
-            throw new PesoException();
-        }
-
-        try {
-            this.altura = Double.parseDouble(editAltura.getText().toString());
-        } catch (Exception e) {
-            throw new AlturaException();
-        }
-
+        this.peso = peso;
+        this.altura = altura;
+        this.metaDePeso = metaDePeso;
         consumo = null;
     }
 
@@ -68,13 +49,8 @@ public class Usuario extends Throwable {
 
     public double getMetaDePeso() { return metaDePeso; }
 
-    public void setMetaDePeso(EditText editMetaDePeso) throws MetaDePesoException {
-        try {
-            this.metaDePeso = Double.parseDouble(editMetaDePeso.getText().toString());
-        } catch (Exception e) {
-            throw new MetaDePesoException();
-        }
-
+    public void setMetaDePeso(double metaDePeso) {
+       this.metaDePeso = metaDePeso;
     }
 
     public double getAltura() {

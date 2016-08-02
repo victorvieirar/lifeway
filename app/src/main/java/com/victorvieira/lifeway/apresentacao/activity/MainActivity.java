@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -41,6 +40,18 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
     };
 
     @Override
+    protected void onResume() {
+        try {
+            if (getIntent().getBooleanExtra("EXIT", false)) {
+                finish();
+            }
+        } catch(Exception e) {
+            //do nothing
+        }
+        super.onResume();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -48,7 +59,8 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
         setTitle("Início");
 
         if(MySingleton.getInstance().getBancoDeDados().getUsuario() == null) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+            finish();
         }
 
         initViews();
@@ -68,6 +80,8 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         setupTabIcons('i');
 
         mSheetLayout = (SheetLayout) findViewById(R.id.bottom_sheet);
@@ -141,7 +155,7 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 switch(position) {
-                    case 0: setupTabIcons('i'); setTitle("Início"); showFloatingActionButton(); break;
+                    case 0: setupTabIcons('i'); setTitle("Início"); ADAPTER.getItem(position).updateFragment(false); showFloatingActionButton(); break;
                     case 1:
                         setupTabIcons('h');
                         hideFloatingActionButton();

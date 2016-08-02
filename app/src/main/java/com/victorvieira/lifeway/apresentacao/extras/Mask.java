@@ -18,6 +18,7 @@ public abstract class Mask {
 
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
+
                 String str = Mask.unmask(s.toString());
                 String mascara = "";
                 if (isUpdating) {
@@ -45,9 +46,11 @@ public abstract class Mask {
 
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
+
             }
 
             public void afterTextChanged(Editable s) {
+
             }
         };
     }

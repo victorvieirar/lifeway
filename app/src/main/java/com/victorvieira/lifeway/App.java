@@ -14,6 +14,14 @@ public class App {
     private final GregorianCalendar DATA_CRIACAO = new GregorianCalendar();
     private int id_refeicao;
 
+    private int imageLogin;
+
+    private String nomeUsuario;
+    private Date dataNascimento;
+    private double peso;
+    private double altura;
+    private double metaDePeso;
+
     private ArrayList<RefeicaoDisponivel> refeicoesDisponiveis = new ArrayList<RefeicaoDisponivel>();
 
     public App() {
@@ -151,6 +159,7 @@ public class App {
         return semana[index];
     }
     public String getStringOfMonthByIndex(int index) {
+        index -= 1;
         String[] mes = { "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro" };
         return mes[index];
     }
@@ -158,4 +167,37 @@ public class App {
     public int getId_refeicao() { return id_refeicao; }
     public void setId_refeicao(int id_refeicao) { this.id_refeicao = id_refeicao; }
 
+    public int getIdade(int anoNascimento, int anoAtual) {
+        int idade = anoAtual - anoNascimento;
+        return idade;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) { this.nomeUsuario = nomeUsuario; }
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+    public void setMetaDePeso(double metaDePeso) { this.metaDePeso = metaDePeso; }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+    public double getPeso() {
+        return peso;
+    }
+    public double getAltura() {
+        return altura;
+    }
+    public double getMetaDePeso() { return metaDePeso; }
+
+    public int getImageLogin() { return imageLogin; }
+    public void setImageLogin(int img) { this.imageLogin = img; }
 }

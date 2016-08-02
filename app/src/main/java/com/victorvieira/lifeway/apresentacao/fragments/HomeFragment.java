@@ -30,6 +30,7 @@ public class HomeFragment extends MyFragment {
     private TextView txtPesoAtual;
     private TextView txtMetaDePeso;
 
+    private boolean isUpdated = false;
     private NestedScrollView nsv;
 
     public HomeFragment() {
@@ -46,7 +47,21 @@ public class HomeFragment extends MyFragment {
 
         initViews(view);
 
-        updateViews();
+        new Thread() {
+            @Override
+            public void run() {
+                do {
+                    updateFragment(false);
+                } while(!(isUpdated));
+                if(isUpdated) {
+                    try {
+                        this.finalize();
+                    } catch (Throwable throwable) {
+                        //do nothing
+                    }
+                }
+            }
+        }.start();
 
         return view;
 
@@ -73,84 +88,72 @@ public class HomeFragment extends MyFragment {
         });
     }
 
-    private void updateViews() {
+    @Override
+    public void updateFragment(boolean mBoolean) {
 
-        new Thread() {
-            @Override
-            public void run() {
-                boolean bContinue = true;
-                do {
+        do {
 
-                    if(MySingleton.getBancoDeDados().getUsuario() != null  &&
-                            MySingleton.getBancoDeDados().getUsuario().getMetaDePeso() != 0) {
+            if(MySingleton.getBancoDeDados().getUsuario() != null  &&
+                    MySingleton.getBancoDeDados().getUsuario().getMetaDePeso() != 0) {
 
-                        bContinue = false;
+                mBoolean = false;
 
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String nomeUsuario = MySingleton.getBancoDeDados().getUsuario().getNome().split(" ")[0];
-                                Date horaAtual = new GregorianCalendar().getTime();
-                                int hora = Integer.parseInt(horaAtual.toString().substring(11, 13));
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String nomeUsuario = MySingleton.getBancoDeDados().getUsuario().getNome().split(" ")[0];
+                        Date horaAtual = new GregorianCalendar().getTime();
+                        int hora = Integer.parseInt(horaAtual.toString().substring(11, 13));
 
-                                if (hora >= 5 && hora <= 11) {
-                                    txtSaudacao.setText("Bom dia, " + nomeUsuario + "!");
-                                    iconSaudacao.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_goodmorning));
+                        if (hora >= 5 && hora <= 11) {
+                            txtSaudacao.setText("Bom dia, " + nomeUsuario + "!");
+                            iconSaudacao.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_goodmorning));
+                        } else {
+                            if (hora >= 12 && hora <= 17) {
+                                txtSaudacao.setText("Boa tarde, " + nomeUsuario + "!");
+                                iconSaudacao.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_goodafternoon));
+                            } else {
+                                if (hora >= 18 && hora <= 23 || hora == 0) {
+                                    txtSaudacao.setText("Boa noite, " + nomeUsuario + "!");
+                                    iconSaudacao.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_goodnight));
                                 } else {
-                                    if (hora >= 12 && hora <= 17) {
-                                        txtSaudacao.setText("Boa tarde, " + nomeUsuario + "!");
-                                        iconSaudacao.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_goodafternoon));
-                                    } else {
-                                        if (hora >= 18 && hora <= 23 || hora == 0) {
-                                            txtSaudacao.setText("Boa noite, " + nomeUsuario + "!");
-                                            iconSaudacao.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_goodnight));
-                                        } else {
-                                            if (hora >= 0 && hora <= 4) {
-                                                txtSaudacao.setText("Vá dormir, " + nomeUsuario + "!");
-                                                iconSaudacao.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_goodnight));
-                                            }
-                                        }
+                                    if (hora >= 0 && hora <= 4) {
+                                        txtSaudacao.setText("Vá dormir, " + nomeUsuario + "!");
+                                        iconSaudacao.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_goodnight));
                                     }
                                 }
-
-                                Usuario usuario = MySingleton.getBancoDeDados().getUsuario();
-                                final double PESO = usuario.getPeso();
-                                final double METADEPESO = usuario.getMetaDePeso();
-                                final double PERCENT = 0;
-                                String sPeso;
-                                try {
-                                    sPeso = Double.toString(PESO).split(".")[0] + "," + Double.toString(PESO).split(".")[1];
-                                } catch (Exception e) {
-                                    sPeso = Double.toString(PESO);
-                                }
-                                if(PESO == METADEPESO) {
-                                    userProgress.setPercent((float) 1);
-                                } else {
-                                    userProgress.setPercent((float) PERCENT);
-                                }
-                                txtPesoAtual.setText(sPeso);
-                                String txtMeta = "meta de peso: " + Double.toString(METADEPESO) + " kg";
-                                txtMetaDePeso.setText(txtMeta);
                             }
-                        });
+                        }
 
-                        break;
+                        Usuario usuario = MySingleton.getBancoDeDados().getUsuario();
+                        final double PESO = usuario.getPeso();
+                        final double METADEPESO = usuario.getMetaDePeso();
+                        final double PERCENT = 0;
+                        String sPeso;
+                        try {
+                            sPeso = Double.toString(PESO).split(".")[0] + "," + Double.toString(PESO).split(".")[1];
+                        } catch (Exception e) {
+                            sPeso = Double.toString(PESO);
+                        }
+                        if(PESO == METADEPESO) {
+                            userProgress.setPercent((float) 1);
+                        } else {
+                            userProgress.setPercent((float) PERCENT);
+                        }
+                        txtPesoAtual.setText(sPeso);
+                        String txtMeta = "meta de peso: " + Double.toString(METADEPESO) + " kg";
+                        txtMetaDePeso.setText(txtMeta);
+
+                        isUpdated = true;
                     }
-
-                } while(bContinue);
-
-                try {
-                    this.finalize();
-                } catch (Throwable throwable) {
-                    //do nothing
-                }
+                });
+                break;
             }
-        }.start();
+
+        } while(mBoolean);
+
 
     }
-
-    @Override
-    public void updateFragment(boolean mBoolean) {}
 
 
 

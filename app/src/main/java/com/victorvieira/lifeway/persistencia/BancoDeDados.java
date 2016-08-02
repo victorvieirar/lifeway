@@ -15,7 +15,6 @@ public class BancoDeDados {
 
     public void setupUsuario(Usuario usuario) { this.usuario = usuario; }
 
-
     public Usuario getUsuario() { return usuario; }
     public App getApp() { return app; }
 

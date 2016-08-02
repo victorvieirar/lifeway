@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.victorvieira.lifeway">
+    package="com.victorvieira.lifeway" >
 
     <application
         android:allowBackup="true"
@@ -8,11 +8,11 @@
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/MyMaterialTheme">
+        android:theme="@style/MyMaterialTheme" >
         <activity
             android:name=".apresentacao.activity.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/MyMaterialTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,18 +20,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".apresentacao.activity.LoginActivity"
+            android:name=".apresentacao.activity.WelcomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme.Fullscreen" />
         <activity
-            android:name=".apresentacao.activity.ConfigInicialActivity"
+            android:name=".apresentacao.activity.CreateAccountActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme.Fullscreen" />
         <activity
             android:name=".apresentacao.activity.AddAlimentoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
-        <activity android:name=".apresentacao.activity.DetalhesRefeicaoActivity"></activity>
+        <activity android:name=".apresentacao.activity.DetalhesRefeicaoActivity" />
+
     </application>
 
 </manifest>

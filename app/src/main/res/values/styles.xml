@@ -1,5 +1,9 @@
 <resources>
 
+    <style name="MyMaterialTheme.Fullscreen" parent="MyMaterialTheme.Base">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
 
     </style>
