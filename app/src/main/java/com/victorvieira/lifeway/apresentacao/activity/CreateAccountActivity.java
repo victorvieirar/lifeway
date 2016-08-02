@@ -26,7 +26,7 @@ public class CreateAccountActivity extends BaseActivity {
     int mesNasc = 1;
     int anoNasc = new GregorianCalendar().getInstance().get(GregorianCalendar.YEAR);
 
-    private boolean keyboardIsHide = false;
+    private boolean keyboardIsHide = true;
 
     private ImageView bgCreateAccount;
     private TextView txtSaudacaoInicial;
