@@ -3,12 +3,12 @@ package com.victorvieira.lifeway.persistencia;
 import com.victorvieira.lifeway.App;
 import com.victorvieira.lifeway.dominio.Usuario;
 
-public class BancoDeDados {
+public class ControladorBD {
 
     private App app;
     private Usuario usuario = null;
 
-    public BancoDeDados() {
+    public ControladorBD() {
         super();
         app = new App();
     }
@@ -17,8 +17,6 @@ public class BancoDeDados {
 
     public Usuario getUsuario() { return usuario; }
     public App getApp() { return app; }
-
-
 
 }
 
