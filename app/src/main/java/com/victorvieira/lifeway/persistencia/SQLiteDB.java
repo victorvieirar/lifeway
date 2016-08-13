@@ -1,12 +1,15 @@
 package com.victorvieira.lifeway.persistencia;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
 public class SQLiteDB extends SQLiteOpenHelper {
 
-    private static final int VERSAO_BD = 1;
+    private static final int DB_VERSION = 1;
+    private static final String DB_NAME = "lifeway";
 
     private static final String TEXT_TYPE = "TEXT";
     private static final String REAL_TYPE = "REAL_TYPE";
@@ -19,6 +22,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
             FeedReaderContract.FeedEntry.USER_COLUMN_PESO + REAL_TYPE + COMMA_SEP +
             FeedReaderContract.FeedEntry.USER_COLUMN_ALTURA + REAL_TYPE + COMMA_SEP +
             FeedReaderContract.FeedEntry.USER_COLUMN_IMC + REAL_TYPE + COMMA_SEP +
+            FeedReaderContract.FeedEntry.USER_COLUMN_DATA_NASCIMENTO + TEXT_TYPE + COMMA_SEP +
             FeedReaderContract.FeedEntry.USER_COLUMN_META + REAL_TYPE + ")";
 
     private static final String SQL_CONSUMO_CREATE_ENTRIES = "CREATE TABLE" +
@@ -42,8 +46,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
             FeedReaderContract.FeedEntry. ALIMENTO_COLUMN_VALOR_CALORICO + TEXT_TYPE +
             ")";
             ;
-    public SQLiteDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public SQLiteDB(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -61,5 +65,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
 
     }
+
+
+
+
 
 }

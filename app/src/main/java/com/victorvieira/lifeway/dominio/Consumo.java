@@ -12,6 +12,7 @@ public class Consumo {
 
     private ArrayList<Refeicao> refeicoes = null;
     private int count = 0;
+    public String set_id;
 
     public Consumo() { super(); }
 

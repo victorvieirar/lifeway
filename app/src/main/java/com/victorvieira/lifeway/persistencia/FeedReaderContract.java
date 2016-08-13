@@ -15,6 +15,7 @@ public final class FeedReaderContract {
         public static final String USER_COLUMN_ALTURA="altura";
         public static final String USER_COLUMN_IMC="imc";
         public static final String USER_COLUMN_META="meta";
+        public static final String USER_COLUMN_DATA_NASCIMENTO="data_nascimento";
 
         /** Consumo */
         public static final String CONSUMO_TABLE_NAME = "consumo";
