@@ -1,9 +1,10 @@
 package com.victorvieira.lifeway.apresentacao.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -16,8 +17,10 @@ import android.widget.Toast;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
+import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.dominio.Usuario;
 
+import java.io.IOException;
 import java.util.GregorianCalendar;
 
 public class CreateAccountActivity extends BaseActivity {
@@ -43,6 +46,13 @@ public class CreateAccountActivity extends BaseActivity {
     private Button btnOkDatePicker;
     private Button btnCancelDatePicker;
     private Button btnContinuar;
+
+    @Override
+    protected void onDestroy() {
+        bgCreateAccount = null;
+        System.gc();
+        super.onDestroy();
+    }
 
     @Override
     public void onBackPressed() {
@@ -79,8 +89,22 @@ public class CreateAccountActivity extends BaseActivity {
         txtSaudacaoInicial = (TextView) findViewById(R.id.txtSaudacaoInicial);
         txtSaudacaoInicial.setText("Olá, " + MySingleton.getBancoDeDados().getApp().getNomeUsuario().split(" ")[0]);
 
-        bgCreateAccount = (ImageView) findViewById(R.id.bgCreateAccount);
-        bgCreateAccount.setImageDrawable(getResources().getDrawable(MySingleton.getBancoDeDados().getApp().getImageLogin()));
+
+        ImageManager imageManager = new ImageManager();
+
+        try {
+            bgCreateAccount = (ImageView) findViewById(R.id.bgCreateAccount);
+
+            Bitmap bitmap = imageManager.createBitmap(getResources(), MySingleton.getBancoDeDados().getApp().getImageLogin(),
+                    bgCreateAccount.getWidth(), bgCreateAccount.getHeight());
+
+            bgCreateAccount.setImageBitmap(bitmap);
+            bitmap.recycle();
+            bitmap = null;
+            System.gc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         txtDataNascimento.setText(diaNasc + " de " + MySingleton.getBancoDeDados().getApp().getStringOfMonthByIndex(mesNasc) + " de " + anoNasc);
         txtDataNascimento.setClickable(true);
@@ -89,7 +113,7 @@ public class CreateAccountActivity extends BaseActivity {
         dpDataNascimento = (DatePicker) findViewById(R.id.dpDataNascimento);
         GregorianCalendar gcMinDate = new GregorianCalendar(1900, 1, 1);
         dpDataNascimento.setMinDate(gcMinDate.getTimeInMillis());
-        dpDataNascimento.updateDate(anoNasc, mesNasc, diaNasc);
+        dpDataNascimento.updateDate(anoNasc, mesNasc-1, diaNasc);
 
         rlDatePicker = (RelativeLayout) findViewById(R.id.rlDatePicker);
     }
@@ -172,17 +196,17 @@ public class CreateAccountActivity extends BaseActivity {
 
                 GregorianCalendar gcDataNascimento = new GregorianCalendar(anoNasc, mesNasc, diaNasc);
 
-                String sData = diaNasc + " de " + MySingleton.getBancoDeDados().getApp().getStringOfMonthByIndex(mesNasc+1) + " de " + anoNasc;
+                String sData = diaNasc + " de " + MySingleton.getBancoDeDados().getApp().getStringOfMonthByIndex(mesNasc) + " de " + anoNasc;
                 txtDataNascimento.setText(sData);
 
-                rlDatePicker.setVisibility(View.INVISIBLE);
+                rlDatePicker.setVisibility(View.GONE);
             }
         });
 
         btnCancelDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rlDatePicker.setVisibility(View.INVISIBLE);
+                rlDatePicker.setVisibility(View.GONE);
             }
         });
 
@@ -199,7 +223,9 @@ public class CreateAccountActivity extends BaseActivity {
                                         MySingleton.getBancoDeDados().getApp().getDataNascimento(),
                                         MySingleton.getBancoDeDados().getApp().getPeso(),
                                         MySingleton.getBancoDeDados().getApp().getAltura(),
-                                        MySingleton.getBancoDeDados().getApp().getMetaDePeso()
+                                        MySingleton.getBancoDeDados().getApp().getMetaDePeso(),
+                                        2000, /** not setup */
+                                        2000  /** not setup */
                                 );
 
                                 MySingleton.getBancoDeDados().setupUsuario(usuario);

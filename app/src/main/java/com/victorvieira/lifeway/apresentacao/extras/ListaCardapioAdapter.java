@@ -53,9 +53,4 @@ public class ListaCardapioAdapter extends ArrayAdapter<RefeicaoDisponivel> {
         lvAlimentos.setAdapter(new ListaAlimentosAdapter(getContext(), listAlimentos, 'a', 'b'));
 
     }
-
-    private void setupListener(View view, final Alimento alimento) {
-
-    }
-
 }

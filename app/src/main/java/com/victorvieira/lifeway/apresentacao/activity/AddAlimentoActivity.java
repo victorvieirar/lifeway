@@ -4,19 +4,25 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
+import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.extras.ListaCardapioAdapter;
 import com.victorvieira.lifeway.apresentacao.extras.MyListView;
 import com.victorvieira.lifeway.dominio.RefeicaoDisponivel;
 
+import java.io.IOException;
 import java.util.List;
 
 public class AddAlimentoActivity extends BaseActivity {
+
+    private ImageView bgAddAlimento;
 
     private Toolbar toolbar;
     private EditText editSearch;
@@ -42,6 +48,12 @@ public class AddAlimentoActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        bgAddAlimento = null;
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
@@ -61,8 +73,7 @@ public class AddAlimentoActivity extends BaseActivity {
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbarAddAlimento);
-        toolbar.setTitle("Adicionar alimento");
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDarkTwo));
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -73,8 +84,23 @@ public class AddAlimentoActivity extends BaseActivity {
         refeicoesDisponiveis = MySingleton.getBancoDeDados().getApp().getRefeicoesDisponiveis();
         adapter = new ListaCardapioAdapter(this, refeicoesDisponiveis);
         lvCardapio.setAdapter(adapter);
-    }
 
+        ImageManager imageManager = new ImageManager();
+        bgAddAlimento = (ImageView) findViewById(R.id.bgHistoric);
+
+        if(!(MySingleton.getBancoDeDados().getApp().hasImageHistoric())) {
+            MySingleton.getBancoDeDados().getApp().setImageHistoric(imageManager.createBitmap(getResources(), R.drawable.salmon_steak,
+                    bgAddAlimento.getWidth(), bgAddAlimento.getHeight()));
+        }
+
+        try {
+            bgAddAlimento.setImageBitmap(MySingleton.getBancoDeDados().getApp().getImageHistoric());
+            System.gc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private void setupListeners() {
         editSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {

@@ -1,8 +1,10 @@
 package com.victorvieira.lifeway.apresentacao.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +13,9 @@ import android.widget.Toast;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
+import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
+
+import java.io.IOException;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -21,7 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private int random;
 
-    int[] imagens = {
+    private int[] imagens = {
             R.drawable.exercising_woman,
             R.drawable.exercising_woman_2,
             R.drawable.man_running_2,
@@ -36,20 +41,38 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         initViews();
-
         setupListeners();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        bgLogin = null;
+        System.gc();
+        super.onDestroy();
     }
 
     private void initViews() {
 
         editNome = (EditText) this.findViewById(R.id.editNome);
         btnContinuar = (Button) this.findViewById(R.id.btnContinuar);
-        bgLogin = (ImageView) this.findViewById(R.id.bgLogin);
 
         random = (int) (Math.random() * 6);
+        MySingleton.getBancoDeDados().getApp().setImageLogin(imagens[random]);
 
-        bgLogin.setImageDrawable(getResources().getDrawable(imagens[random]));
+        ImageManager imageManager = new ImageManager();
+
+        try {
+            bgLogin = (ImageView) this.findViewById(R.id.bgLogin);
+            Bitmap bitmap = imageManager.createBitmap(getResources(), imagens[random], bgLogin.getWidth(), bgLogin.getHeight());
+            bgLogin.setImageBitmap(bitmap);
+            bitmap.recycle();
+            bitmap = null;
+            System.gc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void setupListeners() {
@@ -79,6 +102,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     nomeUsuario = editNome.getText().toString();
                     MySingleton.getBancoDeDados().getApp().setNomeUsuario(nomeUsuario);
                     MySingleton.getBancoDeDados().getApp().setImageLogin(imagens[random]);
+                    bgLogin = null;
                     startActivity(new Intent(WelcomeActivity.this, CreateAccountActivity.class));
                     finish();
 
@@ -91,5 +115,6 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
     }
+
 
 }

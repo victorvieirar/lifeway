@@ -1,19 +1,25 @@
 package com.victorvieira.lifeway.apresentacao.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
+import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.extras.ListaHistoricoAdapter;
 import com.victorvieira.lifeway.apresentacao.extras.MyListView;
 import com.victorvieira.lifeway.dominio.Refeicao;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,7 +27,9 @@ import java.util.List;
 
 public class HistoricFragment extends MyFragment {
 
-    private View view;
+    private View mView;
+
+    private ImageView bgHistoric;
 
     private NestedScrollView nsv;
     private ImageButton btnDataAnterior;
@@ -49,38 +57,56 @@ public class HistoricFragment extends MyFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        view = inflater.inflate(R.layout.fragment_historic, container, false);
+        mView = inflater.inflate(R.layout.fragment_historic, container, false);
 
         initViews();
         setupListeners();
         updateFragment(true);
 
-        return view;
+        return mView;
     }
 
     private void initViews() {
-        lvHistorico = (MyListView) view.findViewById(R.id.lvHistoric);
-        txtIntroHistoric = (TextView) view.findViewById(R.id.txtIntroHistoric);
+        lvHistorico = (MyListView) mView.findViewById(R.id.lvHistoric);
+        txtIntroHistoric = (TextView) mView.findViewById(R.id.txtIntroHistoric);
         txtIntroHistoric.setText("Esse é seu histórico." +
                 "\nVocê ainda não possui alimentos cadastrados." +
                 "\nQuando você consumir alimentos, eles ficarão guardados aqui. Basta então selecionar a data e ver suas refeições.");
 
-        txtDataAtual = (TextView) view.findViewById(R.id.txtDataAtual);
+        txtDataAtual = (TextView) mView.findViewById(R.id.txtDataAtual);
         txtDataAtual.setText("hoje");
 
-        btnDataAnterior = (ImageButton) view.findViewById(R.id.btnDataAnterior);
-        btnDataPosterior = (ImageButton) view.findViewById(R.id.btnDataPosterior);
+        btnDataAnterior = (ImageButton) mView.findViewById(R.id.btnDataAnterior);
+        btnDataPosterior = (ImageButton) mView.findViewById(R.id.btnDataPosterior);
 
         btnDataAnterior.setEnabled(false);
         btnDataAnterior.setAlpha((float) 0.5);
         btnDataPosterior.setEnabled(false);
         btnDataPosterior.setAlpha((float) 0.5);
 
-        nsv = (NestedScrollView) view.findViewById(R.id.nsvHistoricFragment);
+        nsv = (NestedScrollView) mView.findViewById(R.id.nsvHistoricFragment);
         nsv.smoothScrollTo(0, (int) txtIntroHistoric.getY());
 
         gcSelected.setTime(new Date());
+
+        ImageManager imageManager = new ImageManager();
+        bgHistoric = (ImageView) mView.findViewById(R.id.bgHistoric);
+
+        if(!(MySingleton.getBancoDeDados().getApp().hasImageHistoric())) {
+            MySingleton.getBancoDeDados().getApp().setImageHistoric(imageManager.createBitmap(getResources(), R.drawable.salmon_steak,
+                    bgHistoric.getWidth(), bgHistoric.getHeight()));
+        }
+
+        try {
+            bgHistoric.setImageBitmap(MySingleton.getBancoDeDados().getApp().getImageHistoric());
+            System.gc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        imageManager = null;
+        System.gc();
+
     }
 
     private void setupListeners() {

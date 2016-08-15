@@ -1,5 +1,9 @@
 package com.victorvieira.lifeway;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
+
 import com.victorvieira.lifeway.dominio.Alimento;
 import com.victorvieira.lifeway.dominio.Refeicao;
 import com.victorvieira.lifeway.dominio.RefeicaoDisponivel;
@@ -15,6 +19,8 @@ public class App {
     private int id_refeicao;
 
     private int imageLogin;
+
+    private Bitmap image_historic;
 
     private String nomeUsuario;
     private Date dataNascimento;
@@ -43,6 +49,17 @@ public class App {
             refeicoesDisponiveis.add(refeicaoDisponivel);
         }
     }
+
+    public boolean hasImageHistoric() {
+        if(image_historic == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public void setImageHistoric(Bitmap bitmap) { this.image_historic = bitmap; bitmap = null; System.gc(); }
+    public Bitmap getImageHistoric() { return image_historic; }
+    public void clearImageHistoric() { image_historic = null; System.gc(); }
 
     public ArrayList<RefeicaoDisponivel> getRefeicoesDisponiveis() { return refeicoesDisponiveis; }
 

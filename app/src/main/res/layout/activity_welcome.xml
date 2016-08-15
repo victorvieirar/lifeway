@@ -18,7 +18,6 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/exercising_woman"
             android:alpha="0.7"
             android:id="@+id/bgLogin"
             android:scaleType="centerCrop"

@@ -1,43 +1,52 @@
 package com.victorvieira.lifeway.apresentacao.activity;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.github.fabtransitionactivity.SheetLayout;
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
+import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.fragments.HomeFragment;
 import com.victorvieira.lifeway.apresentacao.fragments.HistoricFragment;
-import com.victorvieira.lifeway.apresentacao.fragments.MyFragment;
+
+import java.io.IOException;
 
 
-public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnimationEndListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
-    private SheetLayout mSheetLayout;
-    private FloatingActionButton mFab;
+    private LayoutInflater mInflater;
+    private View nav_header;
+
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private Toolbar toolbar;
+
+    private FragmentManager fragmentManager;
+    private HomeFragment homeFragment;
+    private HistoricFragment historicFragment;
+    private FrameLayout flMain;
+
+    private NavigationView navigationView;
 
     private static final int REQUEST_CODE = 1;
-
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-
-    private boolean mIsLargeLayout;
-
-    private int[] tabIcons = {
-            R.drawable.ic_home_24dp,
-            R.drawable.ic_restore_24dp,
-    };
 
     @Override
     protected void onResume() {
@@ -56,8 +65,6 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setTitle("Início");
-
         if(MySingleton.getInstance().getBancoDeDados().getUsuario() == null) {
             startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
             finish();
@@ -65,151 +72,113 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
 
         initViews();
 
-        mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
-
-        setupListeners();
     }
 
     private void initViews() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        flMain = (FrameLayout) findViewById(R.id.flMain);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        setupTabIcons('i');
+        drawer = (DrawerLayout) findViewById(R.id.dlMain);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-        mSheetLayout = (SheetLayout) findViewById(R.id.bottom_sheet);
-        mFab = (FloatingActionButton) findViewById(R.id.fabAddAlimentoFast);
+        navigationView = (NavigationView) findViewById(R.id.nvMain);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_home);
 
-        mSheetLayout.setFab(mFab);
-        mSheetLayout.setFabAnimationEndListener(this);
-    }
+        homeFragment = new HomeFragment();
+        historicFragment = new HistoricFragment();
 
-    @Override
-    public void onFabAnimationEnd() {
-        Intent intent = new Intent(this, AddAlimentoActivity.class);
-        startActivityForResult(intent, REQUEST_CODE);
-    }
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.flMain, homeFragment);
+        fragmentTransaction.commit();
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE){
-            mSheetLayout.contractFab();
+        mInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        nav_header = mInflater.inflate(R.layout.nav_header, null, false);
+
+        TextView nome_nav_header = (TextView) nav_header.findViewById(R.id.nome_nav_header);
+        TextView sobrenome_nav_header = (TextView) nav_header.findViewById(R.id.sobrenome_nav_header);
+
+        try {
+            nome_nav_header.setText(MySingleton.getBancoDeDados().getUsuario().getNome().split(" ")[0]);
+            sobrenome_nav_header.setText(MySingleton.getBancoDeDados().getUsuario().getNome().split(" ")[1]);
+        } catch(Exception e) {
+            sobrenome_nav_header.setText("");
         }
-    }
 
-    public void showFloatingActionButton() {
-        mFab.show();
-    }
+        ImageManager imageManager = new ImageManager();
+        ImageView bg_nav_header = (ImageView) nav_header.findViewById(R.id.bg_nav_header);
 
-    public void hideFloatingActionButton() {
-        mFab.hide();
-    }
+        try {
+            Bitmap bitmap = imageManager.createBitmap(getResources(), R.drawable.man_and_woman_walking,
+                    bg_nav_header.getWidth(), bg_nav_header.getHeight());
 
-    private void setupListeners() {
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSheetLayout.expandFab();
-            }
-        });
+            bg_nav_header.setImageBitmap(bitmap);
+            bitmap.recycle();
+            bitmap = null;
+            System.gc();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
     public void onBackPressed() {
-        finish();
-    }
-
-    private void setupTabIcons(char state) {
-        switch(state) {
-            case 'i':
-                tabIcons[0] = R.drawable.ic_home_selected_24dp;
-                tabIcons[1] = R.drawable.ic_restore_24dp;
-                tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-                tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-                break;
-            case 'h':
-                tabIcons[0] = R.drawable.ic_home_24dp;
-                tabIcons[1] = R.drawable.ic_restore_selected_24dp;
-                tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-                tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-                break;
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.dlMain);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
-
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        final ViewPagerAdapter ADAPTER = new ViewPagerAdapter(getSupportFragmentManager());
-        ADAPTER.addFrag(new HomeFragment(), "Início");
-        ADAPTER.addFrag(new HistoricFragment(), "Histórico");
-        viewPager.setAdapter(ADAPTER);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                switch(position) {
-                    case 0: setupTabIcons('i'); setTitle("Início"); ADAPTER.getItem(position).updateFragment(false); showFloatingActionButton(); break;
-                    case 1:
-                        setupTabIcons('h');
-                        hideFloatingActionButton();
-                        if(MySingleton.getBancoDeDados().getUsuario().getConsumo() != null) {
-                            ADAPTER.getItem(position).updateFragment(true);
-                        }
-                        setTitle("Histórico"); break;
-                }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+       // try {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            switch (item.getItemId()) {
+                case R.id.nav_home:
+                    homeFragment.updateFragment(false); // false = nothread; true = thread;
+                    fragmentTransaction.replace(R.id.flMain, homeFragment).commit();
+                    break;
+                case R.id.nav_historic:
+                    try {
+                        fragmentTransaction.replace(R.id.flMain, historicFragment).commit();
+                        historicFragment.updateFragment(true); // true = zera o horario; false = mantem o horario;
+                    } catch(Exception e) {
+                        //do nothing
+                    }
+                    break;
+                default:
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(getApplicationContext(), "Ainda não disponível", duration);
+                    toast.show();
+                    break;
             }
-
-            @Override
-            public void onPageSelected(int position) {
-                //do nothing
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                //do nothing
-            }
-        });
-
+        /*} catch(Exception e) {
+            //do nothing
+        }*/
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<MyFragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+    public void hideToolbar() { toolbar.setVisibility(View.GONE); }
+    public void showToolbar() { toolbar.setVisibility(View.VISIBLE); }
 
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public MyFragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFrag(MyFragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            // return null to display only the icon
-            return null;
-        }
-
-
-    }
 
 }

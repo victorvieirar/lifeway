@@ -4,6 +4,10 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="ToolbarColoredBackArrow" parent="MyMaterialTheme">
+        <item name="android:textColorSecondary">#fff</item>
+    </style>
+
     <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
 
     </style>
@@ -14,6 +18,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/WhiteDrawerIconStyle</item>
+    </style>
+
+    <style name="WhiteDrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
     </style>
 
     <style name="MyDialog" parent="@android:style/Theme.Dialog">

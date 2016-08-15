@@ -1,25 +1,29 @@
 package com.victorvieira.lifeway.apresentacao.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
+import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.extras.ListaAlimentosAdapter;
 import com.victorvieira.lifeway.apresentacao.extras.MyListView;
 import com.victorvieira.lifeway.dominio.Alimento;
 import com.victorvieira.lifeway.dominio.Refeicao;
 
+import java.io.IOException;
 import java.util.List;
 
 public class DetalhesRefeicaoActivity extends BaseActivity {
 
     private Toolbar toolbar;
+
+    private ImageView bgDetalhesRefeicao;
 
     private TextView txtNomeRefeicao;
     private ListView lvAlimentos;
@@ -45,6 +49,12 @@ public class DetalhesRefeicaoActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        bgDetalhesRefeicao = null;
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
@@ -64,8 +74,7 @@ public class DetalhesRefeicaoActivity extends BaseActivity {
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbarDetalhesRefeicao);
-        toolbar.setTitle("Detalhes da refeição");
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDarkTwo));
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -87,9 +96,27 @@ public class DetalhesRefeicaoActivity extends BaseActivity {
                 break;
         }
 
+        ImageManager imageManager = new ImageManager();
+        bgDetalhesRefeicao = (ImageView) findViewById(R.id.bgDetalhesRefeicao);
+
+        if(!(MySingleton.getBancoDeDados().getApp().hasImageHistoric())) {
+            MySingleton.getBancoDeDados().getApp().setImageHistoric(imageManager.createBitmap(getResources(), R.drawable.salmon_steak,
+                    bgDetalhesRefeicao.getWidth(), bgDetalhesRefeicao.getHeight()));
+        }
+
+        try {
+            bgDetalhesRefeicao.setImageBitmap(MySingleton.getBancoDeDados().getApp().getImageHistoric());
+            System.gc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         listAlimentos = refeicao.getAlimentos();
         ListaAlimentosAdapter adapter = new ListaAlimentosAdapter(this, listAlimentos, 'b', 'b');
         lvAlimentos.setAdapter(adapter);
+
+        imageManager = null;
+        System.gc();
 
     }
 }

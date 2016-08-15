@@ -1,0 +1,6 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <item name="ic_home" type="drawable">@drawable/ic_home_24dp</item>
+    <item name="ic_historic" type="drawable">@drawable/ic_historic_24dp</item>
+    <item name="ic_performance" type="drawable">@drawable/ic_performance_24dp</item>
+    <item name="ic_settings" type="drawable">@drawable/ic_settings_24dp</item>
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single" >
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Início" />
+        <item
+            android:id="@+id/nav_historic"
+            android:icon="@drawable/ic_historic"
+            android:title="Histórico" />
+        <item
+            android:id="@+id/nav_performance"
+            android:icon="@drawable/ic_performance"
+            android:title="Meu desempenho" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Configurações" />
+    </group>
+
+    <item android:title="Lifeway">
+        <menu>
+            <item
+                android:id="@+id/nav_about"
+                android:title="Sobre" />
+            <item
+                android:id="@+id/nav_politicy"
+                android:title="Política de Privacidade" />
+        </menu>
+    </item>
+
+</menu>

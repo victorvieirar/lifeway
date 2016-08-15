@@ -6,8 +6,6 @@ import com.victorvieira.lifeway.R;
 
 public class BaseActivity extends AppCompatActivity {
 
-
-
     protected void enterFromBottomAnimation(){
         overridePendingTransition(R.anim.activity_open_translate_from_bottom, R.anim.activity_no_animation);
     }

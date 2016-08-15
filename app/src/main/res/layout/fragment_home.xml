@@ -6,200 +6,619 @@
     android:layout_height="fill_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#f9f9f9"
     android:scrollbars="vertical"
     android:fadeScrollbars="true"
+    android:background="@android:color/transparent"
     tools:context=".apresentacao.fragments.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000">
+
+        <!--
+         wallpapers: nature, good_morning_1, good_morning_2,
+                     cappucino, ..., x;
+         -->
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:alpha="0.6"
+            android:scaleType="centerCrop"
+            android:id="@+id/bgHome"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Olá, Victor"
+                android:textColor="#eee"
+                android:textSize="30dp"
+                android:id="@+id/txtSaudacao" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtSaudacao"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="peso"
+                    android:textAlignment="center"
+                    android:textSize="15dp"
+                    android:textColor="#eee"
+                    android:alpha="0.7"
+                    android:layout_marginTop="20dp"
+                    android:layout_centerHorizontal="true" />
+
+                <com.liulishuo.magicprogresswidget.MagicProgressCircle
+                    android:id="@+id/userProgress"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"
+                    app:mpc_percent="0.8"
+                    app:mpc_start_color="#bbb"
+                    app:mpc_end_color="#eee"
+                    app:mpc_stroke_width="7dp"
+                    app:mpc_default_color="@color/mpc_default_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50"
+                    android:textAlignment="center"
+                    android:textSize="45dp"
+                    android:textColor="#eee"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/txtPesoAtual"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.7"
+                    android:text="kg"
+                    android:textAlignment="center"
+                    android:textSize="15dp"
+                    android:textColor="#eee"
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@id/txtPesoAtual"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2100"
+                    android:textSize="25dp"
+                    android:textColor="#eee"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="-80dp"
+                    android:layout_alignLeft="@id/userProgress"
+                    android:id="@+id/txtQntKcalDiaria"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="kcal diária"
+                    android:textColor="#eee"
+                    android:textSize="15dp"
+                    android:alpha="0.7"
+                    android:layout_alignRight="@id/txtQntKcalDiaria"
+                    android:layout_alignTop="@id/txtQntKcalDiaria"
+                    android:layout_marginTop="30dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2010"
+                    android:textSize="25dp"
+                    android:textColor="#eee"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="-80dp"
+                    android:layout_alignRight="@id/userProgress"
+                    android:id="@+id/txtQntAguaDiaria"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ml de água"
+                    android:textColor="#eee"
+                    android:textSize="15dp"
+                    android:alpha="0.7"
+                    android:layout_alignLeft="@id/txtQntAguaDiaria"
+                    android:layout_alignTop="@id/txtQntAguaDiaria"
+                    android:layout_marginTop="30dp"
+                    />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/nsvHomeFragment"
-        android:background="#f9f9f9">
+        android:background="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@android:color/transparent">
 
-            <RelativeLayout
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:id="@+id/rlSaudacao">
+                android:layout_height="250dp" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#f9f9f9">
+
+                <!-- CARD ALIMENTOS -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="20dp"
+                    android:background="@drawable/bg_cards"
+                    android:id="@+id/card_alimentos">
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center_vertical"
-                        android:id="@+id/ic_saudacao"
-                        android:src="@drawable/ic_goodmorning"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/food_icon">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:scaleType="center"
+                            android:id="@+id/ic_food"
+                            android:src="@drawable/food_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@id/food_icon"
+                        android:id="@+id/title_area_alimentos">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="1300 kcal"
+                            android:textSize="15dp"
+                            android:textColor="#808080"
+                            android:id="@+id/info_alimentos"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="Alimentos"
+                            android:textSize="20dp"
+                            android:textColor="#212121"
+                            android:id="@+id/title_alimentos"/>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="27dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_centerVertical="true"
+                            android:alpha="0.5"
+                            android:layout_toLeftOf="@id/info_alimentos"
+                            android:background="#808080" />
+
+                    </RelativeLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Bom dia, Victor"
-                        android:textSize="35dp"
-                        android:textAlignment="center"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="#777"
-                        android:id="@+id/txtSaudacao" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="200dp"
-                android:layout_height="1dp"
-                android:background="#CCC"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:id="@+id/rlProgress"
-                android:layout_below="@id/rlSaudacao">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:id="@+id/rlPesoInfo">
-
-                    <com.liulishuo.magicprogresswidget.MagicProgressCircle
-                        android:id="@+id/userProgress"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        app:mpc_percent="0.8"
-                        app:mpc_start_color="#09d41e"
-                        app:mpc_end_color="#07790f"
-                        app:mpc_stroke_width="15dp"
-                        app:mpc_default_color="@color/mpc_default_color"
-                        android:layout_centerHorizontal="true"
-                        android:layout_alignParentTop="true" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textAlignment="center"
-                        android:textSize="55dp"
-                        android:textColor="#777"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/txtPesoAtual"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Kg"
-                        android:textAlignment="center"
-                        android:textSize="25dp"
-                        android:textColor="#777"
-                        android:layout_below="@id/userProgress"
-                        android:layout_marginTop="-60dp"
-                        android:layout_centerHorizontal="true"
-                        android:id="@+id/textView" />
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/food_icon"
+                        android:layout_below="@id/title_area_alimentos"
+                        android:layout_marginTop="5dp"
+                        android:text="Você só precisa ingerir mais 800 kcal hoje para completar sua meta diária."
+                        android:textSize="15dp"
+                        android:textColor="#212121"
+                        android:id="@+id/descricao_alimentos" />
 
                 </RelativeLayout>
 
+                <!-- CARD ÁGUA -->
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_below="@id/rlPesoInfo"
-                    android:layout_centerHorizontal="true">
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="20dp"
+                    android:background="@drawable/bg_cards"
+                    android:id="@+id/card_agua">
 
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_meta"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/ic_meta"/>
-
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="meta de peso: "
-                        android:textAlignment="center"
-                        android:textSize="20dp"
-                        android:textColor="#777"
-                        android:id="@+id/txtMetaDePeso"
-                        android:layout_marginLeft="5dp"
+                        android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/ic_meta"/>
+                        android:id="@+id/water_icon">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:scaleType="center"
+                            android:id="@+id/ic_water"
+                            android:src="@drawable/water_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@id/water_icon"
+                        android:id="@+id/title_area_agua">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="150 ml"
+                            android:textSize="15dp"
+                            android:textColor="#808080"
+                            android:id="@+id/info_agua"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="Água"
+                            android:textSize="20dp"
+                            android:textColor="#212121"
+                            android:id="@+id/title_agua"/>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="27dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_centerVertical="true"
+                            android:alpha="0.5"
+                            android:layout_toLeftOf="@id/info_agua"
+                            android:background="#808080" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/water_icon"
+                        android:layout_below="@id/title_area_agua"
+                        android:layout_marginTop="5dp"
+                        android:text="Você precisa ingerir mais 1860 ml de água por hoje."
+                        android:textSize="15dp"
+                        android:textColor="#212121"
+                        android:id="@+id/descricao_agua" />
 
                 </RelativeLayout>
 
-            </RelativeLayout>
+                <!-- CARD EXERCÍCIOS -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="20dp"
+                    android:background="@drawable/bg_cards"
+                    android:id="@+id/card_exercicios">
 
-            <View
-                android:layout_width="200dp"
-                android:layout_height="1dp"
-                android:background="#CCC"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/exercise_icon">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Você deve estar com fome..."
-                android:textColor="#444"
-                android:textSize="30dp"
-                android:textAlignment="center"
-                android:id="@+id/txtIncentivo"
-                android:layout_below="@id/rlProgress"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                />
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:scaleType="center"
+                            android:id="@+id/ic_exercise"
+                            android:src="@drawable/exercise_icon" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Que tal fazer uma refeição saudável?"
-                android:textColor="#777"
-                android:textSize="20dp"
-                android:textAlignment="center"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_below="@id/txtIncentivo"
-                android:layout_centerHorizontal="true"
-                />
+                    </RelativeLayout>
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@id/exercise_icon"
+                        android:id="@+id/title_area_exercicios">
 
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="10 min"
+                            android:textSize="15dp"
+                            android:textColor="#808080"
+                            android:id="@+id/info_exercicios"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="Exercícios"
+                            android:textSize="20dp"
+                            android:textColor="#212121"
+                            android:id="@+id/title_exercicios"/>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_centerVertical="true"
+                            android:alpha="0.5"
+                            android:layout_toLeftOf="@id/info_exercicios"
+                            android:background="#808080" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/exercise_icon"
+                        android:layout_below="@id/title_area_exercicios"
+                        android:layout_marginTop="5dp"
+                        android:text="Você já praticou 10 minutos de exercício hoje."
+                        android:textSize="15dp"
+                        android:textColor="#212121"
+                        android:id="@+id/descricao_exercicios" />
+
+                </RelativeLayout>
+
+                <!-- CARD DICA 1 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="20dp"
+                    android:background="@drawable/bg_card_dica_1"
+                    android:id="@+id/card_dica_1">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/dica_1_icon">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:scaleType="center"
+                            android:id="@+id/ic_dica_1"
+                            android:src="@drawable/sleep_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@id/dica_1_icon"
+                        android:id="@+id/title_area_dica_1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="Sono"
+                            android:textSize="20dp"
+                            android:textColor="#f9f9f9"
+                            android:id="@+id/title_dica_1"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/dica_1_icon"
+                        android:layout_below="@id/title_area_dica_1"
+                        android:layout_marginTop="5dp"
+                        android:text="Tente sempre dormir mais de 6 horas por dia, faz bem."
+                        android:textSize="15dp"
+                        android:textColor="#f9f9f9"
+                        android:id="@+id/descricao_dica_1" />
+
+                </RelativeLayout>
+
+                <!-- CARD PROPAGANDA -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="20dp"
+                    android:background="@drawable/bg_premium_ad"
+                    android:id="@+id/card_propaganda">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/premium_icon">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:scaleType="center"
+                            android:src="@drawable/premium_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/title_area_propaganda">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="70dp"
+                            android:text="Assine o Lifeway Premium"
+                            android:textSize="30dp"
+                            android:textColor="#f9f9f9"
+                            android:id="@+id/title_propaganda"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_toLeftOf="@id/premium_icon"
+                        android:layout_below="@id/title_area_propaganda"
+                        android:text="Dicas especializadas, exercícios, refeições combinadas, auxílio diário.\n\nPor apenas \nRS 4,99/mês"
+                        android:textSize="15dp"
+                        android:textColor="#f9f9f9"
+                        android:id="@+id/descricao_propaganda" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_below="@id/descricao_propaganda"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="15dp"
+                            android:paddingLeft="15dp"
+                            android:alpha="0.7"
+                            android:text="assinar"
+                            android:textSize="15dp"
+                            android:textColor="#fff"
+                            android:id="@+id/btn_assinar"
+                            android:background="@drawable/btn_assinar" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <!-- CARD DICA 2 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="20dp"
+                    android:background="@drawable/bg_card_dica_2"
+                    android:id="@+id/card_dica_2">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/dica_2_icon">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:scaleType="center"
+                            android:id="@+id/ic_dica_2"
+                            android:src="@drawable/exercise_icon_dica" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@id/dica_2_icon"
+                        android:id="@+id/title_area_dica_2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="Exercício"
+                            android:textSize="20dp"
+                            android:textColor="#f9f9f9"
+                            android:id="@+id/title_dica_2"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/dica_2_icon"
+                        android:layout_below="@id/title_area_dica_2"
+                        android:layout_marginTop="5dp"
+                        android:text="Exercite-se ao menos 30 min por dia."
+                        android:textSize="15dp"
+                        android:textColor="#f9f9f9"
+                        android:id="@+id/descricao_dica_2" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/logo_icon"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
