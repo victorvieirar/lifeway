@@ -19,17 +19,22 @@ import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.dominio.Usuario;
+import com.victorvieira.lifeway.persistencia.ControladorBD;
 
-import java.io.IOException;
 import java.util.GregorianCalendar;
 
 public class CreateAccountActivity extends BaseActivity {
 
+    private ControladorBD bd;
+
     int diaNasc = 1;
-    int mesNasc = 1;
+    int mesNasc = 0;
     int anoNasc = new GregorianCalendar().getInstance().get(GregorianCalendar.YEAR);
 
     private boolean keyboardIsHide = true;
+
+    private int bgWidth;
+    private int bgHeight;
 
     private ImageView bgCreateAccount;
     private TextView txtSaudacaoInicial;
@@ -71,12 +76,21 @@ public class CreateAccountActivity extends BaseActivity {
         enterFromBottomAnimation();
 
         super.onCreate(savedInstanceState);
+
+        bd = new ControladorBD(this);
+
         setContentView(R.layout.activity_create_account);
         initViews();
         setupListeners();
     }
 
     private void initViews() {
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        bgWidth = metrics.widthPixels;
+        bgHeight = metrics.heightPixels;
 
         editMetaDePeso = (EditText) findViewById(R.id.editMetaDePeso);
         editPeso = (EditText) findViewById(R.id.editPeso);
@@ -87,7 +101,7 @@ public class CreateAccountActivity extends BaseActivity {
         btnOkDatePicker = (Button) findViewById(R.id.btnOkDatePicker);
 
         txtSaudacaoInicial = (TextView) findViewById(R.id.txtSaudacaoInicial);
-        txtSaudacaoInicial.setText("Olá, " + MySingleton.getBancoDeDados().getApp().getNomeUsuario().split(" ")[0]);
+        txtSaudacaoInicial.setText("Olá, " + MySingleton.getApp().getNomeUsuario().split(" ")[0]);
 
 
         ImageManager imageManager = new ImageManager();
@@ -95,23 +109,20 @@ public class CreateAccountActivity extends BaseActivity {
         try {
             bgCreateAccount = (ImageView) findViewById(R.id.bgCreateAccount);
 
-            Bitmap bitmap = imageManager.createBitmap(getResources(), MySingleton.getBancoDeDados().getApp().getImageLogin(),
-                    bgCreateAccount.getWidth(), bgCreateAccount.getHeight());
-
+            Bitmap bitmap = imageManager.createBitmap(getResources(), MySingleton.getApp().getImageLogin(), bgWidth, bgHeight);
             bgCreateAccount.setImageBitmap(bitmap);
-            bitmap.recycle();
             bitmap = null;
             System.gc();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        txtDataNascimento.setText(diaNasc + " de " + MySingleton.getBancoDeDados().getApp().getStringOfMonthByIndex(mesNasc) + " de " + anoNasc);
+        txtDataNascimento.setText(diaNasc + " de " + MySingleton.getApp().getStringOfMonthByIndex(1 + mesNasc) + " de " + anoNasc);
         txtDataNascimento.setClickable(true);
         rlTextDataNascimento = (RelativeLayout) findViewById(R.id.rlTextDataNascimento);
 
         dpDataNascimento = (DatePicker) findViewById(R.id.dpDataNascimento);
-        GregorianCalendar gcMinDate = new GregorianCalendar(1900, 1, 1);
+        GregorianCalendar gcMinDate = new GregorianCalendar(1900, 0, 1);
         dpDataNascimento.setMinDate(gcMinDate.getTimeInMillis());
         dpDataNascimento.updateDate(anoNasc, mesNasc-1, diaNasc);
 
@@ -191,12 +202,12 @@ public class CreateAccountActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 diaNasc = dpDataNascimento.getDayOfMonth();
-                mesNasc = dpDataNascimento.getMonth() + 1;
+                mesNasc = dpDataNascimento.getMonth();
                 anoNasc = dpDataNascimento.getYear();
 
                 GregorianCalendar gcDataNascimento = new GregorianCalendar(anoNasc, mesNasc, diaNasc);
 
-                String sData = diaNasc + " de " + MySingleton.getBancoDeDados().getApp().getStringOfMonthByIndex(mesNasc) + " de " + anoNasc;
+                String sData = diaNasc + " de " + MySingleton.getApp().getStringOfMonthByIndex(1+mesNasc) + " de " + anoNasc;
                 txtDataNascimento.setText(sData);
 
                 rlDatePicker.setVisibility(View.GONE);
@@ -219,16 +230,17 @@ public class CreateAccountActivity extends BaseActivity {
                         if(stepThree()) {
                             if(stepFour()) {
                                 Usuario usuario = new Usuario(
-                                        MySingleton.getBancoDeDados().getApp().getNomeUsuario(),
-                                        MySingleton.getBancoDeDados().getApp().getDataNascimento(),
-                                        MySingleton.getBancoDeDados().getApp().getPeso(),
-                                        MySingleton.getBancoDeDados().getApp().getAltura(),
-                                        MySingleton.getBancoDeDados().getApp().getMetaDePeso(),
+                                        0, //default
+                                        MySingleton.getApp().getNomeUsuario(),
+                                        MySingleton.getApp().getDataNascimento(),
+                                        MySingleton.getApp().getPeso(),
+                                        MySingleton.getApp().getAltura(),
+                                        MySingleton.getApp().getMetaDePeso(),
                                         2000, /** not setup */
                                         2000  /** not setup */
                                 );
 
-                                MySingleton.getBancoDeDados().setupUsuario(usuario);
+                                bd.inserirUsuario(usuario);
                                 startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
                                 finish();
 
@@ -264,7 +276,7 @@ public class CreateAccountActivity extends BaseActivity {
                 !(editPeso.getText().toString().toLowerCase().contains("peso"))) {
             try {
                 double peso = Double.parseDouble(editPeso.getText().toString());
-                MySingleton.getBancoDeDados().getApp().setPeso(peso);
+                MySingleton.getApp().setPeso(peso);
                 return true;
             } catch(Exception e) {
                 return false;
@@ -279,7 +291,7 @@ public class CreateAccountActivity extends BaseActivity {
                 !(editAltura.getText().toString().toLowerCase().contains("altura"))) {
             try {
                 Double altura = Double.parseDouble(editAltura.getText().toString());
-                MySingleton.getBancoDeDados().getApp().setAltura(altura);
+                MySingleton.getApp().setAltura(altura);
                 return true;
             } catch(Exception e) {
                 return false;
@@ -291,7 +303,7 @@ public class CreateAccountActivity extends BaseActivity {
     private boolean stepThree() {
         try {
             GregorianCalendar gcDataNascimento = new GregorianCalendar(anoNasc, mesNasc, diaNasc);
-            MySingleton.getBancoDeDados().getApp().setDataNascimento(gcDataNascimento.getTime());
+            MySingleton.getApp().setDataNascimento(gcDataNascimento.getTime());
             return true;
         } catch(Exception e) {
             return false;
@@ -302,7 +314,7 @@ public class CreateAccountActivity extends BaseActivity {
         try {
             if(Double.parseDouble(editMetaDePeso.getText().toString()) != 0) {
                 double metaDePeso = Double.parseDouble(editMetaDePeso.getText().toString());
-                MySingleton.getBancoDeDados().getApp().setMetaDePeso(metaDePeso);
+                MySingleton.getApp().setMetaDePeso(metaDePeso);
                 return true;
             } else {
                 return false;

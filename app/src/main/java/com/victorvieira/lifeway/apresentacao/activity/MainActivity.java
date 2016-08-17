@@ -1,6 +1,7 @@
 package com.victorvieira.lifeway.apresentacao.activity;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
@@ -26,12 +27,17 @@ import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.fragments.HomeFragment;
 import com.victorvieira.lifeway.apresentacao.fragments.HistoricFragment;
+import com.victorvieira.lifeway.persistencia.ControladorBD;
 
 import java.io.IOException;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
+    private int bgWidth;
+    private int bgHeight;
+
+    private ControladorBD bd;
     private LayoutInflater mInflater;
     private View nav_header;
 
@@ -65,16 +71,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(MySingleton.getInstance().getBancoDeDados().getUsuario() == null) {
+        bd = new ControladorBD(this);
+
+        if(!(bd.hasUser())) {
             startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
             finish();
         }
-
-        initViews();
+        if(bd.hasUser()) {
+            initViews();
+        }
 
     }
 
     private void initViews() {
+
         toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -105,21 +115,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         TextView sobrenome_nav_header = (TextView) nav_header.findViewById(R.id.sobrenome_nav_header);
 
         try {
-            nome_nav_header.setText(MySingleton.getBancoDeDados().getUsuario().getNome().split(" ")[0]);
-            sobrenome_nav_header.setText(MySingleton.getBancoDeDados().getUsuario().getNome().split(" ")[1]);
+            nome_nav_header.setText(bd.getUsuario().getNome().split(" ")[0]);
+            sobrenome_nav_header.setText(bd.getUsuario().getNome().split(" ")[1]);
         } catch(Exception e) {
             sobrenome_nav_header.setText("");
         }
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        bgWidth = navigationView.getWidth();
+        bgHeight = (int) (160 * Resources.getSystem().getDisplayMetrics().density);
 
         ImageManager imageManager = new ImageManager();
         ImageView bg_nav_header = (ImageView) nav_header.findViewById(R.id.bg_nav_header);
 
         try {
             Bitmap bitmap = imageManager.createBitmap(getResources(), R.drawable.man_and_woman_walking,
-                    bg_nav_header.getWidth(), bg_nav_header.getHeight());
+                    bgWidth, bgHeight);
 
             bg_nav_header.setImageBitmap(bitmap);
-            bitmap.recycle();
             bitmap = null;
             System.gc();
 

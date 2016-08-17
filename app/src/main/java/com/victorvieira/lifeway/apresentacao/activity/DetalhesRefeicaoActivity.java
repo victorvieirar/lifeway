@@ -1,5 +1,6 @@
 package com.victorvieira.lifeway.apresentacao.activity;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -15,12 +16,17 @@ import com.victorvieira.lifeway.apresentacao.extras.ListaAlimentosAdapter;
 import com.victorvieira.lifeway.apresentacao.extras.MyListView;
 import com.victorvieira.lifeway.dominio.Alimento;
 import com.victorvieira.lifeway.dominio.Refeicao;
+import com.victorvieira.lifeway.persistencia.ControladorBD;
 
 import java.io.IOException;
 import java.util.List;
 
 public class DetalhesRefeicaoActivity extends BaseActivity {
 
+    private int bgWidth;
+    private int bgHeight;
+
+    private ControladorBD bd;
     private Toolbar toolbar;
 
     private ImageView bgDetalhesRefeicao;
@@ -37,7 +43,9 @@ public class DetalhesRefeicaoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_refeicao);
 
-        id_refeicao = MySingleton.getBancoDeDados().getApp().getId_refeicao();
+        bd = new ControladorBD(this);
+
+        id_refeicao = MySingleton.getApp().getId_refeicao();
 
         initViews();
     }
@@ -73,6 +81,13 @@ public class DetalhesRefeicaoActivity extends BaseActivity {
     }
 
     private void initViews() {
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        bgWidth = metrics.widthPixels;
+        bgHeight = (int) (150 * Resources.getSystem().getDisplayMetrics().density);
+
         toolbar = (Toolbar) findViewById(R.id.toolbarDetalhesRefeicao);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -82,7 +97,7 @@ public class DetalhesRefeicaoActivity extends BaseActivity {
         txtNomeRefeicao = (TextView) findViewById(R.id.txtNomeRefeicaoOnDetails);
         lvAlimentos = (MyListView) findViewById(R.id.lvAlimentosOnDetails);
 
-        Refeicao refeicao = MySingleton.getBancoDeDados().getUsuario().getConsumo().getRefeicaoById(id_refeicao);
+        Refeicao refeicao = bd.getConsumo().getRefeicaoById(id_refeicao);
 
         switch(refeicao.getTipo()) {
             case 'c':
@@ -99,13 +114,13 @@ public class DetalhesRefeicaoActivity extends BaseActivity {
         ImageManager imageManager = new ImageManager();
         bgDetalhesRefeicao = (ImageView) findViewById(R.id.bgDetalhesRefeicao);
 
-        if(!(MySingleton.getBancoDeDados().getApp().hasImageHistoric())) {
-            MySingleton.getBancoDeDados().getApp().setImageHistoric(imageManager.createBitmap(getResources(), R.drawable.salmon_steak,
-                    bgDetalhesRefeicao.getWidth(), bgDetalhesRefeicao.getHeight()));
+        if(!(MySingleton.getApp().hasImageHistoric())) {
+            MySingleton.getApp().setImageHistoric(imageManager.createBitmap(getResources(), R.drawable.salmon_steak,
+                    bgWidth, bgHeight));
         }
 
         try {
-            bgDetalhesRefeicao.setImageBitmap(MySingleton.getBancoDeDados().getApp().getImageHistoric());
+            bgDetalhesRefeicao.setImageBitmap(MySingleton.getApp().getImageHistoric());
             System.gc();
         } catch (Exception e) {
             e.printStackTrace();

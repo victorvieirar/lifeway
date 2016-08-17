@@ -19,6 +19,7 @@ public class ImageManager {
         final int width = options.outWidth;
         int inSampleSize = 1;
 
+
         if (height > reqHeight || width > reqWidth) {
 
             final int halfHeight = height / 2;

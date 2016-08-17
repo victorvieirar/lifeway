@@ -4,6 +4,7 @@ import com.victorvieira.lifeway.MySingleton;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Refeicao {
 
@@ -12,7 +13,11 @@ public class Refeicao {
     private ArrayList<Alimento> alimentosConsumidos = new ArrayList<Alimento>();
     private ArrayList<Date> horariosDeConsumo = new ArrayList<Date>();
 
-   public Refeicao(char tipo, int id) {
+    public Refeicao() {
+        super();
+    }
+
+    public Refeicao(char tipo, int id) {
         this.tipo = tipo;
         this.id = id;
     }
@@ -22,10 +27,19 @@ public class Refeicao {
         this.horariosDeConsumo.add(horario);
     }
 
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public ArrayList<Alimento> getAlimentos() { return alimentosConsumidos; }
     public ArrayList<Date> getHorarios() { return horariosDeConsumo; }
 
     public char getTipo() { return tipo; }
+
+    public void setTipo(char tipo) {
+        this.tipo = tipo;
+    }
 
     public Date getHorarioByIndex(int index) { return horariosDeConsumo.get(index); }
 
@@ -52,4 +66,20 @@ public class Refeicao {
 
         return alimentos;
     }
+
+
+    public Date getHorarioByAlimento(Alimento alimento) {
+        GregorianCalendar data = new GregorianCalendar();
+        data.setTime(new Date());
+        int count = 0;
+        for(Alimento a : getAlimentos()) {
+            if(a.getId() == alimento.getId()) {
+                data.setTime(getHorarioByIndex(count));
+            }
+            count++;
+        }
+
+        return data.getTime();
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.victorvieira.lifeway.apresentacao.fragments;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
@@ -23,6 +24,7 @@ import com.victorvieira.lifeway.apresentacao.activity.MainActivity;
 import com.victorvieira.lifeway.apresentacao.extras.Card;
 import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.dominio.Usuario;
+import com.victorvieira.lifeway.persistencia.ControladorBD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +34,10 @@ import java.util.List;
 
 public class HomeFragment extends MyFragment {
 
+    private int bgWidth;
+    private int bgHeight;
+
+    private ControladorBD bd;
     private View mView;
 
     private int random;
@@ -78,6 +84,8 @@ public class HomeFragment extends MyFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        bd = new ControladorBD(getContext());
+
         initViews(mView);
 
         new Thread() {
@@ -98,6 +106,13 @@ public class HomeFragment extends MyFragment {
     }
 
     private void initViews(View view) {
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        bgWidth = metrics.widthPixels;
+        bgHeight = (int) (270 * Resources.getSystem().getDisplayMetrics().density);
+
         txtSaudacao = (TextView) view.findViewById(R.id.txtSaudacao);
         txtPesoAtual = (TextView) view.findViewById(R.id.txtPesoAtual);
         userProgress = (MagicProgressCircle) view.findViewById(R.id.userProgress);
@@ -105,20 +120,17 @@ public class HomeFragment extends MyFragment {
 
         random = (int) (Math.random() * 4);
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        MySingleton.getBancoDeDados().getApp().clearImageHistoric();
+        MySingleton.getApp().clearImageHistoric();
 
         ImageManager imageManager = new ImageManager();
         bgHome = (ImageView) view.findViewById(R.id.bgHome);
 
         try {
             Bitmap bitmap = imageManager.createBitmap(getResources(), imgs[random],
-                    bgHome.getWidth(), bgHome.getHeight());
+                    bgWidth, bgHeight);
 
             bgHome.setImageBitmap(bitmap);
-            bitmap.recycle();
             bitmap = null;
             System.gc();
 
@@ -263,11 +275,11 @@ public class HomeFragment extends MyFragment {
 
         do {
 
-            if(MySingleton.getBancoDeDados().getUsuario() != null  && MySingleton.getBancoDeDados().getUsuario().getMetaDePeso() != 0) {
+            if(bd.hasUser()) {
 
                 mBoolean = false;
 
-                String nomeUsuario = MySingleton.getBancoDeDados().getUsuario().getNome().split(" ")[0];
+                String nomeUsuario = bd.getUsuario().getNome().split(" ")[0];
                 Date horaAtual = new GregorianCalendar().getTime();
                 int hora = Integer.parseInt(horaAtual.toString().substring(11, 13));
 
@@ -290,7 +302,7 @@ public class HomeFragment extends MyFragment {
                     }
                 }
 
-                Usuario usuario = MySingleton.getBancoDeDados().getUsuario();
+                Usuario usuario = bd.getUsuario();
                 final double PESO = usuario.getPeso();
                 final double METADEPESO = usuario.getMetaDePeso();
                 final double PERCENT = 0;

@@ -18,6 +18,7 @@ import com.victorvieira.lifeway.apresentacao.activity.DetalhesRefeicaoActivity;
 import com.victorvieira.lifeway.apresentacao.fragments.HistoricFragment;
 import com.victorvieira.lifeway.dominio.Alimento;
 import com.victorvieira.lifeway.dominio.Refeicao;
+import com.victorvieira.lifeway.persistencia.ControladorBD;
 
 import java.util.Date;
 import java.util.List;
@@ -42,6 +43,7 @@ public class ListaHistoricoAdapter extends ArrayAdapter<Refeicao> {
         this.context = context;
         this.type = type;
         this.sData = data;
+
     }
 
     @Override
@@ -65,7 +67,7 @@ public class ListaHistoricoAdapter extends ArrayAdapter<Refeicao> {
             @Override
             public void onClick(View v) {
                 VerMaisRefeicaoButton btnVerMais = (VerMaisRefeicaoButton) v;
-                MySingleton.getBancoDeDados().getApp().setId_refeicao(btnVerMais.getId_refeicao());
+                MySingleton.getApp().setId_refeicao(btnVerMais.getId_refeicao());
                 getContext().startActivity(new Intent(getContext(), DetalhesRefeicaoActivity.class));
             }
         });

@@ -1,8 +1,10 @@
 package com.victorvieira.lifeway.apresentacao.fragments;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.extras.ListaHistoricoAdapter;
 import com.victorvieira.lifeway.apresentacao.extras.MyListView;
 import com.victorvieira.lifeway.dominio.Refeicao;
+import com.victorvieira.lifeway.persistencia.ControladorBD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +30,10 @@ import java.util.List;
 
 public class HistoricFragment extends MyFragment {
 
+    private int bgWidth;
+    private int bgHeight;
+
+    private ControladorBD bd;
     private View mView;
 
     private ImageView bgHistoric;
@@ -58,15 +65,29 @@ public class HistoricFragment extends MyFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_historic, container, false);
+        return mView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        bd = new ControladorBD(getContext());
 
         initViews();
         setupListeners();
         updateFragment(true);
 
-        return mView;
     }
 
     private void initViews() {
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        bgWidth = metrics.widthPixels;
+        bgHeight = (int) (150 * Resources.getSystem().getDisplayMetrics().density);
+
         lvHistorico = (MyListView) mView.findViewById(R.id.lvHistoric);
         txtIntroHistoric = (TextView) mView.findViewById(R.id.txtIntroHistoric);
         txtIntroHistoric.setText("Esse é seu histórico." +
@@ -92,13 +113,13 @@ public class HistoricFragment extends MyFragment {
         ImageManager imageManager = new ImageManager();
         bgHistoric = (ImageView) mView.findViewById(R.id.bgHistoric);
 
-        if(!(MySingleton.getBancoDeDados().getApp().hasImageHistoric())) {
-            MySingleton.getBancoDeDados().getApp().setImageHistoric(imageManager.createBitmap(getResources(), R.drawable.salmon_steak,
-                    bgHistoric.getWidth(), bgHistoric.getHeight()));
+        if(!MySingleton.getApp().hasImageHistoric()) {
+            MySingleton.getApp().setImageHistoric(imageManager.createBitmap(getResources(), R.drawable.salmon_steak,
+                    bgWidth, bgHeight));
         }
 
         try {
-            bgHistoric.setImageBitmap(MySingleton.getBancoDeDados().getApp().getImageHistoric());
+            bgHistoric.setImageBitmap(MySingleton.getApp().getImageHistoric());
             System.gc();
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,9 +154,9 @@ public class HistoricFragment extends MyFragment {
     @Override
     public void updateFragment(boolean mBoolean) { //false = date picker    true = tab
 
-        if(MySingleton.getBancoDeDados().getUsuario() != null && MySingleton.getBancoDeDados().getUsuario().getConsumo() != null) {
+        if(bd.hasConsumo()) {
 
-            horariosExistentes = MySingleton.getBancoDeDados().getUsuario().getConsumo().getHorarios();
+            horariosExistentes = bd.getConsumo().getHorarios();
 
             if(mBoolean) {
                 ref = horariosExistentes.size()-1;
@@ -144,12 +165,12 @@ public class HistoricFragment extends MyFragment {
 
             gcReference.setTime(new Date());
             verificarDisponibilidade();
-            listRefeicoes = MySingleton.getBancoDeDados().getUsuario().getConsumo().getRefeicoesByDayInOrder(gcSelected.getTime());
+            listRefeicoes = bd.getConsumo().getRefeicoesByDayInOrder(gcSelected.getTime());
 
             try {
                 listRefeicoes.get(0).getAlimentos(); //teste de existencia
 
-                txtDataAtual.setText(MySingleton.getBancoDeDados().getApp().getStringOfHour(gcReference, gcSelected));
+                txtDataAtual.setText(MySingleton.getApp().getStringOfHour(gcReference, gcSelected));
                 txtIntroHistoric.setText("Histórico desse dia");
                 ListaHistoricoAdapter adapter = new ListaHistoricoAdapter(getContext(), listRefeicoes, 'b', txtDataAtual.getText().toString());
 
@@ -174,7 +195,7 @@ public class HistoricFragment extends MyFragment {
     }
 
     public void verificarDisponibilidade() {
-        if(MySingleton.getBancoDeDados().getUsuario().getConsumo().getHorarios().size() >= 1) {
+        if(bd.getConsumo().getHorarios().size() >= 1) {
 
             boolean before = ref > 0;
             boolean after = (ref >= 0 && ref < (horariosExistentes.size()-1));

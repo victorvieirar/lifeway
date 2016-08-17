@@ -1,20 +1,30 @@
 package com.victorvieira.lifeway.dominio;
 
+import com.victorvieira.lifeway.MySingleton;
+
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Usuario {
+
+    private int id;
 
     private String nome;
     private Date dataNascimento;
     private double peso;
     private double metaDePeso = 0;
     private double altura;
-    private Consumo consumo;
+    private double imc;
 
     private int kcal_diaria;
     private int agua_diaria;
 
-    public Usuario(String nome, Date dataNascimento, double peso, double altura, double metaDePeso, int kcal_diaria, int agua_diaria){
+    public Usuario() {
+
+    }
+
+    public Usuario(int id, String nome, Date dataNascimento, double peso, double altura, double metaDePeso, int kcal_diaria, int agua_diaria){
+        this.id = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.peso = peso;
@@ -22,18 +32,30 @@ public class Usuario {
         this.metaDePeso = metaDePeso;
         this.kcal_diaria = kcal_diaria;
         this.agua_diaria = agua_diaria;
-        consumo = null;
     }
 
-    public void addRefeicao(Alimento alimento) {
-        if(consumo == null) {
-            consumo = new Consumo();
-        }
+    public Date getDateByString(String sDate) {
+        int dia = Integer.parseInt(sDate.substring(8,10));
+        int mes = 1 - (MySingleton.getApp().getIndexOfMonth(sDate.substring(4,7)));
+        int ano = Integer.parseInt(sDate.substring(25));
 
-        Date horario = new Date();
-        consumo.addRefeicao(alimento, horario);
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(ano, mes, dia);
+        return gregorianCalendar.getTime();
     }
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public double getImc() {
+        imc = peso/Math.pow(altura, 2);
+        return imc;
+    }
+    public void setImc(double imc) {
+        this.imc = imc;
+    }
     public String getNome() {
         return nome;
     }
@@ -43,7 +65,8 @@ public class Usuario {
     public Date getDataNascimento() {
         return dataNascimento;
     }
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(String sDataNascimento) {
+        Date dataNascimento = getDateByString(sDataNascimento);
         this.dataNascimento = dataNascimento;
     }
     public double getPeso() {
@@ -63,12 +86,6 @@ public class Usuario {
     }
     public void setAltura(double altura) {
         this.altura = altura;
-    }
-    public Consumo getConsumo() {
-        return consumo;
-    }
-    public void setConsumo(Consumo consumo) {
-        this.consumo = consumo;
     }
     public int getKcal_diaria() {
         return kcal_diaria;

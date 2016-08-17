@@ -11,11 +11,14 @@ import android.widget.TextView;
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.dominio.Alimento;
+import com.victorvieira.lifeway.persistencia.ControladorBD;
 
 import java.util.Date;
 import java.util.List;
 
 public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
+
+    private ControladorBD bd;
 
     private Context context;
     private List<Alimento> listAlimentos = null;
@@ -28,6 +31,8 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
         this.context = context;
         this.type = type;
         this.color = color;
+
+        bd = new ControladorBD(context);
     }
 
     @Override
@@ -70,12 +75,12 @@ public class ListaAlimentosAdapter extends ArrayAdapter<Alimento> {
 
     }
 
-    private void setupListener(View view, final Alimento alimento) {
+    private void setupListener(View view, final Alimento ALIMENTO) {
         ImageButton btnAddAlimento = (ImageButton) view.findViewById(R.id.btnAddAlimento);
         btnAddAlimento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MySingleton.getBancoDeDados().getUsuario().addRefeicao(alimento);
+                bd.inserirRefeicao(bd.getRefeicaoId(new Date(), ALIMENTO.getTipo()), ALIMENTO.getTipo(), ALIMENTO, new Date());
             }
         });
     }

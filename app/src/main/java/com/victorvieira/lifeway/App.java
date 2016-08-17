@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class App {
 
@@ -36,15 +37,31 @@ public class App {
         createRefeicoes();
     }
 
+    public List<Alimento> getAlimentosInRefeicoesDisponiveis() {
+        List<Alimento> alimentos = new ArrayList<Alimento>();
+
+        for(RefeicaoDisponivel r : getRefeicoesDisponiveis()) {
+            for(Alimento a : r.getAlimentos()) {
+                alimentos.add(a);
+            }
+        }
+
+        return alimentos;
+    }
+
+
     private void createRefeicoes() {
         String[] nome = { "Banana", "Feijão", "Arroz" };
         String[] nomeRefeicao = {"Café da Manhã", "Almoço", "Jantar"};
+        int count = 0;
         char[] type = { 'c', 'a', 'j' };
         for(int i=0; i < 3; i++) {
             RefeicaoDisponivel refeicaoDisponivel = new RefeicaoDisponivel(type[i],nomeRefeicao[i]);
             for(int j = 0; j < 5; j++) {
                 String sNome = nome[i] + " " + Integer.toString(j);
-                refeicaoDisponivel.addAlimento(new Alimento(sNome, type[i]));
+                int indicacao = (int) (Math.random() * 3);
+                Alimento alimento = new Alimento(count++, sNome, type[i], ++indicacao, 120);
+                refeicaoDisponivel.addAlimento(alimento);
             }
             refeicoesDisponiveis.add(refeicaoDisponivel);
         }

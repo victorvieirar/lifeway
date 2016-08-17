@@ -1,5 +1,6 @@
 package com.victorvieira.lifeway.apresentacao.activity;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -16,11 +17,17 @@ import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.extras.ListaCardapioAdapter;
 import com.victorvieira.lifeway.apresentacao.extras.MyListView;
 import com.victorvieira.lifeway.dominio.RefeicaoDisponivel;
+import com.victorvieira.lifeway.persistencia.ControladorBD;
 
 import java.io.IOException;
 import java.util.List;
 
 public class AddAlimentoActivity extends BaseActivity {
+
+    private ControladorBD bd;
+
+    private int bgWidth;
+    private int bgHeight;
 
     private ImageView bgAddAlimento;
 
@@ -36,6 +43,8 @@ public class AddAlimentoActivity extends BaseActivity {
         enterFromBottomAnimation();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_alimento);
+
+        bd = new ControladorBD(this);
 
         initViews();
         setupListeners();
@@ -72,6 +81,12 @@ public class AddAlimentoActivity extends BaseActivity {
     }
 
     private void initViews() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        bgWidth = metrics.widthPixels;
+        bgHeight = (int) (150 * Resources.getSystem().getDisplayMetrics().density);
+
         toolbar = (Toolbar) findViewById(R.id.toolbarAddAlimento);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -81,20 +96,19 @@ public class AddAlimentoActivity extends BaseActivity {
         editSearch = (EditText) findViewById(R.id.editSearch);
         lvCardapio = (MyListView) findViewById(R.id.lvCardapio);
 
-        refeicoesDisponiveis = MySingleton.getBancoDeDados().getApp().getRefeicoesDisponiveis();
+        refeicoesDisponiveis = MySingleton.getApp().getRefeicoesDisponiveis();
         adapter = new ListaCardapioAdapter(this, refeicoesDisponiveis);
         lvCardapio.setAdapter(adapter);
 
         ImageManager imageManager = new ImageManager();
-        bgAddAlimento = (ImageView) findViewById(R.id.bgHistoric);
+        bgAddAlimento = (ImageView) findViewById(R.id.bgAddAlimento);
 
-        if(!(MySingleton.getBancoDeDados().getApp().hasImageHistoric())) {
-            MySingleton.getBancoDeDados().getApp().setImageHistoric(imageManager.createBitmap(getResources(), R.drawable.salmon_steak,
-                    bgAddAlimento.getWidth(), bgAddAlimento.getHeight()));
+        if(!(MySingleton.getApp().hasImageHistoric())) {
+            MySingleton.getApp().setImageHistoric(imageManager.createBitmap(getResources(), R.drawable.salmon_steak, bgWidth, bgHeight));
         }
 
         try {
-            bgAddAlimento.setImageBitmap(MySingleton.getBancoDeDados().getApp().getImageHistoric());
+            bgAddAlimento.setImageBitmap(MySingleton.getApp().getImageHistoric());
             System.gc();
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,7 +143,7 @@ public class AddAlimentoActivity extends BaseActivity {
                 if(pesquisa.equals("")) {
                     lvCardapio.setAdapter(adapter);
                 } else {
-                    List<RefeicaoDisponivel> refeicoesDisponiveis = MySingleton.getBancoDeDados().getApp().getRefeicoesDisponiveisBySearch(pesquisa);
+                    List<RefeicaoDisponivel> refeicoesDisponiveis = MySingleton.getApp().getRefeicoesDisponiveisBySearch(pesquisa);
                     lvCardapio.setAdapter(new ListaCardapioAdapter(editSearch.getContext(), refeicoesDisponiveis));
                 }
 
