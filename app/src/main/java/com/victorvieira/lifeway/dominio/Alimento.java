@@ -41,4 +41,6 @@ public class Alimento {
     public void setNome(String nome) { this.nome = nome; }
     public char getTipo() { return tipo; }
     public void setTipo(char tipo) { this.tipo = tipo; }
+
+
 }
