@@ -34,6 +34,8 @@ import java.util.List;
 
 public class HomeFragment extends MyFragment {
 
+    private int scroll;
+
     private int bgWidth;
     private int bgHeight;
 
@@ -64,6 +66,8 @@ public class HomeFragment extends MyFragment {
     private MagicProgressCircle userProgress;
     private TextView txtSaudacao;
     private TextView txtPesoAtual;
+    private TextView txtQntKcalDiaria;
+    private TextView txtQntAguaDiaria;
 
     private boolean isUpdated = false;
     private NestedScrollView nsv;
@@ -118,8 +122,10 @@ public class HomeFragment extends MyFragment {
         userProgress = (MagicProgressCircle) view.findViewById(R.id.userProgress);
         userProgress.setPercent((float) 0.5);
 
-        random = (int) (Math.random() * 4);
+        txtQntKcalDiaria = (TextView) mView.findViewById(R.id.txtQntKcalDiaria);
+        txtQntAguaDiaria = (TextView) mView.findViewById(R.id.txtQntAguaDiaria);
 
+        random = (int) (Math.random() * 4);
 
         MySingleton.getApp().clearImageHistoric();
 
@@ -144,9 +150,15 @@ public class HomeFragment extends MyFragment {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if(oldScrollY < scrollY) {
-                    ((MainActivity) getActivity()).hideToolbar();
+                    scroll += (scrollY - oldScrollY);
+                    if(scroll == bgHeight) {
+                        ((MainActivity) getActivity()).hideToolbar(scroll);
+                    }
                 } else {
-                    ((MainActivity) getActivity()).showToolbar();
+                    scroll -= (oldScrollY - scrollY);
+                    if(scroll < bgHeight) {
+                        ((MainActivity) getActivity()).showToolbar(scroll);
+                    }
                 }
             }
         });
@@ -303,6 +315,12 @@ public class HomeFragment extends MyFragment {
                 }
 
                 Usuario usuario = bd.getUsuario();
+                final double KCAL = usuario.getKcal_diaria();
+                final double AGUA = usuario.getAgua_diaria();
+
+                txtQntKcalDiaria.setText(Double.toString(KCAL));
+                txtQntAguaDiaria.setText(Double.toString(AGUA));
+
                 final double PESO = usuario.getPeso();
                 final double METADEPESO = usuario.getMetaDePeso();
                 final double PERCENT = 0;

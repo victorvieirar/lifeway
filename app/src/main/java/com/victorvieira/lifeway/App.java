@@ -53,7 +53,7 @@ public class App {
     private void createRefeicoes() {
         String[] nome = { "Banana", "Feijão", "Arroz" };
         String[] nomeRefeicao = {"Café da Manhã", "Almoço", "Jantar"};
-        int count = 0;
+        int count = 1;
         char[] type = { 'c', 'a', 'j' };
         for(int i=0; i < 3; i++) {
             RefeicaoDisponivel refeicaoDisponivel = new RefeicaoDisponivel(type[i],nomeRefeicao[i]);

@@ -5,6 +5,7 @@ public class Alimento {
     private int id;
     private int indicacao; // 1, 2 ou 3
     private double valor_calorico;
+    private int porcoes = 1;
     private String nome;
     private char tipo;
 
@@ -19,6 +20,13 @@ public class Alimento {
         this.valor_calorico = valor_calorico;
     }
 
+    public int getPorcoes() {
+        return porcoes;
+    }
+    public void setPorcoes(int porcoes) {
+        this.porcoes = porcoes;
+        setValor_calorico(valor_calorico*porcoes);
+    }
     public int getIndicacao() {
         return indicacao;
     }

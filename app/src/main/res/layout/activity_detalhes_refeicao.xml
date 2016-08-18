@@ -25,6 +25,15 @@
             android:layout_centerVertical="true"
             android:background="@android:color/transparent" >
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarDetalhesRefeicao"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@null"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:theme="@style/ToolbarColoredBackArrow"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,15 +94,6 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarDetalhesRefeicao"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@null"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:theme="@style/ToolbarColoredBackArrow"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
 </RelativeLayout>

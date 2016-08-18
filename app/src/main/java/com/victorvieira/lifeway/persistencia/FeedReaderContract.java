@@ -28,6 +28,7 @@ public final class FeedReaderContract {
         public static final String REFEICAO_COLUMN_ID_ALIMENTO = "_id_ali";
         public static final String REFEICAO_COLUMN_HORARIO = "horario";
         public static final String REFEICAO_COLUMN_TIPO = "tipo";
+        public static final String REFEICAO_COLUMN_PORCAO = "porcao";
 
         /** Alimento*/
         public static final String ALIMENTO_TABLE_NAME = "alimento";

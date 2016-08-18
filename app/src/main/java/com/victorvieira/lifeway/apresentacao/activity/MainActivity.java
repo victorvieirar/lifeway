@@ -1,6 +1,5 @@
 package com.victorvieira.lifeway.apresentacao.activity;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.support.v4.app.FragmentManager;
@@ -17,22 +16,23 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.fragments.HomeFragment;
 import com.victorvieira.lifeway.apresentacao.fragments.HistoricFragment;
 import com.victorvieira.lifeway.persistencia.ControladorBD;
 
-import java.io.IOException;
-
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener  {
+
+    private int toolbarY;
 
     private int bgWidth;
     private int bgHeight;
@@ -89,6 +89,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
+        toolbarY = (int) toolbar.getY();
+
         flMain = (FrameLayout) findViewById(R.id.flMain);
 
         drawer = (DrawerLayout) findViewById(R.id.dlMain);
@@ -108,8 +110,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         fragmentTransaction.add(R.id.flMain, homeFragment);
         fragmentTransaction.commit();
 
-        mInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        nav_header = mInflater.inflate(R.layout.nav_header, null, false);
+        nav_header = navigationView.getHeaderView(0);
 
         TextView nome_nav_header = (TextView) nav_header.findViewById(R.id.nome_nav_header);
         TextView sobrenome_nav_header = (TextView) nav_header.findViewById(R.id.sobrenome_nav_header);
@@ -192,8 +193,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
-    public void hideToolbar() { toolbar.setVisibility(View.GONE); }
-    public void showToolbar() { toolbar.setVisibility(View.VISIBLE); }
+    public void hideToolbar(int scroll) {
+        toolbar.setY(toolbar.getY()-scroll);
+    }
+    public void showToolbar(int scroll) {
+        toolbar.setY(toolbar.getY()+scroll);
+    }
 
 
 }

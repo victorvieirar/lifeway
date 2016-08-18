@@ -40,7 +40,7 @@ public class ControladorBD {
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_ALTURA, usuario.getAltura());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_META_DE_PESO, usuario.getMetaDePeso());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_IMC, usuario.getImc());
-        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_DATA_NASCIMENTO, usuario.getDataNascimento().toString());
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_DATA_NASCIMENTO, usuario.getDataNascimentoBD());
         db.insert(FeedReaderContract.FeedEntry.USER_TABLE_NAME, null, valores);
     }
     /** Atualizar os dados em usuário */
@@ -51,7 +51,7 @@ public class ControladorBD {
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_ALTURA, usuario.getAltura());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_META_DE_PESO, usuario.getMetaDePeso());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_IMC, usuario.getImc());
-        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_DATA_NASCIMENTO, usuario.getDataNascimento().toString());
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_DATA_NASCIMENTO, usuario.getDataNascimentoBD());
         db.update(FeedReaderContract.FeedEntry.USER_TABLE_NAME, valores,
                 FeedReaderContract.FeedEntry.USER_COLUMN_ID + " = ?", new String[] { ""+usuario.getId() });
     }
@@ -87,7 +87,7 @@ public class ControladorBD {
                 u.setAltura(cursor.getDouble(3));
                 u.setMetaDePeso(cursor.getDouble(4));
                 u.setImc(cursor.getDouble(5));
-                u.setDataNascimento(cursor.getString(6)); //Recebe dd/mm/aaaa
+                u.setDataNascimentoBD(cursor.getString(6)); //Recebe tempo em ms || gc.getTimeInMillis()
                 list.add(u);
 
             } while(cursor.moveToNext());
@@ -151,6 +151,7 @@ public class ControladorBD {
             cursor.moveToFirst();
 
             do {
+
                 Refeicao r = new Refeicao();
                 r.setId((int) cursor.getLong(1));
                 r = buscarRefeicao(r);
@@ -186,26 +187,39 @@ public class ControladorBD {
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTime(horario);
 
-        String sHorario = "" + gc.get(gc.DAY_OF_MONTH) + "/" + gc.get(gc.MONTH)+1 + "/" + gc.get(gc.YEAR);
+        if(!(hasAlimentoAdded(alimento, type, id))) {
 
-        ContentValues valores = new ContentValues();
-        valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID, id);
-        valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID_ALIMENTO, alimento.getId());
-        valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_HORARIO, sHorario);
-        valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_TIPO, Character.toString(type));
-        db.insert(FeedReaderContract.FeedEntry.REFEICAO_TABLE_NAME, null, valores);
+            ContentValues valores = new ContentValues();
+            valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID, id);
+            valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID_ALIMENTO, alimento.getId());
+            valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_HORARIO, ""+horario.getTime());
+            valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_TIPO, Character.toString(type));
+            valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_PORCAO, ""+alimento.getPorcoes());
+            db.insert(FeedReaderContract.FeedEntry.REFEICAO_TABLE_NAME, null, valores);
 
-        Refeicao r = new Refeicao(type, id);
-        r.addAlimento(alimento, horario);
-        inserirConsumo(r);
+            Refeicao r = new Refeicao(type, id);
+            r.addAlimento(alimento, horario);
+            inserirConsumo(r);
+
+        } else {
+
+            alimento.setPorcoes(1 + alimento.getPorcoes());
+            atualizarRefeicao(new Refeicao(type, id), alimento);
+
+        }
+
+
     }
     /** Atualizar os dados em refeicao */
     public void atualizarRefeicao(Refeicao refeicao, Alimento alimento){
         ContentValues valores = new ContentValues();
         valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID, refeicao.getId());
         valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID_ALIMENTO, alimento.getId());
+        valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_TIPO, Character.toString(alimento.getTipo()));
+        valores.put(FeedReaderContract.FeedEntry.REFEICAO_COLUMN_PORCAO, ""+alimento.getPorcoes());
         db.update(FeedReaderContract.FeedEntry.REFEICAO_TABLE_NAME, valores,
-                FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID + " = ?", new String[]{"" + refeicao.getId()});
+                FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID + " = ? AND " +
+                FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID_ALIMENTO + " = ?", new String[]{"" + refeicao.getId(), "" + alimento.getId()});
     }
     /** Deletar refeicao */
     public void deletarRefeicao(Alimento alimento){
@@ -271,12 +285,10 @@ public class ControladorBD {
 
                 result.setId((int) cursor.getLong(0));
                 for(Alimento a : buscarAlimentosDaRefeicao(result)) {
-                    String sHorario = cursor.getString(2);
-                    int dia = Integer.parseInt(sHorario.substring(0,2));
-                    int mes = Integer.parseInt(sHorario.substring(3,5));
-                    int ano = Integer.parseInt(sHorario.substring(6));
-
-                    result.addAlimento(a, new GregorianCalendar(ano, mes, dia).getTime());
+                    long time = Long.parseLong(cursor.getString(2));
+                    GregorianCalendar gc = new GregorianCalendar();
+                    gc.setTimeInMillis(time);
+                    result.addAlimento(a, gc.getTime());
                 }
 
             } while(cursor.moveToNext());
@@ -312,12 +324,12 @@ public class ControladorBD {
                 r.setId((int) cursor.getLong(0));
                 r.setTipo(cursor.getString(3).charAt(0));
                 for(Alimento a : buscarAlimentosDaRefeicao(r)) {
-                    String sHorario = cursor.getString(2);
-                    int dia = Integer.parseInt(sHorario.substring(0,2));
-                    int mes = Integer.parseInt(sHorario.substring(3,5));
-                    int ano = Integer.parseInt(sHorario.substring(6));
+                    long time = Long.parseLong(cursor.getString(2));
 
-                    r.addAlimento(a, new GregorianCalendar(ano, mes, dia).getTime());
+                    GregorianCalendar gc = new GregorianCalendar();
+                    gc.setTimeInMillis(time);
+
+                    r.addAlimento(a, gc.getTime());
                 }
                 list.add(r);
             } while(cursor.moveToNext());
@@ -327,11 +339,23 @@ public class ControladorBD {
     }
     /** EXTRAS */
     public int getRefeicaoId(Date horario, char type) {
-        if(mesmoDia(horario)) {
-            return refeicaoReferente(type);
+        if(buscarRefeicao().size() == 0) {
+            return 1;
         } else {
-            return (1 + getLastRefeicaoId());
+            if(mesmoDia(horario)) {
+                return refeicaoReferente(type);
+            } else {
+                return refeicaoReferente(type);
+            }
         }
+    }
+    public int refeicaoReferente(char type) {
+        for(Refeicao r : buscarRefeicao()) {
+            if(r.getTipo() == type) {
+                return r.getId();
+            }
+        }
+        return 1+getLastRefeicaoId();
     }
     public int getLastRefeicaoId() {
         int id = 1;
@@ -344,14 +368,6 @@ public class ControladorBD {
         }
 
         return id;
-    }
-    public int refeicaoReferente(char type) {
-        for(Refeicao r : buscarRefeicao()) {
-            if(r.getTipo() == type) {
-                return r.getId();
-            }
-        }
-        return 1 + getLastRefeicaoId();
     }
     public boolean mesmoDia(Date horario) {
         GregorianCalendar gcA = new GregorianCalendar();
@@ -383,7 +399,14 @@ public class ControladorBD {
         } else {
             return false;
         }
-
+    }
+    public boolean hasAlimentoAdded(Alimento alimento, char type, int id) {
+        for(Alimento a : buscarAlimentosDaRefeicao(new Refeicao(type, id))) {
+            if (a.getId() == alimento.getId()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

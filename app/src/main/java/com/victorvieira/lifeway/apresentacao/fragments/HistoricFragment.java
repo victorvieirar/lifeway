@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
+import com.victorvieira.lifeway.apresentacao.activity.MainActivity;
 import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.extras.ListaHistoricoAdapter;
 import com.victorvieira.lifeway.apresentacao.extras.MyListView;
@@ -29,6 +30,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class HistoricFragment extends MyFragment {
+
+    private int scroll = 0;
 
     private int bgWidth;
     private int bgHeight;
@@ -106,8 +109,7 @@ public class HistoricFragment extends MyFragment {
         btnDataPosterior.setAlpha((float) 0.5);
 
         nsv = (NestedScrollView) mView.findViewById(R.id.nsvHistoricFragment);
-        nsv.smoothScrollTo(0, (int) txtIntroHistoric.getY());
-
+        
         gcSelected.setTime(new Date());
 
         ImageManager imageManager = new ImageManager();
@@ -146,6 +148,19 @@ public class HistoricFragment extends MyFragment {
                 ++ref;
                 gcSelected.setTime(horariosExistentes.get(ref));
                 updateFragment(false);
+            }
+        });
+
+        nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (oldScrollY < scrollY) {
+                    scroll = (scrollY - oldScrollY);
+                    ((MainActivity) getActivity()).hideToolbar(scroll);
+                } else {
+                    scroll = (oldScrollY - scrollY);
+                    ((MainActivity) getActivity()).showToolbar(scroll);
+                }
             }
         });
 

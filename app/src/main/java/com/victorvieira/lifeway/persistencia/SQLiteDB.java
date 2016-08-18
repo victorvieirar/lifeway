@@ -42,6 +42,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
             FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID_ALIMENTO + " " + INTEGER_TYPE + COMMA_SEP +
             FeedReaderContract.FeedEntry.REFEICAO_COLUMN_HORARIO + " " + TEXT_TYPE + COMMA_SEP +
             FeedReaderContract.FeedEntry.REFEICAO_COLUMN_TIPO + " " + TEXT_TYPE + COMMA_SEP +
+            FeedReaderContract.FeedEntry.REFEICAO_COLUMN_PORCAO + " " + INTEGER_TYPE + COMMA_SEP +
             "PRIMARY KEY (" +
             FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID + COMMA_SEP +
             FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID_ALIMENTO + ")" + COMMA_SEP +

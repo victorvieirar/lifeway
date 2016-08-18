@@ -62,11 +62,22 @@ public class Usuario {
     public void setNome(String nome) {
         this.nome = nome;
     }
+    public String getDataNascimentoBD() {
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(dataNascimento);
+        String sTime = ""+gc.getTimeInMillis();
+        return sTime;
+    }
     public Date getDataNascimento() {
         return dataNascimento;
     }
-    public void setDataNascimento(String sDataNascimento) {
-        Date dataNascimento = getDateByString(sDataNascimento);
+    public void setDataNascimentoBD(String sTime) {
+        long time = Long.parseLong(sTime);
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTimeInMillis(time);
+        this.dataNascimento = gc.getTime();
+    }
+    public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
     public double getPeso() {

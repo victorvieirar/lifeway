@@ -87,14 +87,18 @@ public class Consumo {
     }
 
     public ArrayList<Date> getHorarios() {
-        int dia = Integer.parseInt(refeicoes.get(0).getLastHorario().toString().substring(8,10));
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(refeicoes.get(0).getLastHorario());
+
+        int dia = gc.get(gc.DAY_OF_MONTH);
 
         ArrayList<Date> horarios = new ArrayList<Date>();
         horarios.add(refeicoes.get(0).getLastHorario());
 
         for(int i = 0; i < refeicoes.size(); i++) {
-            if(!(dia == Integer.parseInt(refeicoes.get(i).getLastHorario().toString().substring(8,10)))) {
-                dia = Integer.parseInt(refeicoes.get(i).getLastHorario().toString().substring(8,10));
+            gc.setTime(refeicoes.get(i).getLastHorario());
+            if(!(dia == gc.get(gc.DAY_OF_MONTH))) {
+                dia = gc.get(gc.DAY_OF_MONTH);
                 horarios.add(refeicoes.get(i).getLastHorario());
             }
         }
