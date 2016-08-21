@@ -194,10 +194,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     public void hideToolbar(int scroll) {
-        toolbar.setY(toolbar.getY()-scroll);
+
     }
     public void showToolbar(int scroll) {
-        toolbar.setY(toolbar.getY()+scroll);
+
     }
 
 

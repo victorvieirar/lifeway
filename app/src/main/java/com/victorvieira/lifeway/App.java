@@ -37,8 +37,8 @@ public class App {
         createRefeicoes();
     }
 
-    public List<Alimento> getAlimentosInRefeicoesDisponiveis() {
-        List<Alimento> alimentos = new ArrayList<Alimento>();
+    public ArrayList<Alimento> getAlimentosInRefeicoesDisponiveis() {
+        ArrayList<Alimento> alimentos = new ArrayList<Alimento>();
 
         for(RefeicaoDisponivel r : getRefeicoesDisponiveis()) {
             for(Alimento a : r.getAlimentos()) {
@@ -53,12 +53,14 @@ public class App {
     private void createRefeicoes() {
         String[] nome = { "Banana", "Feijão", "Arroz" };
         String[] nomeRefeicao = {"Café da Manhã", "Almoço", "Jantar"};
-        int count = 1;
         char[] type = { 'c', 'a', 'j' };
+
+        int count = 1;
+
         for(int i=0; i < 3; i++) {
             RefeicaoDisponivel refeicaoDisponivel = new RefeicaoDisponivel(type[i],nomeRefeicao[i]);
             for(int j = 0; j < 5; j++) {
-                String sNome = nome[i] + " " + Integer.toString(j);
+                String sNome = nome[i] + " " + j;
                 int indicacao = (int) (Math.random() * 3);
                 Alimento alimento = new Alimento(count++, sNome, type[i], ++indicacao, 120);
                 refeicaoDisponivel.addAlimento(alimento);

@@ -151,14 +151,8 @@ public class HomeFragment extends MyFragment {
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if(oldScrollY < scrollY) {
                     scroll += (scrollY - oldScrollY);
-                    if(scroll == bgHeight) {
-                        ((MainActivity) getActivity()).hideToolbar(scroll);
-                    }
                 } else {
                     scroll -= (oldScrollY - scrollY);
-                    if(scroll < bgHeight) {
-                        ((MainActivity) getActivity()).showToolbar(scroll);
-                    }
                 }
             }
         });

@@ -69,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:text="faça sua busca"
-                    android:textColor="#f9f9f9"
+                    android:textColor="#55f9f9f9"
                     android:inputType="text|textNoSuggestions|textShortMessage"
                     android:paddingLeft="38dp"
                     android:paddingRight="10dp"

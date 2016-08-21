@@ -27,7 +27,7 @@ public class ControladorBD {
         SQLiteDB auxDB = new SQLiteDB(context);
         db = auxDB.getWritableDatabase();
 
-        adicionarAlimentos();
+        if(!(hasAlimentos()))  adicionarAlimentos();
     }
 
 
@@ -144,7 +144,7 @@ public class ControladorBD {
         };
 
         Cursor cursor = db.query(FeedReaderContract.FeedEntry.CONSUMO_TABLE_NAME, colunas, null, null, null, null,
-                FeedReaderContract.FeedEntry.CONSUMO_COLUMN_ID+" ASC");
+                FeedReaderContract.FeedEntry.CONSUMO_COLUMN_ID + " ASC");
 
         if(cursor.getCount() > 0){
 
@@ -166,7 +166,8 @@ public class ControladorBD {
     public Consumo getConsumo() {
         int count = 0;
         Consumo consumo = new Consumo();
-        for(Refeicao r : buscarConsumo()) {
+        List<Refeicao> refeicoes = buscarConsumo();
+        for(Refeicao r : refeicoes) {
             consumo.addRefeicao(r);
         }
         return consumo;
@@ -199,7 +200,9 @@ public class ControladorBD {
 
             Refeicao r = new Refeicao(type, id);
             r.addAlimento(alimento, horario);
-            inserirConsumo(r);
+            if(!(refeicaoAdded(r))) {
+                inserirConsumo(r);
+            }
 
         } else {
 
@@ -232,7 +235,8 @@ public class ControladorBD {
         List<Alimento> list = new ArrayList<Alimento>();
         String[] colunas = new String[]{
                 FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID,
-                FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID_ALIMENTO
+                FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID_ALIMENTO,
+                FeedReaderContract.FeedEntry.REFEICAO_COLUMN_PORCAO
         };
 
         Cursor cursor = db.query(
@@ -252,6 +256,7 @@ public class ControladorBD {
                 Alimento a = new Alimento();
                 a.setId((int) cursor.getLong(1));
                 a = buscarAlimento(a);
+                a.setPorcoes((int) cursor.getLong(2));
                 list.add(a);
 
             } while(cursor.moveToNext());
@@ -261,12 +266,12 @@ public class ControladorBD {
     }
     /** Buscar refeição específica */
     public Refeicao buscarRefeicao(Refeicao r) {
-        Refeicao result = new Refeicao();
 
         String[] colunas = new String[]{
                 FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID,
                 FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID_ALIMENTO,
-                FeedReaderContract.FeedEntry.REFEICAO_COLUMN_HORARIO
+                FeedReaderContract.FeedEntry.REFEICAO_COLUMN_HORARIO,
+                FeedReaderContract.FeedEntry.REFEICAO_COLUMN_PORCAO,
         };
 
         Cursor cursor = db.query(
@@ -283,22 +288,32 @@ public class ControladorBD {
 
             do {
 
-                result.setId((int) cursor.getLong(0));
-                for(Alimento a : buscarAlimentosDaRefeicao(result)) {
-                    long time = Long.parseLong(cursor.getString(2));
-                    GregorianCalendar gc = new GregorianCalendar();
-                    gc.setTimeInMillis(time);
-                    result.addAlimento(a, gc.getTime());
+                Alimento a = new Alimento();
+                a.setId((int) cursor.getLong(1));
+                a = buscarAlimento(a);
+
+                long time = Long.parseLong(cursor.getString(2));
+                GregorianCalendar gc = new GregorianCalendar();
+                gc.setTimeInMillis(time);
+
+                char type = '0';
+                if(type == '0') {
+                    type = a.getTipo();
+                    r.setTipo(type);
                 }
+
+                r.addAlimento(a, gc.getTime());
 
             } while(cursor.moveToNext());
 
         }
 
-        return result;
+        return r;
     }
     /** Buscar todas as refeições */
     public List<Refeicao> buscarRefeicao() {
+        int ref_id;
+
         List<Refeicao> list = new ArrayList<Refeicao>();
         String[] colunas = new String[]{
                 FeedReaderContract.FeedEntry.REFEICAO_COLUMN_ID,
@@ -319,19 +334,18 @@ public class ControladorBD {
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
 
-            do{
+            ref_id = 0;
+
+            do {
                 Refeicao r = new Refeicao();
                 r.setId((int) cursor.getLong(0));
-                r.setTipo(cursor.getString(3).charAt(0));
-                for(Alimento a : buscarAlimentosDaRefeicao(r)) {
-                    long time = Long.parseLong(cursor.getString(2));
 
-                    GregorianCalendar gc = new GregorianCalendar();
-                    gc.setTimeInMillis(time);
-
-                    r.addAlimento(a, gc.getTime());
+                if(!(ref_id == (int)(cursor.getLong(0)))) {
+                    ref_id = (int) cursor.getLong(0);
+                    r = buscarRefeicao(r);
+                    list.add(r);
                 }
-                list.add(r);
+
             } while(cursor.moveToNext());
 
         }
@@ -345,12 +359,13 @@ public class ControladorBD {
             if(mesmoDia(horario)) {
                 return refeicaoReferente(type);
             } else {
-                return refeicaoReferente(type);
+                return getLastRefeicaoId()+1;
             }
         }
     }
     public int refeicaoReferente(char type) {
-        for(Refeicao r : buscarRefeicao()) {
+        List<Refeicao> refeicoes = buscarRefeicao();
+        for(Refeicao r : refeicoes) {
             if(r.getTipo() == type) {
                 return r.getId();
             }
@@ -401,13 +416,24 @@ public class ControladorBD {
         }
     }
     public boolean hasAlimentoAdded(Alimento alimento, char type, int id) {
-        for(Alimento a : buscarAlimentosDaRefeicao(new Refeicao(type, id))) {
+        List<Alimento> alimentos = buscarAlimentosDaRefeicao(new Refeicao(type, id));
+        for(Alimento a : alimentos) {
             if (a.getId() == alimento.getId()) {
                 return true;
             }
         }
         return false;
     }
+    public boolean refeicaoAdded(Refeicao refeicao) {
+        List<Refeicao> refeicoes = buscarConsumo();
+        for(Refeicao r : refeicoes) {
+            if(refeicao.getId() == r.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     /** Alimento */
@@ -503,11 +529,18 @@ public class ControladorBD {
     }
     /** EXTRAS */
     public void adicionarAlimentos() {
-        for(Alimento a : MySingleton.getApp().getAlimentosInRefeicoesDisponiveis()) {
+        ArrayList<Alimento> alimentos = MySingleton.getApp().getAlimentosInRefeicoesDisponiveis();
+        for(Alimento a : alimentos) {
             inserirAlimento(a);
         }
     }
-
+    public boolean hasAlimentos() {
+        if(buscarAlimento().size() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 }
 

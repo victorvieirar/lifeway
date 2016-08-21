@@ -7,79 +7,6 @@
     android:id="@+id/rlHistoricFragment"
     tools:context=".apresentacao.fragments.HistoricFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="#000">
-
-        <!-- wallpapes: salmon_steak -->
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.6"
-            android:scaleType="centerCrop"
-            android:id="@+id/bgHistoric"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_centerHorizontal="true"
-            android:text="Histórico"
-            android:textColor="#eee"
-            android:id="@+id/txtHistoricoTitle"
-            android:textSize="30dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="5dp"
-                android:id="@+id/btnDataAnterior"
-                android:background="@null"
-                android:src="@drawable/ic_navigate_before_30dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:text="selecione a data"
-                android:textColor="#FFF"
-                android:textSize="20dp"
-                android:textAlignment="center"
-                android:id="@+id/txtDataAtual"/>
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/btnDataPosterior"
-                android:background="@null"
-                android:src="@drawable/ic_navigate_next_30dp" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -92,10 +19,80 @@
             android:orientation="vertical"
             android:background="@android:color/transparent">
 
-            <View
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@android:color/transparent" />
+                android:background="#000">
+
+                <!-- wallpapes: salmon_steak -->
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.6"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/bgHistoric"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Histórico"
+                    android:textColor="#eee"
+                    android:id="@+id/txtHistoricoTitle"
+                    android:textSize="30dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp" >
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="5dp"
+                        android:id="@+id/btnDataAnterior"
+                        android:background="@null"
+                        android:clickable="true"
+                        android:src="@drawable/ic_navigate_before_30dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="selecione a data"
+                        android:textColor="#FFF"
+                        android:textSize="20dp"
+                        android:textAlignment="center"
+                        android:id="@+id/txtDataAtual"/>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/btnDataPosterior"
+                        android:background="@null"
+                        android:clickable="true"
+                        android:src="@drawable/ic_navigate_next_30dp" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
