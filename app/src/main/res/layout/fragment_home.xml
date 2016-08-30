@@ -9,6 +9,7 @@
     android:scrollbars="vertical"
     android:fadeScrollbars="true"
     android:background="@android:color/transparent"
+    android:animateLayoutChanges="true"
     tools:context=".apresentacao.fragments.HomeFragment">
 
     <android.support.v4.widget.NestedScrollView

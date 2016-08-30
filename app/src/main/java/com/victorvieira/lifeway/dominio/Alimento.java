@@ -34,7 +34,7 @@ public class Alimento {
         this.indicacao = indicacao;
     }
     public double getValor_calorico() {
-        return valor_calorico;
+        return (porcoes * valor_calorico);
     }
     public void setValor_calorico(double valor_calorico) {
         this.valor_calorico = valor_calorico;

@@ -3,6 +3,8 @@
     <color name="colorPrimary">#0aa416</color>
     <color name="colorPrimaryDark">#07790f</color>
     <color name="colorPrimaryDarkTwo">#044008</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="textColorSecundary">#000000</color>
     <color name="textColorThird">#444</color>
@@ -10,6 +12,7 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#c8e8ff</color>
+    <color name="colorAccentDark">#afbac2</color>
     <color name="colorBreakfast">#E8E32A</color>
     <color name="colorLunch">#E84242</color>
     <color name="colorDinner">#298ed6</color>

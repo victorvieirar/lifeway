@@ -7,7 +7,7 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:animateLayoutChanges="true"
-    android:background="#2abe34" >
+    android:background="#000" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -86,13 +86,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:inputType="textCapWords|textPersonName"
-                android:ems="10"
+                android:maxLength="40"
                 android:id="@+id/editNome"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:text="nome completo"
+                android:hint="qual seu nome?"
+                android:textColorHint="#eeeeee"
                 android:textAlignment="center"
                 android:textSize="20dp"
                 android:textColor="#eeeeee"

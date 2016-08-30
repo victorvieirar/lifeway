@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_dialog_exercises">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:id="@+id/rlHeadDialogExercises">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="#000" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:alpha="0.5"
+            android:scaleType="centerCrop"
+            android:id="@+id/bgExercises"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EXERCÍCIO"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:layout_centerInParent="true"
+            android:shadowColor="#000"
+            android:shadowRadius="2"
+            android:shadowDx="1"
+            android:shadowDy="1"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlHeadDialogExercises"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/rlBodyDialogExercises">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_navigate_before_dialog_50dp"
+            android:background="@android:color/transparent"
+            android:id="@+id/reduceTime"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="10"
+            android:textSize="40dp"
+            android:textAlignment="center"
+            android:textColor="#151515"
+            android:id="@+id/txtTempoExercicio"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="min"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:textColor="#151515"
+            android:layout_below="@id/txtTempoExercicio"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_navigate_next_dialog_50dp"
+            android:background="@android:color/transparent"
+            android:id="@+id/plusTime"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/rlBodyDialogExercises">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:text="Salvar"
+            android:textSize="15dp"
+            android:textColor="#e9e9e9"
+            android:background="@drawable/bg_btn_save"
+            android:id="@+id/btnSalvar"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:text="Cancelar"
+            android:textSize="15dp"
+            android:textColor="#151515"
+            android:background="@drawable/bg_btn_cancel"
+            android:id="@+id/btnCancelar"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -90,20 +90,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void setupListeners() {
 
-        editNome.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    if(editNome.getText().toString() != "" && editNome.getText().toString() != "nome completo") {
-                        editNome.setText("");
-                    }
-                } else {
-                    if(editNome.getText().toString().equals("")) {
-                        editNome.setText("nome completo");
-                    }
-                }
-            }
-        });
 
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override

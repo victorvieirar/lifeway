@@ -21,8 +21,12 @@ import com.victorvieira.lifeway.MySingleton;
 import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.apresentacao.activity.AddAlimentoActivity;
 import com.victorvieira.lifeway.apresentacao.activity.MainActivity;
+import com.victorvieira.lifeway.apresentacao.dialog.DialogExercise;
 import com.victorvieira.lifeway.apresentacao.extras.Card;
 import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
+import com.victorvieira.lifeway.dominio.Agua;
+import com.victorvieira.lifeway.dominio.Consumo;
+import com.victorvieira.lifeway.dominio.Exercicio;
 import com.victorvieira.lifeway.dominio.Usuario;
 import com.victorvieira.lifeway.persistencia.ControladorBD;
 
@@ -34,7 +38,7 @@ import java.util.List;
 
 public class HomeFragment extends MyFragment {
 
-    private int scroll;
+    private int posY = 0;
 
     private int bgWidth;
     private int bgHeight;
@@ -69,6 +73,8 @@ public class HomeFragment extends MyFragment {
     private TextView txtQntKcalDiaria;
     private TextView txtQntAguaDiaria;
 
+    private View.OnClickListener onClickCards;
+
     private boolean isUpdated = false;
     private NestedScrollView nsv;
 
@@ -90,9 +96,9 @@ public class HomeFragment extends MyFragment {
         super.onActivityCreated(savedInstanceState);
         bd = new ControladorBD(getContext());
 
-        initViews(mView);
+        initViews();
 
-        new Thread() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 do {
@@ -102,14 +108,14 @@ public class HomeFragment extends MyFragment {
                     try {
                         this.finalize();
                     } catch (Throwable throwable) {
-                        //do nothing
+                        /** do nothing */
                     }
                 }
             }
-        }.start();
+        });
     }
 
-    private void initViews(View view) {
+    private void initViews() {
 
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -117,20 +123,20 @@ public class HomeFragment extends MyFragment {
         bgWidth = metrics.widthPixels;
         bgHeight = (int) (270 * Resources.getSystem().getDisplayMetrics().density);
 
-        txtSaudacao = (TextView) view.findViewById(R.id.txtSaudacao);
-        txtPesoAtual = (TextView) view.findViewById(R.id.txtPesoAtual);
-        userProgress = (MagicProgressCircle) view.findViewById(R.id.userProgress);
+        txtSaudacao = (TextView) mView.findViewById(R.id.txtSaudacao);
+        txtPesoAtual = (TextView) mView.findViewById(R.id.txtPesoAtual);
+        userProgress = (MagicProgressCircle) mView.findViewById(R.id.userProgress);
         userProgress.setPercent((float) 0.5);
 
-        txtQntKcalDiaria = (TextView) mView.findViewById(R.id.txtQntKcalDiaria);
-        txtQntAguaDiaria = (TextView) mView.findViewById(R.id.txtQntAguaDiaria);
+        txtQntKcalDiaria = (TextView) this.mView.findViewById(R.id.txtQntKcalDiaria);
+        txtQntAguaDiaria = (TextView) this.mView.findViewById(R.id.txtQntAguaDiaria);
 
         random = (int) (Math.random() * 4);
 
         MySingleton.getApp().clearImageHistoric();
 
         ImageManager imageManager = new ImageManager();
-        bgHome = (ImageView) view.findViewById(R.id.bgHome);
+        bgHome = (ImageView) mView.findViewById(R.id.bgHome);
 
         try {
             Bitmap bitmap = imageManager.createBitmap(getResources(), imgs[random],
@@ -144,15 +150,18 @@ public class HomeFragment extends MyFragment {
             e.printStackTrace();
         }
 
-        nsv = (NestedScrollView) view.findViewById(R.id.nsvHomeFragment);
+        nsv = (NestedScrollView) mView.findViewById(R.id.nsvHomeFragment);
 
         nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if(oldScrollY < scrollY) {
-                    scroll += (scrollY - oldScrollY);
+                    int scroll = (scrollY - oldScrollY);
+                    posY += (scrollY - oldScrollY);
+                    ((MainActivity) getActivity()).hideToolbar(scroll, posY, bgHeight);
                 } else {
-                    scroll -= (oldScrollY - scrollY);
+                    posY -= (oldScrollY - scrollY);
+                    ((MainActivity) getActivity()).showToolbar(posY, bgHeight);
                 }
             }
         });
@@ -161,7 +170,6 @@ public class HomeFragment extends MyFragment {
 
         /** type = 'd' > dicas    type = 'c' > card comum */
         cards.add(new Card('c', "Alimentos", "0 kcal", "Você ainda não consumiu alimentos hoje.", R.drawable.food_icon));
-
         cards.add(new Card('c', "Água", "0 ml", "Você ainda não consumiu água hoje.", R.drawable.water_icon));
         cards.add(new Card('c', "Exercícios", "0 min", "Você ainda não praticou nenhum exercício hoje.", R.drawable.exercise_icon));
 
@@ -177,28 +185,28 @@ public class HomeFragment extends MyFragment {
         List<View> views_dica_1 = new ArrayList<>();
         List<View> views_dica_2 = new ArrayList<>();
 
-        views_alimentos.add(mView.findViewById(R.id.title_alimentos));
-        views_alimentos.add(mView.findViewById(R.id.info_alimentos));
-        views_alimentos.add(mView.findViewById(R.id.descricao_alimentos));
-        views_alimentos.add(mView.findViewById(R.id.ic_food));
+        views_alimentos.add(this.mView.findViewById(R.id.title_alimentos));
+        views_alimentos.add(this.mView.findViewById(R.id.info_alimentos));
+        views_alimentos.add(this.mView.findViewById(R.id.descricao_alimentos));
+        views_alimentos.add(this.mView.findViewById(R.id.ic_food));
 
-        views_agua.add(mView.findViewById(R.id.title_agua));
-        views_agua.add(mView.findViewById(R.id.info_agua));
-        views_agua.add(mView.findViewById(R.id.descricao_agua));
-        views_agua.add(mView.findViewById(R.id.ic_water));
+        views_agua.add(this.mView.findViewById(R.id.title_agua));
+        views_agua.add(this.mView.findViewById(R.id.info_agua));
+        views_agua.add(this.mView.findViewById(R.id.descricao_agua));
+        views_agua.add(this.mView.findViewById(R.id.ic_water));
 
-        views_exercicios.add(mView.findViewById(R.id.title_exercicios));
-        views_exercicios.add(mView.findViewById(R.id.info_exercicios));
-        views_exercicios.add(mView.findViewById(R.id.descricao_exercicios));
-        views_exercicios.add(mView.findViewById(R.id.ic_exercise));
+        views_exercicios.add(this.mView.findViewById(R.id.title_exercicios));
+        views_exercicios.add(this.mView.findViewById(R.id.info_exercicios));
+        views_exercicios.add(this.mView.findViewById(R.id.descricao_exercicios));
+        views_exercicios.add(this.mView.findViewById(R.id.ic_exercise));
 
-        views_dica_1.add(mView.findViewById(R.id.title_dica_1));
-        views_dica_1.add(mView.findViewById(R.id.descricao_dica_1));
-        views_dica_1.add(mView.findViewById(R.id.ic_dica_1));
+        views_dica_1.add(this.mView.findViewById(R.id.title_dica_1));
+        views_dica_1.add(this.mView.findViewById(R.id.descricao_dica_1));
+        views_dica_1.add(this.mView.findViewById(R.id.ic_dica_1));
 
-        views_dica_2.add(mView.findViewById(R.id.title_dica_2));
-        views_dica_2.add(mView.findViewById(R.id.descricao_dica_2));
-        views_dica_2.add(mView.findViewById(R.id.ic_dica_2));
+        views_dica_2.add(this.mView.findViewById(R.id.title_dica_2));
+        views_dica_2.add(this.mView.findViewById(R.id.descricao_dica_2));
+        views_dica_2.add(this.mView.findViewById(R.id.ic_dica_2));
 
         views.add(views_alimentos);
         views.add(views_agua);
@@ -212,32 +220,79 @@ public class HomeFragment extends MyFragment {
             count++;
         }
 
-        rlAlimentos = (RelativeLayout) mView.findViewById(R.id.card_alimentos);
+        rlAlimentos = (RelativeLayout) this.mView.findViewById(R.id.card_alimentos);
         rlAlimentos.setClickable(true);
-        rlAgua = (RelativeLayout) mView.findViewById(R.id.card_agua);
+        rlAgua = (RelativeLayout) this.mView.findViewById(R.id.card_agua);
         rlAgua.setClickable(true);
-        rlExercicios = (RelativeLayout) mView.findViewById(R.id.card_exercicios);
+        rlExercicios = (RelativeLayout) this.mView.findViewById(R.id.card_exercicios);
         rlExercicios.setClickable(true);
-        rlDica1 = (RelativeLayout) mView.findViewById(R.id.card_dica_1);
+        rlDica1 = (RelativeLayout) this.mView.findViewById(R.id.card_dica_1);
         rlDica1.setClickable(true);
-        rlDica2 = (RelativeLayout) mView.findViewById(R.id.card_dica_2);
+        rlDica2 = (RelativeLayout) this.mView.findViewById(R.id.card_dica_2);
         rlDica2.setClickable(true);
 
-        rlAlimentos.setOnClickListener(new View.OnClickListener() {
+        onClickCards = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddAlimentoActivity.class));
+                switch(v.getId()) {
+                    case R.id.card_alimentos:
+                        startActivity(new Intent(getActivity(), AddAlimentoActivity.class));
+                        break;
+                    case R.id.card_agua:
+                        if(bd.isAguaUpToDate(new Date())) {
+                            Agua a = bd.getLastAgua();
+                            a.addQuantidade(200);
+                            bd.atualizarAgua(a);
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(getContext(), "Foi adicionado 200 ml de água", duration);
+                            toast.show();
+
+                            updateFragment(false);
+                        } else {
+                            Agua a = new Agua();
+                            a.setQuantidade(200);
+                            a.setData(new Date());
+                            bd.inserirAgua(a);
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(getContext(), "Foi adicionado 200 ml de água", duration);
+                            toast.show();
+
+                            updateFragment(false);
+                        }
+                        break;
+                    case R.id.card_exercicios:
+                        DialogExercise dialog = new DialogExercise(getContext());
+                        dialog.show();
+                        break;
+
+
+                    case R.id.card_dica_1:
+                        rlDica1.setVisibility(View.GONE);
+                        break;
+                    case R.id.card_dica_2:
+                        rlDica2.setVisibility(View.GONE);
+                        break;
+                }
             }
-        });
+        };
+
+        rlAlimentos.setOnClickListener(onClickCards);
+        rlAgua.setOnClickListener(onClickCards);
+        rlExercicios.setOnClickListener(onClickCards);
+        rlDica1.setOnClickListener(onClickCards);
+        rlDica2.setOnClickListener(onClickCards);
+
 
         /** add a listener to rlAgua and rlExercicios */
 
-        btn_assinar = (Button) mView.findViewById(R.id.btn_assinar);
+        btn_assinar = (Button) this.mView.findViewById(R.id.btn_assinar);
         btn_assinar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(getContext(), "Em breve.", duration);
+                Toast toast = Toast.makeText(getContext(), "Em breve", duration);
                 toast.show();
             }
         });
@@ -309,8 +364,8 @@ public class HomeFragment extends MyFragment {
                 }
 
                 Usuario usuario = bd.getUsuario();
-                final double KCAL = usuario.getKcal_diaria();
-                final double AGUA = usuario.getAgua_diaria();
+                final int KCAL = usuario.getKcal_diaria();
+                final int AGUA = usuario.getAgua_diaria();
 
                 txtQntKcalDiaria.setText(Double.toString(KCAL));
                 txtQntAguaDiaria.setText(Double.toString(AGUA));
@@ -326,12 +381,77 @@ public class HomeFragment extends MyFragment {
                 }
                 txtPesoAtual.setText(sPeso);
 
+                try {
+                    Consumo consumo = bd.getConsumo();
+                    double consumoTotalDiario = consumo.getKcalByDay(new Date());
+                    Card card = cards.get(0);
+                    card.setInfo(((int) consumoTotalDiario) + " kcal");
+
+                    if(consumoTotalDiario == 0) {
+                        card.setDescricao("Você ainda não consumiu alimentos hoje.");
+                    } else {
+                        card.setDescricao("Você já consumiu "+((int) consumoTotalDiario)+" kcal de alimentos hoje.");
+                    }
+
+                    setupCard(card, views.get(0));
+
+                } catch(Exception e) {
+                }
+
+                try {
+                    Agua agua;
+                    if(bd.isAguaUpToDate(new Date())) {
+                        agua = bd.getLastAgua();
+                    }  else {
+                        agua = new Agua();
+                        agua.setData(new Date());
+                        agua.setQuantidade(0);
+                    }
+
+                    Card card = cards.get(1);
+
+                    if(agua.getQuantidade() == 0) {
+                        card.setDescricao("Você ainda não consumiu água hoje.");
+                    } else {
+                        card.setDescricao("Você já consumiu "+((int) agua.getQuantidade())+" ml de água hoje.");
+                    }
+                    card.setInfo(((int) agua.getQuantidade()) + " ml");
+
+                    setupCard(card, views.get(1));
+
+                } catch(Exception e) {
+                }
+
+                try {
+                    Exercicio exercicio;
+
+                    if(bd.isExercicioUpToDate(new Date())) {
+                        exercicio = bd.getLastExercicio();
+                    }  else {
+                        exercicio = new Exercicio();
+                        exercicio.setData(new Date());
+                        exercicio.setTempo(0);
+                    }
+
+                    Card card = cards.get(2);
+
+                    if(exercicio.getTempo() == 0) {
+                        card.setDescricao("Você ainda não praticou nenhum exercício hoje.");
+                    } else {
+                        card.setDescricao("Você já praticou "+((int) exercicio.getTempo())+" min de exercício hoje.");
+                    }
+                    card.setInfo(((int) exercicio.getTempo()) + " min");
+
+                    setupCard(card, views.get(2));
+
+                } catch(Exception e) {
+                }
+
                 isUpdated = true;
 
             }
 
         } while(mBoolean);
-
 
     }
 

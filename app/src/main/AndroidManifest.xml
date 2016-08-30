@@ -35,6 +35,11 @@
             android:name=".apresentacao.activity.DetalhesRefeicaoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme.Fullscreen" />
+        <activity
+            android:name=".apresentacao.activity.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".apresentacao.activity.MainActivity"
+            ></activity>
     </application>
 
 </manifest>

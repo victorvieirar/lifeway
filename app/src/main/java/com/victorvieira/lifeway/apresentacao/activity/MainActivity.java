@@ -27,6 +27,7 @@ import com.victorvieira.lifeway.R;
 import com.victorvieira.lifeway.apresentacao.extras.ImageManager;
 import com.victorvieira.lifeway.apresentacao.fragments.HomeFragment;
 import com.victorvieira.lifeway.apresentacao.fragments.HistoricFragment;
+import com.victorvieira.lifeway.apresentacao.fragments.SettingsFragment;
 import com.victorvieira.lifeway.persistencia.ControladorBD;
 
 
@@ -48,6 +49,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private FragmentManager fragmentManager;
     private HomeFragment homeFragment;
     private HistoricFragment historicFragment;
+    private SettingsFragment settingsFragment;
     private FrameLayout flMain;
 
     private NavigationView navigationView;
@@ -59,6 +61,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         try {
             if (getIntent().getBooleanExtra("EXIT", false)) {
                 finish();
+            }
+            if(homeFragment != null) {
+                homeFragment.updateFragment(false);
+            }
+            if(historicFragment != null) {
+                historicFragment.updateFragment(false);
+            }
+            if(settingsFragment != null) {
+                settingsFragment.updateFragment(false);
+
+                TextView nome_nav_header = (TextView) nav_header.findViewById(R.id.nome_nav_header);
+                TextView sobrenome_nav_header = (TextView) nav_header.findViewById(R.id.sobrenome_nav_header);
+
+                try {
+                    nome_nav_header.setText(bd.getUsuario().getNome().split(" ")[0]);
+                    sobrenome_nav_header.setText(bd.getUsuario().getNome().split(" ")[1]);
+                } catch(Exception e) {
+                    sobrenome_nav_header.setText("");
+                }
             }
         } catch(Exception e) {
             //do nothing
@@ -104,6 +125,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         homeFragment = new HomeFragment();
         historicFragment = new HistoricFragment();
+        settingsFragment = new SettingsFragment();
 
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -164,7 +186,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-       // try {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             switch (item.getItemId()) {
@@ -177,7 +198,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         fragmentTransaction.replace(R.id.flMain, historicFragment).commit();
                         historicFragment.updateFragment(true); // true = zera o horario; false = mantem o horario;
                     } catch(Exception e) {
-                        //do nothing
+                        /** do nothing */
+                    }
+                    break;
+                case R.id.nav_settings:
+                    try {
+                        fragmentTransaction.replace(R.id.flMain, settingsFragment).commit();
+                    } catch(Exception e) {
+                        /** do nothing */
                     }
                     break;
                 default:
@@ -186,18 +214,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     toast.show();
                     break;
             }
-        /*} catch(Exception e) {
-            //do nothing
-        }*/
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void hideToolbar(int scroll) {
-
+    public void hideToolbar(int scroll, int posY, int bgHeight) {
+        if(posY == (bgHeight - toolbar.getHeight())) {
+            toolbar.setY((float) scroll);
+        }
     }
-    public void showToolbar(int scroll) {
-
+    public void showToolbar(int posY, int bgHeight) {
+        if(posY < (bgHeight - toolbar.getHeight())) {
+            toolbar.setY((float) toolbarY);
+        }
     }
 
 

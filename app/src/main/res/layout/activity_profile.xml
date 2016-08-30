@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f9f9f9"
+    tools:context="com.victorvieira.lifeway.apresentacao.activity.ProfileActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarProfile"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:layout_scrollFlags="snap"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbarProfile">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:id="@+id/rlNomeEdit">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:inputType="textPersonName"
+                    android:padding="15dp"
+                    android:text="Victor Vieira"
+                    android:textSize="20dp"
+                    android:textColor="#444"
+                    android:background="@drawable/bg_edits_profile"
+                    android:id="@+id/editNomeProfile" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_mode_edit_30dp"
+                    android:layout_margin="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_edits_profile"
+                android:layout_below="@id/rlNomeEdit"
+                android:id="@+id/rlDataNascimentoEdit">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:text="14 de abril de 2000"
+                    android:textSize="20dp"
+                    android:textColor="#444"
+                    android:id="@+id/txtDataNascimentoProfile" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_mode_edit_30dp"
+                    android:layout_margin="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_below="@id/rlDataNascimentoEdit"
+                android:columnCount="2"
+                android:rowCount="1"
+                android:id="@+id/glSexo">
+
+                <Button
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_column="0"
+                    android:layout_row="0"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="fill"
+                    android:text="Masculino"
+                    android:textSize="15dp"
+                    android:textColor="#f9f9f9"
+                    android:textAllCaps="false"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:background="@drawable/bg_btn_sexo_selected"
+                    android:id="@+id/btnMasculino"/>
+
+                <Button
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_column="1"
+                    android:layout_row="0"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="fill"
+                    android:text="Feminino"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textAllCaps="false"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/btnFeminino"
+                    android:background="@drawable/bg_btn_sexo"/>
+
+            </GridLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meta de peso: "
+                android:textSize="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_edits_profile"
+                android:layout_below="@id/rlDataNascimentoEdit"
+                android:id="@+id/rlMetaDePesoEdit">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:maxLength="4"
+                    android:inputType="numberDecimal"
+                    android:text="70"
+                    android:textSize="20dp"
+                    android:textColor="#444"
+                    android:background="@drawable/bg_edits_profile"
+                    android:id="@+id/editMetaDePesoProfile" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_mode_edit_30dp"
+                    android:layout_margin="15dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/imgEdit"
+                    android:layout_alignParentRight="true"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/imgEdit"
+                    android:text="kg"
+                    android:textSize="15dp"
+                    android:textColor="#444"
+                    android:alpha="0.7"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Salvar"
+                    android:textSize="15dp"
+                    android:textColor="#f9f9f9"
+                    android:textAllCaps="true"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="25dp"
+                    android:paddingLeft="25dp"
+                    android:background="@drawable/bg_btn_save"
+                    android:id="@+id/btnSalvar" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Cancelar"
+                    android:textSize="15dp"
+                    android:textColor="#444"
+                    android:textAllCaps="true"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="25dp"
+                    android:paddingLeft="25dp"
+                    android:background="@drawable/bg_btn_cancel"
+                    android:id="@+id/btnCancelar" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:id="@+id/rlDatePicker"
+        android:background="#eee">
+
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@null"
+            android:calendarViewShown="false"
+            android:id="@+id/dpDataNascimento"
+            android:layout_centerInParent="true"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="ok"
+            android:textAllCaps="true"
+            android:textSize="15dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@null"
+            android:id="@+id/btnOkDatePicker"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cancelar"
+            android:textAllCaps="true"
+            android:textSize="15dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@null"
+            android:id="@+id/btnCancelDatePicker"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btnOkDatePicker"
+            android:layout_toStartOf="@+id/btnOkDatePicker" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

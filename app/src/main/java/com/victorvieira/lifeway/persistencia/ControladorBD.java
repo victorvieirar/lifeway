@@ -8,8 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.victorvieira.lifeway.App;
 import com.victorvieira.lifeway.MySingleton;
+import com.victorvieira.lifeway.dominio.Agua;
 import com.victorvieira.lifeway.dominio.Alimento;
 import com.victorvieira.lifeway.dominio.Consumo;
+import com.victorvieira.lifeway.dominio.Exercicio;
 import com.victorvieira.lifeway.dominio.Refeicao;
 import com.victorvieira.lifeway.dominio.Usuario;
 
@@ -35,23 +37,33 @@ public class ControladorBD {
     /** Inserir os dados em usuário */
     public void inserirUsuario(Usuario usuario){
         ContentValues valores = new ContentValues();
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_ID, usuario.getId());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_NOME, usuario.getNome());
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_SEXO, ""+usuario.getSexo());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_PESO, usuario.getPeso());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_ALTURA, usuario.getAltura());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_META_DE_PESO, usuario.getMetaDePeso());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_IMC, usuario.getImc());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_DATA_NASCIMENTO, usuario.getDataNascimentoBD());
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_KCAL_DIARIA, usuario.getKcal_diaria());
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_AGUA_DIARIA, usuario.getAgua_diaria());
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_CONSUMO, 1);
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_CONSUMO_AGUA, 1);
         db.insert(FeedReaderContract.FeedEntry.USER_TABLE_NAME, null, valores);
     }
     /** Atualizar os dados em usuário */
     public void atualizarUsuario(Usuario usuario){
         ContentValues valores = new ContentValues();
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_ID, usuario.getId());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_NOME, usuario.getNome());
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_SEXO, ""+usuario.getSexo());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_PESO, usuario.getPeso());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_ALTURA, usuario.getAltura());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_META_DE_PESO, usuario.getMetaDePeso());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_IMC, usuario.getImc());
         valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_DATA_NASCIMENTO, usuario.getDataNascimentoBD());
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_KCAL_DIARIA, usuario.getKcal_diaria());
+        valores.put(FeedReaderContract.FeedEntry.USER_COLUMN_AGUA_DIARIA, usuario.getAgua_diaria());
         db.update(FeedReaderContract.FeedEntry.USER_TABLE_NAME, valores,
                 FeedReaderContract.FeedEntry.USER_COLUMN_ID + " = ?", new String[] { ""+usuario.getId() });
     }
@@ -67,14 +79,19 @@ public class ControladorBD {
         String[] colunas = new String[] {
                 FeedReaderContract.FeedEntry.USER_COLUMN_ID,
                 FeedReaderContract.FeedEntry.USER_COLUMN_NOME,
+                FeedReaderContract.FeedEntry.USER_COLUMN_SEXO,
                 FeedReaderContract.FeedEntry.USER_COLUMN_PESO,
                 FeedReaderContract.FeedEntry.USER_COLUMN_ALTURA,
                 FeedReaderContract.FeedEntry.USER_COLUMN_META_DE_PESO,
                 FeedReaderContract.FeedEntry.USER_COLUMN_IMC,
-                FeedReaderContract.FeedEntry.USER_COLUMN_DATA_NASCIMENTO
+                FeedReaderContract.FeedEntry.USER_COLUMN_DATA_NASCIMENTO,
+                FeedReaderContract.FeedEntry.USER_COLUMN_KCAL_DIARIA,
+                FeedReaderContract.FeedEntry.USER_COLUMN_AGUA_DIARIA,
+                FeedReaderContract.FeedEntry.USER_COLUMN_CONSUMO,
+                FeedReaderContract.FeedEntry.USER_COLUMN_CONSUMO_AGUA
         };
 
-        Cursor cursor = db.query("Usuario", colunas, null, null, null, null, "_id ASC");
+        Cursor cursor = db.query(FeedReaderContract.FeedEntry.USER_TABLE_NAME, colunas, null, null, null, null, "_id ASC");
 
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
@@ -83,11 +100,16 @@ public class ControladorBD {
                 Usuario u = new Usuario();
                 u.setId((int) cursor.getLong(0));
                 u.setNome(cursor.getString(1));
-                u.setPeso(cursor.getDouble(2));
-                u.setAltura(cursor.getDouble(3));
-                u.setMetaDePeso(cursor.getDouble(4));
-                u.setImc(cursor.getDouble(5));
-                u.setDataNascimentoBD(cursor.getString(6)); //Recebe tempo em ms || gc.getTimeInMillis()
+                u.setSexo(cursor.getString(2).charAt(0));
+                u.setPeso(cursor.getDouble(3));
+                u.setAltura(cursor.getDouble(4));
+                u.setMetaDePeso(cursor.getDouble(5));
+                u.setImc(cursor.getDouble(6));
+                u.setDataNascimentoBD(cursor.getString(7)); //Recebe tempo em ms || gc.getTimeInMillis()
+                u.setKcal_diaria((int) cursor.getLong(8));
+                u.setAgua_diaria((int) cursor.getLong(9));
+                u.setConsumo(getConsumo());
+                u.setConsumo_agua(buscarAgua());
                 list.add(u);
 
             } while(cursor.moveToNext());
@@ -542,6 +564,167 @@ public class ControladorBD {
         }
     }
 
+    /** AGUA */
+    /** INSERIR AGUA */
+    public void inserirAgua(Agua agua) {
+        ContentValues valoresAgua = new ContentValues();
+        valoresAgua.put(FeedReaderContract.FeedEntry.AGUA_COLUMN_QUANTIDADE, agua.getQuantidade());
+        valoresAgua.put(FeedReaderContract.FeedEntry.AGUA_COLUMN_HORARIO, agua.getDataBD());
+        db.insert(FeedReaderContract.FeedEntry.AGUA_TABLE_NAME, null, valoresAgua);
+
+        Agua a = getLastAgua();
+
+        ContentValues valoresConsumoAgua = new ContentValues();
+        valoresConsumoAgua.put(FeedReaderContract.FeedEntry.CONSUMO_AGUA_COLUMN_ID, 1);
+        valoresConsumoAgua.put(FeedReaderContract.FeedEntry.CONSUMO_AGUA_COLUMN_ID_AGUA, a.getId());
+        db.insert(FeedReaderContract.FeedEntry.CONSUMO_AGUA_TABLE_NAME, null, valoresConsumoAgua);
+    }
+    /** ATUALIZAR AGUA */
+    public void atualizarAgua(Agua agua) {
+        ContentValues valores = new ContentValues();
+        valores.put(FeedReaderContract.FeedEntry.AGUA_COLUMN_QUANTIDADE, agua.getQuantidade());
+        valores.put(FeedReaderContract.FeedEntry.AGUA_COLUMN_HORARIO, agua.getDataBD());
+        db.update(FeedReaderContract.FeedEntry.AGUA_TABLE_NAME, valores,
+                FeedReaderContract.FeedEntry.AGUA_COLUMN_ID + " = ?", new String[] { ""+agua.getId() });
+    }
+    /** BUSCAR TODAS AS AGUAS */
+    public ArrayList<Agua> buscarAgua() {
+        ArrayList<Agua> list = new ArrayList<Agua>();
+        String[] colunas = new String[] {
+                FeedReaderContract.FeedEntry.AGUA_COLUMN_ID,
+                FeedReaderContract.FeedEntry.AGUA_COLUMN_QUANTIDADE,
+                FeedReaderContract.FeedEntry.AGUA_COLUMN_HORARIO
+        };
+
+        Cursor cursor = db.query(FeedReaderContract.FeedEntry.AGUA_TABLE_NAME, colunas, null, null, null, null, "_id ASC");
+
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+
+            do{
+                Agua a = new Agua();
+                a.setId((int) cursor.getLong(0));
+                a.setQuantidade(cursor.getDouble(1));
+                a.setDataBD(cursor.getString(2));
+                list.add(a);
+
+            } while(cursor.moveToNext());
+
+        }
+
+        return(list);
+    }
+
+    /** EXTRAS */
+    public Agua getLastAgua() {
+        ArrayList<Agua> aguas = buscarAgua();
+        return aguas.get(aguas.size()-1);
+    }
+    public boolean isAguaUpToDate(Date data) {
+        GregorianCalendar gcN = new GregorianCalendar();
+        gcN.setTime(data);
+
+        Agua a;
+
+        try {
+            a = getLastAgua();
+        } catch(Exception e) {
+            return false;
+        }
+
+        GregorianCalendar gcA = new GregorianCalendar();
+        gcA.setTime(a.getData());
+
+        if(gcN.get(gcN.DAY_OF_MONTH) == gcA.get(gcA.DAY_OF_MONTH) &&
+                gcN.get(gcN.MONTH) == gcA.get(gcA.MONTH) &&
+                gcN.get(gcN.YEAR) == gcA.get(gcA.YEAR)) {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /** EXERCÍCIO */
+    /** INSERIR EXERCÍCIO */
+    public void inserirExercicio(Exercicio exercicio) {
+        ContentValues valoresExercicio = new ContentValues();
+        valoresExercicio.put(FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_TEMPO, exercicio.getTempo());
+        valoresExercicio.put(FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_HORARIO, exercicio.getDataBD());
+        db.insert(FeedReaderContract.FeedEntry.EXERCICIO_TABLE_NAME, null, valoresExercicio);
+
+        Exercicio e = getLastExercicio();
+
+        ContentValues valoresPratica = new ContentValues();
+        valoresPratica.put(FeedReaderContract.FeedEntry.PRATICA_EXERCICIOS_COLUMN_ID, 1);
+        valoresPratica.put(FeedReaderContract.FeedEntry.PRATICA_EXERCICIOS_COLUMN_ID_EXERCICIO, e.getId());
+        db.insert(FeedReaderContract.FeedEntry.PRATICA_EXERCICIOS_TABLE_NAME, null, valoresPratica);
+    }
+    /** ATUALIZAR EXERCICIO */
+    public void atualizarExercicio(Exercicio exercicio) {
+        ContentValues valores = new ContentValues();
+        valores.put(FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_TEMPO, exercicio.getTempo());
+        valores.put(FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_HORARIO, exercicio.getDataBD());
+        db.update(FeedReaderContract.FeedEntry.EXERCICIO_TABLE_NAME, valores,
+                FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_ID + " = ?", new String[] { ""+exercicio.getId() });
+    }
+    /** BUSCAR TODOS OS EXERCÍCIOS */
+    public ArrayList<Exercicio> buscarExercicios() {
+        ArrayList<Exercicio> list = new ArrayList<Exercicio>();
+        String[] colunas = new String[] {
+                FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_ID,
+                FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_TEMPO,
+                FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_HORARIO
+        };
+
+        Cursor cursor = db.query(FeedReaderContract.FeedEntry.EXERCICIO_TABLE_NAME, colunas, null, null, null, null, "_id ASC");
+
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+
+            do{
+                Exercicio e = new Exercicio();
+                e.setId((int) cursor.getLong(0));
+                e.setTempo(cursor.getDouble(1));
+                e.setDataBD(cursor.getString(2));
+                list.add(e);
+
+            } while(cursor.moveToNext());
+
+        }
+
+        return(list);
+    }
+
+    /** EXTRAS */
+    public Exercicio getLastExercicio() {
+        ArrayList<Exercicio> exercicios = buscarExercicios();
+        return exercicios.get(exercicios.size()-1);
+    }
+    public boolean isExercicioUpToDate(Date data) {
+        GregorianCalendar gcN = new GregorianCalendar();
+        gcN.setTime(data);
+
+        Exercicio e;
+
+        try {
+            e = getLastExercicio();
+        } catch(Exception f) {
+            return false;
+        }
+
+        GregorianCalendar gcA = new GregorianCalendar();
+        gcA.setTime(e.getData());
+
+        if(gcN.get(gcN.DAY_OF_MONTH) == gcA.get(gcA.DAY_OF_MONTH) &&
+                gcN.get(gcN.MONTH) == gcA.get(gcA.MONTH) &&
+                gcN.get(gcN.YEAR) == gcA.get(gcA.YEAR)) {
+
+            return true;
+        }
+
+        return false;
+    }
 }
 
 

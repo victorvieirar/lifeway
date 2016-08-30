@@ -31,7 +31,7 @@ import java.util.List;
 
 public class HistoricFragment extends MyFragment {
 
-    private int scroll = 0;
+    private int posY = 0;
 
     private int bgWidth;
     private int bgHeight;
@@ -154,13 +154,14 @@ public class HistoricFragment extends MyFragment {
         nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (oldScrollY < scrollY) {
-                    scroll = (scrollY - oldScrollY);
-                    ((MainActivity) getActivity()).hideToolbar(scroll);
-                } else {
-                    scroll = (oldScrollY - scrollY);
-                    ((MainActivity) getActivity()).showToolbar(scroll);
-                }
+            if(oldScrollY < scrollY) {
+                int scroll = (scrollY - oldScrollY);
+                posY += (scrollY - oldScrollY);
+                ((MainActivity) getActivity()).hideToolbar(scroll, posY, bgHeight);
+            } else {
+                posY -= (oldScrollY - scrollY);
+                ((MainActivity) getActivity()).showToolbar(posY, bgHeight);
+            }
             }
         });
 

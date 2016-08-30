@@ -48,9 +48,14 @@ public class CreateAccountActivity extends BaseActivity {
     private RelativeLayout rlDatePicker;
     private RelativeLayout rlTextDataNascimento;
 
+    private Button btnMasculino;
+    private Button btnFeminino;
+
     private Button btnOkDatePicker;
     private Button btnCancelDatePicker;
     private Button btnContinuar;
+
+    private View.OnClickListener onClickListener;
 
     @Override
     protected void onDestroy() {
@@ -86,6 +91,8 @@ public class CreateAccountActivity extends BaseActivity {
 
     private void initViews() {
 
+        MySingleton.getApp().setSexo('m');
+
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -99,6 +106,9 @@ public class CreateAccountActivity extends BaseActivity {
         btnContinuar = (Button) findViewById(R.id.btnCadatrar);
         btnCancelDatePicker = (Button) findViewById(R.id.btnCancelDatePicker);
         btnOkDatePicker = (Button) findViewById(R.id.btnOkDatePicker);
+
+        btnMasculino = (Button) findViewById(R.id.btnMasculino);
+        btnFeminino = (Button) findViewById(R.id.btnFeminino);
 
         txtSaudacaoInicial = (TextView) findViewById(R.id.txtSaudacaoInicial);
         txtSaudacaoInicial.setText("Olá, " + MySingleton.getApp().getNomeUsuario().split(" ")[0]);
@@ -124,61 +134,42 @@ public class CreateAccountActivity extends BaseActivity {
         dpDataNascimento = (DatePicker) findViewById(R.id.dpDataNascimento);
         GregorianCalendar gcMinDate = new GregorianCalendar(1900, 0, 1);
         dpDataNascimento.setMinDate(gcMinDate.getTimeInMillis());
-        dpDataNascimento.updateDate(anoNasc, mesNasc-1, diaNasc);
+        dpDataNascimento.updateDate(anoNasc, mesNasc, diaNasc);
 
         rlDatePicker = (RelativeLayout) findViewById(R.id.rlDatePicker);
     }
 
     private void setupListeners() {
 
-        editMetaDePeso.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        onClickListener = new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    if(editMetaDePeso.getText().toString().toLowerCase().contains("peso")) {
-                        editMetaDePeso.setText("");
-                    }
-                    keyboardIsHide = false;
-                } else {
-                    if(editMetaDePeso.getText().toString().equals("")) {
-                        editMetaDePeso.setText("meta de peso (em kg)");
-                    }
+            public void onClick(View v) {
+                switch(v.getId()) {
+                    case R.id.btnMasculino:
+                        btnMasculino.setBackground(getResources().getDrawable(R.drawable.bg_btn_sexo_selected_create_account));
+                        btnMasculino.setTextColor(getResources().getColor(R.color.black));
 
+                        btnFeminino.setBackground(getResources().getDrawable(R.drawable.bg_btn_sexo_create_account));
+                        btnFeminino.setTextColor(getResources().getColor(R.color.white));
+
+                        MySingleton.getApp().setSexo('m');
+                        break;
+
+                    case R.id.btnFeminino:
+                        btnFeminino.setBackground(getResources().getDrawable(R.drawable.bg_btn_sexo_selected_create_account));
+                        btnFeminino.setTextColor(getResources().getColor(R.color.black));
+
+                        btnMasculino.setBackground(getResources().getDrawable(R.drawable.bg_btn_sexo_create_account));
+                        btnMasculino.setTextColor(getResources().getColor(R.color.white));
+
+                        MySingleton.getApp().setSexo('f');
+                        break;
                 }
             }
-        });
+        };
 
-        editPeso.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    if(editPeso.getText().toString().toLowerCase().contains("peso")) {
-                        editPeso.setText("");
-                    }
-                    keyboardIsHide = false;
-                } else {
-                    if(editPeso.getText().toString().equals("")) {
-                        editPeso.setText("peso (em kg)");
-                    }
-                }
-            }
-        });
-
-        editAltura.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    if(editAltura.getText().toString().toLowerCase().contains("altura")) {
-                        editAltura.setText("");
-                    }
-                    keyboardIsHide = false;
-                } else {
-                    if(editAltura.getText().toString().equals("")) {
-                        editAltura.setText("altura (em metros)");
-                    }
-                }
-            }
-        });
+        btnMasculino.setOnClickListener(onClickListener);
+        btnFeminino.setOnClickListener(onClickListener);
 
         rlTextDataNascimento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,8 +221,9 @@ public class CreateAccountActivity extends BaseActivity {
                         if(stepThree()) {
                             if(stepFour()) {
                                 Usuario usuario = new Usuario(
-                                        0, //default
+                                        1, //default
                                         MySingleton.getApp().getNomeUsuario(),
+                                        MySingleton.getApp().getSexo(),
                                         MySingleton.getApp().getDataNascimento(),
                                         MySingleton.getApp().getPeso(),
                                         MySingleton.getApp().getAltura(),

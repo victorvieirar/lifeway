@@ -2,6 +2,7 @@ package com.victorvieira.lifeway.dominio;
 
 import com.victorvieira.lifeway.MySingleton;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -15,17 +16,22 @@ public class Usuario {
     private double metaDePeso = 0;
     private double altura;
     private double imc;
+    private char sexo;
 
     private int kcal_diaria;
     private int agua_diaria;
+
+    private Consumo consumo;
+    private ArrayList<Agua> consumo_agua;
 
     public Usuario() {
 
     }
 
-    public Usuario(int id, String nome, Date dataNascimento, double peso, double altura, double metaDePeso, int kcal_diaria, int agua_diaria){
+    public Usuario(int id, String nome, char sexo, Date dataNascimento, double peso, double altura, double metaDePeso, int kcal_diaria, int agua_diaria){
         this.id = id;
         this.nome = nome;
+        this.sexo = sexo;
         this.dataNascimento = dataNascimento;
         this.peso = peso;
         this.altura = altura;
@@ -109,5 +115,19 @@ public class Usuario {
     }
     public void setAgua_diaria(int agua_diaria) {
         this.agua_diaria = agua_diaria;
+    }
+    public char getSexo() { return this.sexo; }
+    public void setSexo(char sexo) { this.sexo = sexo; }
+    public Consumo getConsumo() {
+        return consumo;
+    }
+    public void setConsumo(Consumo consumo) {
+        this.consumo = consumo;
+    }
+    public ArrayList<Agua> getConsumo_agua() {
+        return consumo_agua;
+    }
+    public void setConsumo_agua(ArrayList<Agua> consumo_agua) {
+        this.consumo_agua = consumo_agua;
     }
 }

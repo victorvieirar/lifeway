@@ -19,7 +19,7 @@
         android:cropToPadding="true"
         />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -62,7 +62,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
-                android:text="peso (em kg)"
+                android:hint="peso (em kg)"
+                android:textColorHint="#cceeeeee"
                 android:textAlignment="center"
                 android:textSize="20dp"
                 android:textColor="#cceeeeee"
@@ -77,7 +78,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
-                android:text="altura (em metros)"
+                android:hint="altura (em metros)"
+                android:textColorHint="#cceeeeee"
                 android:textAlignment="center"
                 android:textSize="20dp"
                 android:textColor="#cceeeeee"
@@ -109,13 +111,65 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="1 de janeiro de 1990"
+                    android:hint="1 de janeiro de 1990"
+                    android:textColorHint="#cceeeeee"
                     android:textAlignment="center"
                     android:textSize="20dp"
                     android:textColor="#cceeeeee"
                     android:id="@+id/editDataNascimento" />
 
             </RelativeLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:columnCount="2"
+                android:rowCount="1"
+                android:alpha="0.7"
+                android:id="@+id/glSexo">
+
+                <Button
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_column="0"
+                    android:layout_row="0"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="fill"
+                    android:text="Masculino"
+                    android:textSize="20dp"
+                    android:textColor="#151515"
+                    android:textAllCaps="false"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:alpha="0.7"
+                    android:background="@drawable/bg_btn_sexo_selected_create_account"
+                    android:id="@+id/btnMasculino"/>
+
+                <Button
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_column="1"
+                    android:layout_row="0"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="fill"
+                    android:text="Feminino"
+                    android:textSize="20dp"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:alpha="0.7"
+                    android:id="@+id/btnFeminino"
+                    android:background="@drawable/bg_btn_sexo_create_account"/>
+
+            </GridLayout>
 
             <EditText
                 android:layout_width="match_parent"
@@ -124,7 +178,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
-                android:text="meta de peso (em kg)"
+                android:hint="meta de peso (em kg)"
+                android:textColorHint="#cceeeeee"
                 android:textAlignment="center"
                 android:textSize="20dp"
                 android:textColor="#cceeeeee"
@@ -142,30 +197,37 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
+                android:alpha="0.7"
                 android:background="@drawable/bg_btn_login"
                 android:textColor="#DDD"
                 android:textSize="20dp"
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent" />
+
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:id="@+id/rlDatePicker"
         android:background="#eee">
 
         <DatePicker
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="400dp"
             android:background="@null"
             android:calendarViewShown="false"
             android:id="@+id/dpDataNascimento"
+            android:layout_centerInParent="true"
             />
 
         <Button

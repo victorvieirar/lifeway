@@ -28,6 +28,7 @@ public class App {
     private double peso;
     private double altura;
     private double metaDePeso;
+    private char sexo;
 
     private ArrayList<RefeicaoDisponivel> refeicoesDisponiveis = new ArrayList<RefeicaoDisponivel>();
 
@@ -233,6 +234,12 @@ public class App {
         return altura;
     }
     public double getMetaDePeso() { return metaDePeso; }
+    public char getSexo() {
+        return sexo;
+    }
+    public void setSexo(char sexo) {
+        this.sexo = sexo;
+    }
 
     public int getImageLogin() { return imageLogin; }
     public void setImageLogin(int img) { this.imageLogin = img; }

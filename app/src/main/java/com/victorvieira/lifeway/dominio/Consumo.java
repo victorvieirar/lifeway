@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Consumo {
 
+    private ArrayList<Agua> consumo_agua = new ArrayList<Agua>();
     private ArrayList<Refeicao> refeicoes = null;
     private int count = 0;
     private int id;
@@ -131,6 +132,62 @@ public class Consumo {
 
         return null;
     }
+
+    public double getKcalByDay(Date data) {
+        double kcalDiario = 0;
+
+        ArrayList<Refeicao> refeicoes = getRefeicoesByDayInOrder(data);
+        for(Refeicao r : refeicoes) {
+            for(Alimento a : r.getAlimentos()) {
+                kcalDiario += a.getValor_calorico();
+            }
+        }
+
+        return kcalDiario;
+
+    }
+
+
+
+    public void addAgua(Agua agua) {
+        this.consumo_agua.add(agua);
+    }
+
+    public Agua getConsumoAguaByIndex(int index) { return this.consumo_agua.get(index); }
+
+    public ArrayList<Agua> getConsumo_agua() { return consumo_agua; }
+
+    public Agua getAguaByDay(Date data) {
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(data);
+
+        Agua agua = null;
+
+        for(Agua a : consumo_agua) {
+            Date dataA = a.getData();
+            GregorianCalendar gcA = new GregorianCalendar();
+            gc.setTime(dataA);
+
+            if(gcA.get(gcA.DAY_OF_MONTH) == gc.get(gc.DAY_OF_MONTH) &&
+                    gcA.get(gcA.MONTH) == gc.get(gc.MONTH) &&
+                    gcA.get(gcA.YEAR) == gc.get(gc.YEAR)) {
+
+                agua = a;
+
+            }
+        }
+
+        return agua;
+    }
+
+    public String getConsumoAguaByDay(Date data) {
+        Agua agua = getAguaByDay(data);
+
+        return ""+agua.getQuantidade();
+
+    }
+
+
 
 
 

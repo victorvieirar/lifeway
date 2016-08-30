@@ -14,4 +14,11 @@ public class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.activity_no_animation, R.anim.activity_close_translate_to_bottom);
     }
 
+    protected void enterFromRightAnimation() {
+        overridePendingTransition(R.anim.activity_open_translate_from_right, R.anim.activity_no_animation);
+    }
+
+    protected void exitToRigthAnimation() {
+        overridePendingTransition(R.anim.activity_no_animation, R.anim.activity_close_translate_to_right);
+    }
 }
