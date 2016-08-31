@@ -86,7 +86,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     private static final String SQL_EXERCICIO_CREATE_ENTRIES = "CREATE TABLE if not exists " +
             FeedReaderContract.FeedEntry.EXERCICIO_TABLE_NAME + "(" +
-            FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_ID + INTEGER_TYPE + " PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+            FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_ID + " " + INTEGER_TYPE + " PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
             FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_HORARIO + " " + TEXT_TYPE + COMMA_SEP +
             FeedReaderContract.FeedEntry.EXERCICIO_COLUMN_TEMPO + " " + REAL_TYPE +
             ")";

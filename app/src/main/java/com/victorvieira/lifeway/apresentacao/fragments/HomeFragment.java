@@ -1,5 +1,6 @@
 package com.victorvieira.lifeway.apresentacao.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -265,6 +266,13 @@ public class HomeFragment extends MyFragment {
                     case R.id.card_exercicios:
                         DialogExercise dialog = new DialogExercise(getContext());
                         dialog.show();
+
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                updateFragment(false);
+                            }
+                        });
                         break;
 
 
@@ -367,8 +375,8 @@ public class HomeFragment extends MyFragment {
                 final int KCAL = usuario.getKcal_diaria();
                 final int AGUA = usuario.getAgua_diaria();
 
-                txtQntKcalDiaria.setText(Double.toString(KCAL));
-                txtQntAguaDiaria.setText(Double.toString(AGUA));
+                txtQntKcalDiaria.setText(""+KCAL);
+                txtQntAguaDiaria.setText(""+AGUA);
 
                 final double PESO = usuario.getPeso();
                 final double METADEPESO = usuario.getMetaDePeso();
